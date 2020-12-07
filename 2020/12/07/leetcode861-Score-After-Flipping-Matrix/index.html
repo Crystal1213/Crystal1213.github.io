@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"crystal1213.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="861. 翻转矩阵后的得分">
+  <meta name="description" content="leetcode861. 翻转矩阵后的得分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode861.Score After Flipping Matrix">
 <meta property="og:url" content="https://crystal1213.github.io/2020/12/07/leetcode861-Score-After-Flipping-Matrix/index.html">
 <meta property="og:site_name" content="Crystal_Blog">
-<meta property="og:description" content="861. 翻转矩阵后的得分">
+<meta property="og:description" content="leetcode861. 翻转矩阵后的得分">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-07T01:38:10.000Z">
-<meta property="article:modified_time" content="2020-12-07T03:12:17.555Z">
+<meta property="article:modified_time" content="2020-12-07T03:14:55.034Z">
 <meta property="article:author" content="Crystal">
 <meta property="article:tag" content="贪心">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-12-07 09:38:10 / 修改时间：11:12:17" itemprop="dateCreated datePublished" datetime="2020-12-07T09:38:10+08:00">2020-12-07</time>
+              <time title="创建时间：2020-12-07 09:38:10 / 修改时间：11:14:55" itemprop="dateCreated datePublished" datetime="2020-12-07T09:38:10+08:00">2020-12-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -214,9 +214,9 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>1.7k</span>
             </span>
-            <div class="post-description">861. 翻转矩阵后的得分</div>
+            <div class="post-description">leetcode861. 翻转矩阵后的得分</div>
 
         </div>
       </header>
@@ -227,7 +227,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC -->autoauto- [题目： leetcode861.Score After Flipping Matrix（861. 翻转矩阵后的得分）](#题目-leetcode861score-after-flipping-matrix861-翻转矩阵后的得分)autoauto<!-- /TOC -->
+        <!-- TOC -->autoauto- 
 
 <h2 id="题目：-leetcode861-Score-After-Flipping-Matrix（861-翻转矩阵后的得分）"><a href="#题目：-leetcode861-Score-After-Flipping-Matrix（861-翻转矩阵后的得分）" class="headerlink" title="题目： leetcode861.Score After Flipping Matrix（861. 翻转矩阵后的得分）"></a>题目： leetcode861.Score After Flipping Matrix（861. 翻转矩阵后的得分）</h2><p>We have a two dimensional matrix A where each value is 0 or 1.</p>
 <p>A move consists of choosing any row or column, and toggling each value in that row or column: changing all 0s to 1s, and all 1s to 0s.</p>
@@ -249,10 +249,13 @@
 <li>除第一列外的其他列，如果当前列1的个数大于0的个数则进行翻转，同时记录该列的结果</li>
 </ul>
 <h5 id="1-cpp版本"><a href="#1-cpp版本" class="headerlink" title="1.cpp版本"></a>1.cpp版本</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">matrixScore</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO：首先将第一列通过行翻转都转化成 1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(A[i][<span class="number">0</span>] == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A[i].size(); ++j)&#123;</span><br><span class="line">                    A[i][j] = !A[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：初始化为第一列的结果</span></span><br><span class="line">        <span class="keyword">int</span> res = <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - <span class="number">1</span>) * A.size();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：单独处理每一列,只需保证每一列中的1的个数大于0的个数即可, 并不是真的翻转，只是保存每列的每个元素的得分</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; A[<span class="number">0</span>].size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A.size(); ++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(A[j][i])</span><br><span class="line">                    ++cnt;</span><br><span class="line">            &#125;</span><br><span class="line">            res += <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - i - <span class="number">1</span>) * max(cnt, <span class="keyword">int</span>(A.size() - cnt));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h5 id="color-blue-2-python版本"><a href="#color-blue-2-python版本" class="headerlink" title="$\color{blue}{2.python版本}$"></a>$\color{blue}{2.python版本}$</h5><ul>
+<h5 id="2-python版本"><a href="#2-python版本" class="headerlink" title="2.python版本"></a>2.python版本</h5><ul>
 <li>说明：代码和cpp版本稍微有一点区别，未将第一列单独处理</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">matrixScore</span>(<span class="params">self, A: List[List[<span class="built_in">int</span>]]</span>) -&gt; int:</span></span><br><span class="line">        row = <span class="built_in">len</span>(A)</span><br><span class="line">        col = <span class="built_in">len</span>(A[<span class="number">0</span>])</span><br><span class="line">        res = <span class="built_in">pow</span>(<span class="number">2</span>, col - <span class="number">1</span>) * row</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(col):</span><br><span class="line">            <span class="keyword">if</span> i:</span><br><span class="line">                <span class="comment"># <span class="doctag">TODO:</span>统计该列中1的个数，注意看下对应的该行元素是否为1来决定该行是否被翻转过</span></span><br><span class="line">                cnt = <span class="number">0</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(row):</span><br><span class="line">                    <span class="keyword">if</span> A[j][i] == A[j][<span class="number">0</span>] :</span><br><span class="line">                        cnt += <span class="number">1</span></span><br><span class="line">                res += <span class="built_in">pow</span>(<span class="number">2</span>, col - i - <span class="number">1</span>) * <span class="built_in">max</span>(cnt, row - cnt)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<p>autoauto<!-- /TOC --></p>
+
     </div>
 
     
@@ -349,7 +352,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%EF%BC%9A-leetcode861-Score-After-Flipping-Matrix%EF%BC%88861-%E7%BF%BB%E8%BD%AC%E7%9F%A9%E9%98%B5%E5%90%8E%E7%9A%84%E5%BE%97%E5%88%86%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">题目： leetcode861.Score After Flipping Matrix（861. 翻转矩阵后的得分）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%EF%BC%9A%E8%B4%AA%E5%BF%83"><span class="nav-number">2.</span> <span class="nav-text">基本思想：贪心</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-cpp%E7%89%88%E6%9C%AC"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1.cpp版本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#color-blue-2-python%E7%89%88%E6%9C%AC"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">$\color{blue}{2.python版本}$</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%EF%BC%9A-leetcode861-Score-After-Flipping-Matrix%EF%BC%88861-%E7%BF%BB%E8%BD%AC%E7%9F%A9%E9%98%B5%E5%90%8E%E7%9A%84%E5%BE%97%E5%88%86%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">题目： leetcode861.Score After Flipping Matrix（861. 翻转矩阵后的得分）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%EF%BC%9A%E8%B4%AA%E5%BF%83"><span class="nav-number">2.</span> <span class="nav-text">基本思想：贪心</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-cpp%E7%89%88%E6%9C%AC"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1.cpp版本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-python%E7%89%88%E6%9C%AC"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2.python版本</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
