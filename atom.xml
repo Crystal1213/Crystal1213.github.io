@@ -6,7 +6,7 @@
   <link href="https://crystal1213.github.io/atom.xml" rel="self"/>
   
   <link href="https://crystal1213.github.io/"/>
-  <updated>2020-12-07T03:34:24.622Z</updated>
+  <updated>2020-12-07T05:53:07.675Z</updated>
   <id>https://crystal1213.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>博客说明文档</title>
+    <link href="https://crystal1213.github.io/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/"/>
+    <id>https://crystal1213.github.io/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/</id>
+    <published>2020-12-07T03:50:46.000Z</published>
+    <updated>2020-12-07T05:53:07.675Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="本地文件夹说明"><a href="#本地文件夹说明" class="headerlink" title="本地文件夹说明"></a>本地文件夹说明</h2><ul><li>public: 该文件夹最终会被push到github仓库中</li><li>source: 存放用户资源的地方。<ul><li>_posts文件夹中的markdown文档会被解析成html文件并放到public文件夹</li><li>除_posts文件及外，其余以【_】开头的文件或文件夹都会被忽略</li><li>其余文件（例如：about文件）会被拷贝到public文件夹<h2 id="为github仓库添加readme"><a href="#为github仓库添加readme" class="headerlink" title="为github仓库添加readme"></a>为github仓库添加readme</h2>因为source中的文件会被拷贝到public文件夹中，而public文件夹会被push到github中，因此想为github仓库添加readme，只需在source文件夹中创建即可。<br>注意：source文件夹中的【.md】文档会被解析成html文件，再放到public中。为了避免解析，将readme的扩展名改为【.mdwn】</li></ul></li></ul>]]></content>
+    
+    
+    <summary type="html">博客搭建说明</summary>
+    
+    
+    
+    <category term="工具使用说明" scheme="https://crystal1213.github.io/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/"/>
+    
+    
+    <category term="readme" scheme="https://crystal1213.github.io/tags/readme/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode861.Score After Flipping Matrix</title>
