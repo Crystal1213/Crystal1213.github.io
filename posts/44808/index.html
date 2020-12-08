@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/12/07/ZUySVMFOIDATw2J.png">
 <meta property="og:image" content="https://i.loli.net/2020/12/07/iPwaHA5jQmIVreM.png">
 <meta property="article:published_time" content="2020-12-07T03:50:46.000Z">
-<meta property="article:modified_time" content="2020-12-08T08:39:42.512Z">
+<meta property="article:modified_time" content="2020-12-08T08:45:45.029Z">
 <meta property="article:author" content="Crystal">
 <meta property="article:tag" content="工具说明">
 <meta name="twitter:card" content="summary">
@@ -228,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-08 16:39:42" itemprop="dateModified" datetime="2020-12-08T16:39:42+08:00">2020-12-08</time>
+                <time title="修改时间：2020-12-08 16:45:45" itemprop="dateModified" datetime="2020-12-08T16:45:45+08:00">2020-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,7 +253,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>2.5k</span>
             </span>
             <div class="post-description">博客搭建说明</div>
 
@@ -334,7 +334,16 @@
 <h2 id="修改文章内链接文本样式"><a href="#修改文章内链接文本样式" class="headerlink" title="修改文章内链接文本样式"></a>修改文章内链接文本样式</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
 <p>打开文件<code>blog\themes\next\source\css\_common\components\post\post.styl</code>，在末尾添加：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.post-body p a &#123;</span><br><span class="line">  color: #0593d3;</span><br><span class="line">  border-bottom: none;</span><br><span class="line">  border-bottom: 1px solid #0593d3;</span><br><span class="line">  &amp;:hover &#123;</span><br><span class="line">    color: #fc6423;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #fc6423;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="修改文章链接"><a href="#修改文章链接" class="headerlink" title="修改文章链接"></a>修改文章链接</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/as480133937/article/details/100138838">https://blog.csdn.net/as480133937/article/details/100138838</a><br>文章链接默认的生成规则<code>:year/:month/:day/:title</code>，生成的样式<code>https://crystal1213.github.io/2020/12/07/leetcode861-Score-After-Flipping-Matrix/</code></p>
+<h2 id="修改文章链接"><a href="#修改文章链接" class="headerlink" title="修改文章链接"></a>修改文章链接</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/as480133937/article/details/100138838">https://blog.csdn.net/as480133937/article/details/100138838</a><br>文章链接默认的生成规则<code>:year/:month/:day/:title</code>，生成的样式<code>https://crystal1213.github.io/2020/12/07/leetcode861-Score-After-Flipping-Matrix/</code><br>修改后的样式：<code>https://crystal1213.github.io/posts/30354/</code></p>
+<p>生成简洁的url的方法：</p>
+<ol>
+<li>安装插件，在blog文件夹下键入命令<code>npm install hexo-abbrlink --save </code></li>
+<li>修改站点配置文件，找到<code>permalink</code>，修改为如下的形式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">permalink: posts&#x2F;:abbrlink&#x2F;</span><br><span class="line">abbrlink:</span><br><span class="line">	alg: crc32   #算法： crc16(default) and crc32</span><br><span class="line">	rep: hex     #进制： dec(default) and hex</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+样式选择：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">crc16 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;66c8.html</span><br><span class="line"></span><br><span class="line">crc16 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;65535.html</span><br><span class="line">crc32 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;8ddf18fb.html</span><br><span class="line"></span><br><span class="line">crc32 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;1690090958.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
 <a id="more"></a>
     </div>
 
@@ -519,7 +528,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">8k</span>
+    <span title="站点总字数">9k</span>
 </div>
 
         
