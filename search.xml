@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>C++字符串比较大小的原理</title>
-    <url>/2020/12/08/C-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86/</url>
+    <url>/posts/60551</url>
     <content><![CDATA[<h2 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h2><p>笔者在比较两个字符串大小的时候踩过的坑，本意是想利用数值型对应的字符串的形式比较字符串本身的大小，例如：<code>&quot;21&quot; &gt; &quot;111&quot;</code>显然对于数值型的<code>21 &gt; 111</code>】结果肯定为false,但是<code>&quot;21&quot; &gt; &quot;111&quot;</code>的结果为true</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1 = <span class="string">&quot;21&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> n1 = <span class="number">21</span>, n2 = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">bool</span> res = (n1 &gt; n2);   </span><br><span class="line">    <span class="keyword">bool</span> res1 = (s1 &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(n1 &gt; n2) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(s1 &gt; s2) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="字符串比较大小的原理"><a href="#字符串比较大小的原理" class="headerlink" title="字符串比较大小的原理"></a>字符串比较大小的原理</h2><p>首先看下《C++ Primer》这本书中的描述：<img src="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png" alt="image.png"><br>原理：字符串中第一个相异的字符比较的结果<br>明确以下几点：</p>
@@ -29,7 +29,7 @@
   </entry>
   <entry>
     <title>My first blog</title>
-    <url>/2020/12/06/hello-world/</url>
+    <url>/posts/11206</url>
     <content><![CDATA[<p>2020年12月6日晚8：52分  周日 主楼实验室 沈阳</p>
 <p>在2020年的最后一个月搭建好了个人博客，即将开始博客之旅，将自己的学习笔记，成长轨迹，生活中的点滴，记录在这里。初次搭完博客，还有些许的成就感，当然要完善的地方还有很多，目前而言能够发布文章，以及文章的一些统计功能，还有站点的一些统计功能。一些按钮还未设置好。</p>
 <p>博客的主题采用hexo中使用量最多的next主题，重点考虑到用的人多，遇到问题更容易找到解决办法。</p>
@@ -44,7 +44,7 @@
   </entry>
   <entry>
     <title>leetcode842-Split-Array-into-Fibonacci-Sequence</title>
-    <url>/2020/12/08/leetcode842-Split-Array-into-Fibonacci-Sequence/</url>
+    <url>/posts/30354</url>
     <content><![CDATA[<!-- TOC -->
 
 <ul>
@@ -105,7 +105,7 @@
   </entry>
   <entry>
     <title>leetcode861.Score After Flipping Matrix</title>
-    <url>/2020/12/07/leetcode861-Score-After-Flipping-Matrix/</url>
+    <url>/posts/12814</url>
     <content><![CDATA[<!-- TOC -->
 
 <ul>
@@ -153,7 +153,7 @@
   </entry>
   <entry>
     <title>hexo博客说明文档</title>
-    <url>/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/</url>
+    <url>/posts/44808</url>
     <content><![CDATA[<!-- TOC -->
 
 <ul>
@@ -162,6 +162,7 @@
 <li><a href="#%E4%B8%BAgithub%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0readme">为github仓库添加readme</a></li>
 <li><a href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E5%85%B3%E4%BA%8E">添加分类、标签、关于</a></li>
 <li><a href="#%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD">添加搜索功能</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E5%86%85%E9%93%BE%E6%8E%A5%E6%96%87%E6%9C%AC%E6%A0%B7%E5%BC%8F">修改文章内链接文本样式</a></li>
 </ul>
 <!-- /TOC -->
 <h2 id="本地文件夹说明"><a href="#本地文件夹说明" class="headerlink" title="本地文件夹说明"></a>本地文件夹说明</h2><ul>
@@ -217,6 +218,9 @@
 <li><p>修改主题配置文件，找到 Local search，将 enable 设置为 <code>true</code></p>
 </li>
 </ol>
+<h2 id="修改文章内链接文本样式"><a href="#修改文章内链接文本样式" class="headerlink" title="修改文章内链接文本样式"></a>修改文章内链接文本样式</h2><p>参考链接：<a href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
+<p>打开文件<code>blog\themes\next\source\css\_common\components\post\post.styl</code>，在末尾添加：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.post-body p a &#123;</span><br><span class="line">  color: #0593d3;</span><br><span class="line">  border-bottom: none;</span><br><span class="line">  border-bottom: 1px solid #0593d3;</span><br><span class="line">  &amp;:hover &#123;</span><br><span class="line">    color: #fc6423;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #fc6423;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>]]></content>
       <categories>
         <category>工具使用说明</category>
