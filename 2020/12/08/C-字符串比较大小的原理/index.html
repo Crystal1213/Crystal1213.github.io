@@ -20,25 +20,22 @@
     var CONFIG = {"hostname":"crystal1213.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="博客搭建说明">
+  <meta name="description" content="介绍下字符串用【&gt;,&#x3D;,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo博客说明文档">
-<meta property="og:url" content="https://crystal1213.github.io/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:title" content="C++字符串比较大小的原理">
+<meta property="og:url" content="https://crystal1213.github.io/2020/12/08/C-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Crystal_Blog">
-<meta property="og:description" content="博客搭建说明">
+<meta property="og:description" content="介绍下字符串用【&gt;,&#x3D;,">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://i.loli.net/2020/12/07/JCdtcQwxAYfT7MX.png">
-<meta property="og:image" content="https://i.loli.net/2020/12/07/DQ5aXjgtFGw83Ey.png">
-<meta property="og:image" content="https://i.loli.net/2020/12/07/ZUySVMFOIDATw2J.png">
-<meta property="og:image" content="https://i.loli.net/2020/12/07/iPwaHA5jQmIVreM.png">
-<meta property="article:published_time" content="2020-12-07T03:50:46.000Z">
-<meta property="article:modified_time" content="2020-12-07T07:31:40.494Z">
+<meta property="og:image" content="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png">
+<meta property="article:published_time" content="2020-12-08T03:18:40.000Z">
+<meta property="article:modified_time" content="2020-12-08T05:49:23.974Z">
 <meta property="article:author" content="Crystal">
-<meta property="article:tag" content="工具说明">
+<meta property="article:tag" content="string">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2020/12/07/JCdtcQwxAYfT7MX.png">
+<meta name="twitter:image" content="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png">
 
-<link rel="canonical" href="https://crystal1213.github.io/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/">
+<link rel="canonical" href="https://crystal1213.github.io/2020/12/08/C-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86/">
 
 
 <script id="page-configurations">
@@ -51,7 +48,7 @@
   };
 </script>
 
-  <title>hexo博客说明文档 | Crystal_Blog</title>
+  <title>C++字符串比较大小的原理 | Crystal_Blog</title>
   
 
 
@@ -170,7 +167,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://crystal1213.github.io/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/">
+    <link itemprop="mainEntityOfPage" href="https://crystal1213.github.io/2020/12/08/C-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.gif">
@@ -183,7 +180,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          hexo博客说明文档
+          C++字符串比较大小的原理
         </h1>
 
         <div class="post-meta">
@@ -194,7 +191,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-12-07 11:50:46 / 修改时间：15:31:40" itemprop="dateCreated datePublished" datetime="2020-12-07T11:50:46+08:00">2020-12-07</time>
+              <time title="创建时间：2020-12-08 11:18:40 / 修改时间：13:49:23" itemprop="dateCreated datePublished" datetime="2020-12-08T11:18:40+08:00">2020-12-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -202,7 +199,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" itemprop="url" rel="index"><span itemprop="name">工具使用说明</span></a>
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E4%B8%AD%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/" itemprop="url" rel="index"><span itemprop="name">编程中踩过的坑</span></a>
                 </span>
             </span>
 
@@ -221,7 +218,7 @@
                 <span class="post-meta-item-text">本文字数：</span>
               <span>1.2k</span>
             </span>
-            <div class="post-description">博客搭建说明</div>
+            <div class="post-description">介绍下字符串用【>,<,>=,<=】比较大小的原理</div>
 
         </div>
       </header>
@@ -232,59 +229,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC -->
+        <h2 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h2><p>笔者在比较两个字符串大小的时候踩过的坑，本意是想利用数值型对应的字符串的形式比较字符串本身的大小，例如：<code>&quot;21&quot; &gt; &quot;111&quot;</code>显然对于数值型的<code>21 &gt; 111</code>】结果肯定为false,但是<code>&quot;21&quot; &gt; &quot;111&quot;</code>的结果为true</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1 = <span class="string">&quot;21&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> n1 = <span class="number">21</span>, n2 = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">bool</span> res = (n1 &gt; n2);   </span><br><span class="line">    <span class="keyword">bool</span> res1 = (s1 &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(n1 &gt; n2) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(s1 &gt; s2) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="字符串比较大小的原理"><a href="#字符串比较大小的原理" class="headerlink" title="字符串比较大小的原理"></a>字符串比较大小的原理</h2><p>首先看下《C++ Primer》这本书中的描述：<img src="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png" alt="image.png"><br>原理：字符串中第一个相异的字符比较的结果<br>明确一下几点：</p>
+<ol>
+<li>两个字符串是可以用【&gt;,&lt;,&gt;=,&lt;=】来比较大小的</li>
+<li>对于数值型对应的字符串形式，<ul>
+<li>两个字符串长度相等的情况下，例如：<code>&quot;12&quot; &lt; &quot;22&quot;</code>，是可以比较出两个字符串对应的原数值型数据的大小关系</li>
+<li>两个字符串长度不等的情况下，无法比较出其对应数值型的大小关系，因为比较的结果取决于从左向右遇到的第一个不等的字符。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c++"><figcaption><span>[]</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s = <span class="string">&quot;21&quot;</span>, s1 = <span class="string">&quot;11&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>; </span><br><span class="line">    <span class="comment">// TODO：长度相等的字符串比较的结果   </span></span><br><span class="line">    <span class="keyword">bool</span> res = (s &gt; s1);   </span><br><span class="line">    <span class="comment">// TODO：长度不等的字符串比较的结果</span></span><br><span class="line">    <span class="keyword">bool</span> res1 = (s &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;11\&quot;) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;111\&quot;) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;11&quot;</span>) = <span class="number">1</span></span><br><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;111&quot;</span>) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li><a href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E8%AF%B4%E6%98%8E">本地文件夹说明</a></li>
-<li><a href="#hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">hexo常用命令</a></li>
-<li><a href="#%E4%B8%BAgithub%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0readme">为github仓库添加readme</a></li>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E5%85%B3%E4%BA%8E">添加分类、标签、关于</a></li>
-</ul>
-<!-- /TOC -->
-<h2 id="本地文件夹说明"><a href="#本地文件夹说明" class="headerlink" title="本地文件夹说明"></a>本地文件夹说明</h2><ul>
-<li>public：该文件夹最终会被push到github仓库中</li>
-<li>source：存放用户资源的地方。<ul>
-<li>_posts文件夹中的markdown文档会被解析成html文件并放到public文件夹</li>
-<li>除_posts文件及外，其余以【_】开头的文件或文件夹都会被忽略</li>
-<li>其余文件（例如：about文件）会被拷贝到public文件夹</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>scafflods：模板文件夹。新建markdown文件时，hexo会根据该文件夹下的模板来建立文件<ul>
-<li>post.md：新建文章<code>hexo new &quot;文章名&quot;</code>时，会按照该文件中的内容生成默认文件</li>
-<li>也可以自己定义模板，例如模板名为blog，新建文章时，为了使用该模板，键入命令<code>hexo new blog &quot;文章名&quot;</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h2><p>说明：笔者的博客目录名为blog</p>
-<ul>
-<li><code>hexo new &quot;文章名&quot;</code>：新建文章，在blog文件的路径下键入，最终会在blog/source/_posts文件夹下出现新建的文件</li>
-<li><code>hexo g</code>：生成静态页面至public文件夹下：在blog文件夹下键入，它是<code>hexo generate</code>的缩写</li>
-<li><code>hexo s</code>：开启本地预览端口，在blog文件夹下键入，它是<code>hexo server</code>的缩写</li>
-<li><code>hexo d</code>：部署到github：在blog文件夹下键入，它是<code>hexo deploy</code>的缩写</li>
-<li><code>hexo help</code>：查看帮助</li>
-<li><code>hexo version</code>：查看hexo版本</li>
-</ul>
-<p>组合命令：</p>
-<ul>
-<li><code>hexo s -g</code>：生成静态页面并本地预览</li>
-<li><code>hexo d -g</code>：生成静态页面并部署到github</li>
-</ul>
-<h2 id="为github仓库添加readme"><a href="#为github仓库添加readme" class="headerlink" title="为github仓库添加readme"></a>为github仓库添加readme</h2><p>因为source中的文件会被拷贝到public文件夹中，而public文件夹会被push到github中，因此想为github仓库添加readme，只需在source文件夹中创建即可。<br>注意：source文件夹中的【.md】文档会被解析成html文件，再放到public中。为了避免解析，将readme的扩展名改为【.MDWN】(这里一定要大写，小写的话也会被解析成html文件)</p>
-<h2 id="添加分类、标签、关于"><a href="#添加分类、标签、关于" class="headerlink" title="添加分类、标签、关于"></a>添加分类、标签、关于</h2><ul>
-<li>首先将站点配置文件中的menu下面的categories和tags前的【#】去掉<img src="https://i.loli.net/2020/12/07/JCdtcQwxAYfT7MX.png" alt="image.png"></li>
-<li>创建markdown文件<img src="https://i.loli.net/2020/12/07/DQ5aXjgtFGw83Ey.png" alt="image.png"><ul>
-<li>在blog文件夹下键入<code>hexo new page tags</code>，此时会生成blog/source/tags/index.md文件</li>
-<li>修改index.md文件，添加【type:”tags”】<img src="https://i.loli.net/2020/12/07/ZUySVMFOIDATw2J.png" alt="image.png"></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>在blog文件夹下键入<code>hexo new page categories</code>，此时会生成blog/source/categories/index.md</li>
-<li>修改index.md文件，添加【type:”categories”】<img src="https://i.loli.net/2020/12/07/iPwaHA5jQmIVreM.png" alt="image.png"></li>
-</ul>
-<p>about也是采用同样的方法，就不再赘述了</p>
+
 
     </div>
 
@@ -300,7 +260,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://crystal1213.github.io/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/" title="hexo博客说明文档">https://crystal1213.github.io/2020/12/07/博客说明文档/</a>
+    <a href="https://crystal1213.github.io/2020/12/08/C-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86/" title="C++字符串比较大小的原理">https://crystal1213.github.io/2020/12/08/C-字符串比较大小的原理/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -311,7 +271,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%B7%A5%E5%85%B7%E8%AF%B4%E6%98%8E/" rel="tag"><i class="fa fa-tag"></i> 工具说明</a>
+              <a href="/tags/string/" rel="tag"><i class="fa fa-tag"></i> string</a>
           </div>
 
         
@@ -320,12 +280,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/12/07/leetcode861-Score-After-Flipping-Matrix/" rel="prev" title="leetcode861.Score After Flipping Matrix">
-      <i class="fa fa-chevron-left"></i> leetcode861.Score After Flipping Matrix
+    <a href="/2020/12/07/%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/" rel="prev" title="hexo博客说明文档">
+      <i class="fa fa-chevron-left"></i> hexo博客说明文档
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/12/08/C-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86/" rel="next" title="C++字符串比较大小的原理">
-      C++字符串比较大小的原理 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/12/08/leetcode842-Split-Array-into-Fibonacci-Sequence/" rel="next" title="leetcode842-Split-Array-into-Fibonacci-Sequence">
+      leetcode842-Split-Array-into-Fibonacci-Sequence <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -385,7 +345,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">本地文件夹说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">hexo常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BAgithub%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0readme"><span class="nav-number">3.</span> <span class="nav-text">为github仓库添加readme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E3%80%81%E6%A0%87%E7%AD%BE%E3%80%81%E5%85%B3%E4%BA%8E"><span class="nav-number">4.</span> <span class="nav-text">添加分类、标签、关于</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">问题引出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">字符串比较大小的原理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
