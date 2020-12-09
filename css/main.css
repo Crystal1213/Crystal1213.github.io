@@ -1171,7 +1171,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #b3ff6f;
+  background: #34ff32;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1562,7 +1562,6 @@ pre .javascript .function {
   color: #fc6423;
   border-bottom: none;
   border-bottom: 1px solid #fc6423;
-  text-decoration: underline;
 }
 .posts-collapse {
   margin-left: 35px;
