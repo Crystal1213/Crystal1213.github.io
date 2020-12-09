@@ -34,8 +34,14 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20201203103605760.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020120310375883.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMxNjcyNzAx,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20201204161943552.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/09/7Ubh2kJWQ6BPzxo.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/09/PMLY96uHXBOQwKs.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/09/eMEXCGLHx2lQ7ZW.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/09/giuVUK49yoEvspt.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/09/XMi6RBzHCjTpby8.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/09/mDrRIkZlpiC9SVL.png">
 <meta property="article:published_time" content="2020-12-08T08:53:23.000Z">
-<meta property="article:modified_time" content="2020-12-09T00:54:21.258Z">
+<meta property="article:modified_time" content="2020-12-09T12:18:13.711Z">
 <meta property="article:author" content="Crystal">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -109,7 +115,7 @@
       <h1 class="site-title">Crystal_Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">记录学习的点滴</p>
+      <p class="site-subtitle" itemprop="description">On the way, there will be more possibilities in the future.</p>
   </div>
 
   <div class="site-nav-right">
@@ -206,7 +212,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.gif">
       <meta itemprop="name" content="Crystal">
-      <meta itemprop="description" content="保守你的心胜过保守一切">
+      <meta itemprop="description" content="Guard heart, everything flows from it.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -231,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-09 08:54:21" itemprop="dateModified" datetime="2020-12-09T08:54:21+08:00">2020-12-09</time>
+                <time title="修改时间：2020-12-09 20:18:13" itemprop="dateModified" datetime="2020-12-09T20:18:13+08:00">2020-12-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.3k</span>
+              <span>4.1k</span>
             </span>
             <div class="post-description">Linu学习笔记</div>
 
@@ -401,6 +407,7 @@
 <li>【~】：当前用户的家目录</li>
 <li>【~account】：account这个用户的家目录，account是用户名</li>
 </ul>
+<hr>
 <p>目录操作相关命令：</p>
 <ul>
 <li>变换目录：cd (change directory)</li>
@@ -408,15 +415,18 @@
 <li>创建新目录：mkdir(make directory)[ -mp]，m表示设置目录的预设权限，p表示设置多级目录（将所需的目录递归创建）</li>
 <li>删除<strong>空</strong>目录：rmdir(remove directory)[-p]，p表示递归的删除</li>
 </ul>
+<hr>
 <p>执行文件路径的变量：（环境变量）</p>
 <ul>
 <li>显示文件详细信息的指令<code>ls</code>其实对应的文件路径是<code>/bin/ls</code>为什么它可以作为一个指令执行呢？<br>原因在于：将<code>ls</code>加在了PATH(环境变量)中，在执行<code>ls</code>时，系统会按照PATH设定的路径寻找名为<code>ls</code>的可执行文件，最先搜索到的最先执行</li>
 </ul>
+<hr>
 <p>环境变量相关命令：</p>
 <ul>
 <li>显示环境变量的命令：<code>echo $变量名</code>，例如<code>echo $PATH</code>会显示出所有的环境变量，echo有【显示，打印】的意思，$表示后面接的是变量</li>
 <li>将某个路径加入环境变量的命令：<code>PATH = &quot;$PATH&quot;:路径名</code>例如<code>PATH=&quot;$PATH&quot;:/root</code>，将/root这个路径加入环境变量中</li>
 </ul>
+<hr>
 <p>档案和目录的显示<code>ls</code>命令常用参数：</p>
 <ul>
 <li><code>ls -a</code>:显示目录下所有文件夹，包括隐藏档【.开头的目录】<br><img src="https://img-blog.csdnimg.cn/20201203103117577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMxNjcyNzAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
@@ -424,25 +434,74 @@
 <li><code>ls -d</code>:显示当前目录的路径<br><img src="https://img-blog.csdnimg.cn/20201203103605760.png" alt="在这里插入图片描述"></li>
 <li><code>ls -l</code>:显示出当前目录下所有文件夹的详细信息，包括文件夹的权限属性等等<br><img src="https://img-blog.csdnimg.cn/2020120310375883.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMxNjcyNzAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
 </ul>
+<hr>
 <p>复制档案与目录的命令<code>cp [相关参数] 源文件 目的文件</code>：</p>
 <ul>
-<li>[-a]:相当于[-pdr]</li>
-<li>[-i]:若目的文件已经存在，则进行拷贝时会询问是否覆盖，覆盖回答y，否则回答n</li>
-<li>[-p]:连同档案的属性一起复制过去，而非使用默认属性，常用来备份</li>
-<li>[-d]:若文件为链接文件属性，则复制链接文件属性而非档案本身</li>
-<li>[-r]:递归持续复制，用于目录的复制行为</li>
+<li>[-a]：相当于[-pdr]</li>
+<li>[-i]：若目的文件已经存在，则进行拷贝时会询问是否覆盖，覆盖回答y，否则回答n</li>
+<li>[-p]：连同档案的属性一起复制过去，而非使用默认属性，常用来备份</li>
+<li>[-d]：若文件为链接文件属性，则复制链接文件属性而非档案本身</li>
+<li>[-r]：递归持续复制，用于目录的复制行为</li>
 </ul>
+<hr>
 <p>删除档案与目录的命令<code>rm [相关参数] 档案或者目录</code>：</p>
 <ul>
-<li>[-i]:删除档案或目录时出现询问信息</li>
-<li>[-r]:递归删除目录</li>
+<li>【-i】：删除档案或目录时出现询问信息</li>
+<li>【-r】：递归删除目录</li>
 </ul>
-<p>移动档案或目录的命令<code>rm [相关参数] 源文件1 源文件2 …… 目的文件</code>：</p>
+<hr>
+<p>移动档案或目录的命令<code>mv [相关参数] 源文件1 源文件2 …… 目的文件</code>：</p>
 <ul>
-<li>[-i]:若目标档案已经存在，询问是否覆盖</li>
-<li>[-u]:若目标档案已经，且源文件比较新，才会更新</li>
+<li>【-i】：若目标档案已经存在，询问是否覆盖</li>
+<li>【-u】：若目标档案已经，且源文件比较新，才会更新</li>
 </ul>
+<hr>
 <p>获得路径的文件名的命令<code>basename 文件路径名</code>，获得文件对应的路径的命令<code>dirname 文件路径名</code>:<br><img src="https://img-blog.csdnimg.cn/20201204161943552.png" alt="在这里插入图片描述"></p>
+<hr>
+<p>显示档案内容的命令 <code>cat 文件路径名</code> （concatenate）：</p>
+<ul>
+<li>[-n]：打印出行号，空白行也有行号</li>
+<li>[-b]：仅对非空白行显示行号，空白行不显示行号</li>
+<li>[-v]：显示出看不出来的特殊字符</li>
+<li>[-E]：将结尾的换行字符【$】显示出来</li>
+<li>【-T】：将【tab】键以【^I】显示出来</li>
+<li>【-A】：相当于[-vET]可以列出一些特殊字符<br><img src="https://i.loli.net/2020/12/09/7Ubh2kJWQ6BPzxo.png" alt="image.png"><br><img src="https://i.loli.net/2020/12/09/PMLY96uHXBOQwKs.png" alt="image.png"></li>
+</ul>
+<hr>
+<p>将档案的内容从后往前显示的命令 <code>tac 文件路径名</code> （也就是说先显示最后一行，最后显示第一行）：<br><img src="https://i.loli.net/2020/12/09/eMEXCGLHx2lQ7ZW.png" alt="image.png"></p>
+<hr>
+<p>显示档案的同时显示行号的命令 <code>nl 文件路径名</code> （该命令其实和 <code>cat</code> 命令显示行号的时候差不多，只不过样式多了一些，比如说可以设置行号的显示位置等等）：<br><img src="https://i.loli.net/2020/12/09/giuVUK49yoEvspt.png" alt="image.png"></p>
+<hr>
+<p>显示档案支持一页一页的翻动 <code>more 文件路径名</code> ：（可以看到最后一行的档案显示的百分比）<br><img src="https://i.loli.net/2020/12/09/XMi6RBzHCjTpby8.png" alt="image.png"></p>
+<ul>
+<li>向上翻一页：【b】</li>
+<li>向下翻一页：【Space】空格</li>
+<li>向下翻一行：【Enter】回车</li>
+<li>向下搜索某个字符串：【/字符串】</li>
+<li>离开不在显示档案的内容：【q】</li>
+</ul>
+<hr>
+<p>显示档案支持一页一页的翻动 <code>less 文件路径名</code> ：（作用和 <code>more</code> 命令相似，但使用起来更加灵活）<br>注意：和 <code>more</code> 命令的最后一行显示的不一样哦<br><img src="https://i.loli.net/2020/12/09/mDrRIkZlpiC9SVL.png" alt="image.png"></p>
+<ul>
+<li>向上或向下翻页：【pageup】【pagedown】，同样也可以用【space】空格翻页</li>
+<li>向下搜索字符串：【/字符串】</li>
+<li>向上搜索字符串：【?字符串】</li>
+<li>重复前一个搜寻：【n】</li>
+<li>反向重复前一个搜寻：【N】</li>
+<li>离开：【q】</li>
+</ul>
+<hr>
+<p>显示文档的前面几行的命令 <code>head [-n number] 文件路径名</code>：（默认显示前10行）</p>
+<ul>
+<li>number是正数：表示显示前number行</li>
+<li>number是负数：表示不显示后number行</li>
+</ul>
+<hr>
+<p>显示文档的后几行的命令 <code>tail 文件路径名</code>：（默认显示后10行）</p>
+<ul>
+<li>[-n]：后面接数字表示后面显示几行</li>
+<li>[-f]：意味着这个文档随时会增加数据，要想使增加的数据及时显示出来，就用这个参数。输入【ctrl+c】离开</li>
+</ul>
 
     </div>
 
@@ -552,7 +611,7 @@
     <img class="site-author-image" itemprop="image" alt="Crystal"
       src="/images/head.gif">
   <p class="site-author-name" itemprop="name">Crystal</p>
-  <div class="site-description" itemprop="description">保守你的心胜过保守一切</div>
+  <div class="site-description" itemprop="description">Guard heart, everything flows from it.</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -630,7 +689,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">16k</span>
+    <span title="站点总字数">17k</span>
 </div>
 
         
