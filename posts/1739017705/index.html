@@ -28,7 +28,7 @@
 <meta property="og:description" content="leetcode860. 柠檬水找零">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-10T06:02:59.000Z">
-<meta property="article:modified_time" content="2020-12-10T07:00:38.084Z">
+<meta property="article:modified_time" content="2020-12-10T07:59:12.039Z">
 <meta property="article:author" content="Crystal">
 <meta property="article:tag" content="数组">
 <meta name="twitter:card" content="summary">
@@ -217,7 +217,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-12-10 14:02:59 / 修改时间：15:00:38" itemprop="dateCreated datePublished" datetime="2020-12-10T14:02:59+08:00">2020-12-10</time>
+              <time title="创建时间：2020-12-10 14:02:59 / 修改时间：15:59:12" itemprop="dateCreated datePublished" datetime="2020-12-10T14:02:59+08:00">2020-12-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,7 +242,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.6k</span>
+              <span>2.2k</span>
             </span>
             <div class="post-description">leetcode860. 柠檬水找零</div>
 
@@ -255,30 +255,49 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC -->
-
-<ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E6%95%B0%E7%BB%84%E9%81%8D%E5%8E%86">基本思想：数组遍历</a><ul>
-<li><a href="#cpp-%E7%89%88%E6%9C%AC">cpp 版本</a></li>
-<li><a href="#python-%E7%89%88%E6%9C%AC">python 版本</a></li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>At a lemonade stand, each lemonade costs $5. </p>
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>At a lemonade stand, each lemonade costs $5. </p>
 <p>Customers are standing in a queue to buy from you, and order one at a time (in the order specified by bills).</p>
 <p>Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill.  You must provide the correct change to each customer, so that the net transaction is that the customer pays $5.</p>
 <p>Note that you don’t have any change in hand at first.</p>
 <p>Return true if and only if you can provide every customer with correct change.</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: [5,5,5,10,20]</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">From the first 3 customers, we collect three $5 bills in order.</span><br><span class="line">From the fourth customer, we collect a $10 bill and give back a $5.</span><br><span class="line">From the fifth customer, we give a $10 bill and a $5 bill.</span><br><span class="line">Since all customers got correct change, we output true.</span><br></pre></td></tr></table></figure>
+<pre><code>Input: [5,5,5,10,20]
+Output: true
+Explanation: 
+From the first 3 customers, we collect three $5 bills in order.
+From the fourth customer, we collect a $10 bill and give back a $5.
+From the fifth customer, we give a $10 bill and a $5 bill.
+Since all customers got correct change, we output true.</code></pre>
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [5,5,10]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+<pre><code>Input: [5,5,10]
+Output: true</code></pre>
 <p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [10,10]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+<pre><code>Input: [10,10]
+Output: false</code></pre>
 <p><strong>Example 4:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">Input: [5,5,10,10,20]</span><br><span class="line">Output: false</span><br><span class="line">Explanation: </span><br><span class="line">From the first two customers in order, we collect two $5 bills.</span><br><span class="line">For the next two customers in order, we collect a $10 bill and give back a $5 bill.</span><br><span class="line">For the last customer, we can&#39;t give change of $15 back because we only have two $10 bills.</span><br><span class="line">Since not every customer received correct change, the answer is false.</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line"></span><br><span class="line">**Note:**</span><br><span class="line"></span><br><span class="line">- 0 &lt;&#x3D; bills.length &lt;&#x3D; 10000</span><br><span class="line">- bills[i] will be either 5, 10, or 20.</span><br><span class="line"></span><br><span class="line">**题目链接：**</span><br><span class="line">- 中文站：[https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;lemonade-change&#x2F;](https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;lemonade-change&#x2F;)</span><br><span class="line">- 英文站：[https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;lemonade-change&#x2F;](https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;lemonade-change&#x2F;)</span><br><span class="line"></span><br><span class="line">## 基本思想：数组遍历</span><br><span class="line">- 将 $5, $10, $20 各有多少张保存在map中</span><br><span class="line">- 遍历 bills 数组，每次判断能否找零，从 $20 开始判断，即找零的面值从大到小开始判断</span><br><span class="line"></span><br><span class="line">### cpp 版本</span><br><span class="line">&#96;&#96;&#96;cpp</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool lemonadeChange(vector&lt;int&gt;&amp; bills) &#123;</span><br><span class="line">        unordered_map&lt;int, int&gt; ump;</span><br><span class="line">        vector&lt;int&gt; moneys &#x3D; &#123;20, 10, 5&#125;;</span><br><span class="line">        for(auto bill : bills)&#123;</span><br><span class="line">            ump[bill]++;</span><br><span class="line">            int last_money &#x3D; bill - 5;</span><br><span class="line">            for(int i &#x3D; 0; i &lt; 3 &amp;&amp; last_money; ++i)&#123;</span><br><span class="line">                int cnt &#x3D; last_money &#x2F; moneys[i];</span><br><span class="line">                if(cnt &lt;&#x3D; ump[moneys[i]])&#123;</span><br><span class="line">                    ump[moneys[i]] -&#x3D; cnt;</span><br><span class="line">                    last_money -&#x3D; cnt * moneys[i];</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;</span><br><span class="line">                    last_money -&#x3D; ump[moneys[i]] * cnt;</span><br><span class="line">                    ump[moneys[i]] &#x3D; 0;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(last_money)</span><br><span class="line">                return false;</span><br><span class="line">        &#125;  </span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code>Input: [5,5,10,10,20]
+Output: false
+Explanation: 
+From the first two customers in order, we collect two $5 bills.
+For the next two customers in order, we collect a $10 bill and give back a $5 bill.
+For the last customer, we can&#39;t give change of $15 back because we only have two $10 bills.
+Since not every customer received correct change, the answer is false.</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>0 &lt;= bills.length &lt;= 10000</li>
+<li>bills[i] will be either 5, 10, or 20.</li>
+</ul>
+<p><strong>题目链接：</strong></p>
+<ul>
+<li>中文站：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lemonade-change/">https://leetcode-cn.com/problems/lemonade-change/</a></li>
+<li>英文站：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/lemonade-change/">https://leetcode.com/problems/lemonade-change/</a></li>
+</ul>
+<h2 id="基本思想：数组遍历"><a href="#基本思想：数组遍历" class="headerlink" title="基本思想：数组遍历"></a>基本思想：数组遍历</h2><ul>
+<li>将 $5, $10, $20 各有多少张保存在map中</li>
+<li>遍历 bills 数组，每次判断能否找零，从 $20 开始判断，即找零的面值从大到小开始判断</li>
+</ul>
+<h3 id="cpp-版本"><a href="#cpp-版本" class="headerlink" title="cpp 版本"></a>cpp 版本</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">lemonadeChange</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; bills)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; ump;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; moneys = &#123;<span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> bill : bills)&#123;</span><br><span class="line">            ump[bill]++;</span><br><span class="line">            <span class="keyword">int</span> last_money = bill - <span class="number">5</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span> &amp;&amp; last_money; ++i)&#123;</span><br><span class="line">                <span class="keyword">int</span> cnt = last_money / moneys[i];</span><br><span class="line">                <span class="keyword">if</span>(cnt &lt;= ump[moneys[i]])&#123;</span><br><span class="line">                    ump[moneys[i]] -= cnt;</span><br><span class="line">                    last_money -= cnt * moneys[i];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    last_money -= ump[moneys[i]] * cnt;</span><br><span class="line">                    ump[moneys[i]] = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(last_money)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 <h3 id="python-版本"><a href="#python-版本" class="headerlink" title="python 版本"></a>python 版本</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lemonadeChange</span>(<span class="params">self, bills: List[<span class="built_in">int</span>]</span>) -&gt; bool:</span></span><br><span class="line">        ump = &#123;<span class="number">5</span>:<span class="number">0</span>, <span class="number">10</span>:<span class="number">0</span>, <span class="number">20</span>:<span class="number">0</span>&#125;</span><br><span class="line">        moneys = [<span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>]</span><br><span class="line">        <span class="keyword">for</span> bill <span class="keyword">in</span> bills:</span><br><span class="line">            ump[bill] += <span class="number">1</span></span><br><span class="line">            last_money = bill - <span class="number">5</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> money <span class="keyword">in</span> moneys:</span><br><span class="line">                <span class="keyword">if</span> last_money == <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                cnt = last_money // money</span><br><span class="line">                <span class="keyword">if</span> cnt &lt;= ump[money]:</span><br><span class="line">                    last_money -= cnt * money</span><br><span class="line">                    ump[money] -= cnt</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    last_money -= ump[money] * money</span><br><span class="line">                    ump[money] = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> last_money:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>  </span><br></pre></td></tr></table></figure>
     </div>
 
@@ -376,7 +395,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#python-%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">python 版本</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%EF%BC%9A%E6%95%B0%E7%BB%84%E9%81%8D%E5%8E%86"><span class="nav-number">2.</span> <span class="nav-text">基本思想：数组遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cpp-%E7%89%88%E6%9C%AC"><span class="nav-number">2.1.</span> <span class="nav-text">cpp 版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-%E7%89%88%E6%9C%AC"><span class="nav-number">2.2.</span> <span class="nav-text">python 版本</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -463,7 +482,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">20k</span>
+    <span title="站点总字数">19k</span>
 </div>
 
         
