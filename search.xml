@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>C++字符串比较大小的原理</title>
+    <title>C++ 字符串比较大小的原理</title>
     <url>/posts/60551/</url>
     <content><![CDATA[<!-- TOC -->
 
@@ -35,7 +35,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux学习笔记</title>
+    <title>Linux 学习笔记</title>
     <url>/posts/3003968415/</url>
     <content><![CDATA[<!-- TOC -->
 
@@ -502,9 +502,9 @@ Since not every customer received correct change, the answer is false.</code></p
       </tags>
   </entry>
   <entry>
-    <title>python中nonlocal和global的作用</title>
+    <title>python 中 nonlocal 和 global 的作用</title>
     <url>/posts/2750345904/</url>
-    <content><![CDATA[<h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>如下代码，由于对cpp十分熟悉，想当然的认为变量a的作用域为它所在的这个函数，包括其嵌套函数中也可以使用，然而这种想法在python中完全不适用。</p>
+    <content><![CDATA[<h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>如下代码，由于对 cpp 十分熟悉，想当然的认为变量 a 的作用域为它所在的这个函数，包括其嵌套函数中也可以使用，然而这种想法在 python 中完全不适用。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>程序报错：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">UnboundLocalError: local variable &#39;a&#39; referenced before assignment</span><br></pre></td></tr></table></figure>
