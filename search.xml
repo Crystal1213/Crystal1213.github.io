@@ -559,10 +559,8 @@ Since not every customer received correct change, the answer is false.</code></p
   <entry>
     <title>hexo博客说明文档</title>
     <url>/posts/44808/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<p>本文主要介绍搭建好博客后，如何让博客的内容更加丰富，让博客整体的界面更加美观，以及一些特效的设置</p>
-<!-- more -->
+    <content><![CDATA[<p>本文主要介绍搭建好博客后，如何让博客的内容更加丰富，让博客整体的界面更加美观，以及一些特效的设置</p>
+<a id="more"></a>
 <!-- TOC -->
 
 <ul>
