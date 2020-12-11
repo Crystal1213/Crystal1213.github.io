@@ -819,7 +819,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-11 21:49:08" itemprop="dateModified" datetime="2020-12-11T21:49:08+08:00">2020-12-11</time>
+                <time title="修改时间：2020-12-11 21:50:50" itemprop="dateModified" datetime="2020-12-11T21:50:50+08:00">2020-12-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -849,15 +849,113 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>博客搭建说明</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/44808/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <a id="more"></a>
+
+<p>本文主要介绍搭建好博客后，如何让博客的内容更加丰富，让博客整体的界面更加美观，以及一些特效的设置</p>
+<!-- more -->
+<!-- TOC -->
+
+<ul>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E8%AF%B4%E6%98%8E">本地文件夹说明</a></li>
+<li><a href="#hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">hexo常用命令</a></li>
+<li><a href="#%E4%B8%BAgithub%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0readme">为github仓库添加readme</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E5%85%B3%E4%BA%8E">添加分类、标签、关于</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD">添加搜索功能</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E5%86%85%E9%93%BE%E6%8E%A5%E6%96%87%E6%9C%AC%E6%A0%B7%E5%BC%8F">修改文章内链接文本样式</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E9%93%BE%E6%8E%A5">修改文章链接</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E5%8D%9A%E5%AE%A2%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BE%E6%A0%87">添加博客自定义图标</a></li>
+<li><a href="#%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E7%89%B9%E6%95%88">鼠标点击特效</a></li>
+<li><a href="#%E6%96%87%E7%AB%A0%E7%BB%93%E6%9D%9F%E6%A0%87%E8%AE%B0">文章结束标记</a></li>
+<li><a href="#%E6%96%87%E7%AB%A0%E9%98%B4%E5%BD%B1%E8%AE%BE%E7%BD%AE">文章阴影设置</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%8D%9A%E5%AE%A2%E6%91%98%E8%A6%81%E6%98%BE%E7%A4%BA">设置博客摘要显示</a></li>
+</ul>
+<!-- /TOC -->
+<h2 id="本地文件夹说明"><a href="#本地文件夹说明" class="headerlink" title="本地文件夹说明"></a>本地文件夹说明</h2><ul>
+<li>public：该文件夹最终会被push到github仓库中</li>
+<li>source：存放用户资源的地方。<ul>
+<li>_posts文件夹中的markdown文档会被解析成html文件并放到public文件夹</li>
+<li>除_posts文件及外，其余以【_】开头的文件或文件夹都会被忽略</li>
+<li>其余文件（例如：about文件）会被拷贝到public文件夹</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>scafflods：模板文件夹。新建markdown文件时，hexo会根据该文件夹下的模板来建立文件<ul>
+<li>post.md：新建文章<code>hexo new &quot;文章名&quot;</code>时，会按照该文件中的内容生成默认文件</li>
+<li>也可以自己定义模板，例如模板名为blog，新建文章时，为了使用该模板，键入命令<code>hexo new blog &quot;文章名&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h2><p>说明：笔者的博客目录名为blog</p>
+<ul>
+<li><code>hexo new &quot;文章名&quot;</code>：新建文章，在blog文件的路径下键入，最终会在blog/source/_posts文件夹下出现新建的文件</li>
+<li><code>hexo g</code>：生成静态页面至public文件夹下：在blog文件夹下键入，它是<code>hexo generate</code>的缩写</li>
+<li><code>hexo s</code>：开启本地预览端口，在blog文件夹下键入，它是<code>hexo server</code>的缩写</li>
+<li><code>hexo d</code>：部署到github：在blog文件夹下键入，它是<code>hexo deploy</code>的缩写</li>
+<li><code>hexo help</code>：查看帮助</li>
+<li><code>hexo version</code>：查看hexo版本</li>
+</ul>
+<p>组合命令：</p>
+<ul>
+<li><code>hexo s -g</code>：生成静态页面并本地预览</li>
+<li><code>hexo d -g</code>：生成静态页面并部署到github</li>
+</ul>
+<h2 id="为github仓库添加readme"><a href="#为github仓库添加readme" class="headerlink" title="为github仓库添加readme"></a>为github仓库添加readme</h2><p>因为source中的文件会被拷贝到public文件夹中，而public文件夹会被push到github中，因此想为github仓库添加readme，只需在source文件夹中创建即可。<br>注意：source文件夹中的【.md】文档会被解析成html文件，再放到public中。为了避免解析，将readme的扩展名改为【.MDWN】(这里一定要大写，小写的话也会被解析成html文件)</p>
+<h2 id="添加分类、标签、关于"><a href="#添加分类、标签、关于" class="headerlink" title="添加分类、标签、关于"></a>添加分类、标签、关于</h2><ul>
+<li>首先将站点配置文件中的menu下面的categories和tags前的【#】去掉<img src="https://i.loli.net/2020/12/07/JCdtcQwxAYfT7MX.png" alt="image.png"></li>
+<li>创建markdown文件<img src="https://i.loli.net/2020/12/07/DQ5aXjgtFGw83Ey.png" alt="image.png"><ul>
+<li>在blog文件夹下键入<code>hexo new page tags</code>，此时会生成blog/source/tags/index.md文件</li>
+<li>修改index.md文件，添加【type:”tags”】<img src="https://i.loli.net/2020/12/07/ZUySVMFOIDATw2J.png" alt="image.png"></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>在blog文件夹下键入<code>hexo new page categories</code>，此时会生成blog/source/categories/index.md</li>
+<li>修改index.md文件，添加【type:”categories”】<img src="https://i.loli.net/2020/12/07/iPwaHA5jQmIVreM.png" alt="image.png"></li>
+</ul>
+<p>about也是采用同样的方法，就不再赘述了</p>
+<h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
+<ol>
+<li><p>在 blog 文件夹下执行命令<code>npm install hexo-generator-searchdb --save</code></p>
+</li>
+<li><p>修改站点配置文件，在Extension下添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 搜索</span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure></li>
+<li><p>修改主题配置文件，找到 Local search，将 enable 设置为 <code>true</code></p>
+</li>
+</ol>
+<h2 id="修改文章内链接文本样式"><a href="#修改文章内链接文本样式" class="headerlink" title="修改文章内链接文本样式"></a>修改文章内链接文本样式</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
+<p>打开文件<code>blog\themes\next\source\css\_common\components\post\post.styl</code>，在末尾添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.post-body p a &#123;</span><br><span class="line">  color: #0593d3;</span><br><span class="line">  border-bottom: none;</span><br><span class="line">  border-bottom: 1px solid #0593d3;</span><br><span class="line">  &amp;:hover &#123;</span><br><span class="line">    color: #fc6423;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #fc6423;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="修改文章链接"><a href="#修改文章链接" class="headerlink" title="修改文章链接"></a>修改文章链接</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/as480133937/article/details/100138838">https://blog.csdn.net/as480133937/article/details/100138838</a><br>文章链接默认的生成规则<code>:year/:month/:day/:title</code>，生成的样式<code>https://crystal1213.github.io/2020/12/07/leetcode861-Score-After-Flipping-Matrix/</code><br>修改后的样式：<code>https://crystal1213.github.io/posts/30354/</code></p>
+<p>生成简洁的url的方法：</p>
+<ol>
+<li>安装插件，在blog文件夹下键入命令<code>npm install hexo-abbrlink --save </code></li>
+<li>修改站点配置文件，找到<code>permalink</code>，修改为如下的形式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">permalink: posts&#x2F;:abbrlink&#x2F;</span><br><span class="line">abbrlink:</span><br><span class="line">	alg: crc32   #算法： crc16(default) and crc32</span><br><span class="line">	rep: hex     #进制： dec(default) and hex</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+样式选择：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">crc16 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;66c8.html</span><br><span class="line"></span><br><span class="line">crc16 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;65535.html</span><br><span class="line">crc32 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;8ddf18fb.html</span><br><span class="line"></span><br><span class="line">crc32 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;1690090958.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h2 id="添加博客自定义图标"><a href="#添加博客自定义图标" class="headerlink" title="添加博客自定义图标"></a>添加博客自定义图标</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a><br><img src="https://i.loli.net/2020/12/10/QdxwNLvE8ckIp3z.png" alt="image.png"></p>
+<ol>
+<li>在以下网站下载或者制作图标 <a target="_blank" rel="noopener" href="https://www.iconfont.cn/plus/user/detail?uid=41718">iconfont</a> <a target="_blank" rel="noopener" href="https://www.easyicon.net/">easyicon</a> 下载图标，注意下图标的大小</li>
+<li>将下载的图标放在 <code>...\blog\themes\next\source\images</code> 文件夹下</li>
+<li>修改主题配置文件 <code>favicon</code> 中的 <code>small</code> 和 <code>medium</code> ，改为图标的文件名</li>
+</ol>
+<h2 id="鼠标点击特效"><a href="#鼠标点击特效" class="headerlink" title="鼠标点击特效"></a>鼠标点击特效</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
+<ol>
+<li><p>在<code>/themes/next/source/js/src</code> 下新建文件 <code>clicklove.js</code>，将下面代码拷贝到文件中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!<span class="function"><span class="keyword">function</span>(<span class="params">e,t,a</span>)</span>&#123;<span class="function"><span class="keyword">function</span> <span class="title">n</span>(<span class="params"></span>)</span>&#123;c(<span class="string">&quot;.heart&#123;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);&#125;.heart:after,.heart:before&#123;content: &#x27;&#x27;;width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;&#125;.heart:after&#123;top: -5px;&#125;.heart:before&#123;left: -5px;&#125;&quot;</span>),o(),r()&#125;<span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params"></span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> e=<span class="number">0</span>;e&lt;d.length;e++)d[e].alpha&lt;=<span class="number">0</span>?(t.body.removeChild(d[e].el),d.splice(e,<span class="number">1</span>)):(d[e].y--,d[e].scale+=<span class="number">.004</span>,d[e].alpha-=<span class="number">.013</span>,d[e].el.style.cssText=<span class="string">&quot;left:&quot;</span>+d[e].x+<span class="string">&quot;px;top:&quot;</span>+d[e].y+<span class="string">&quot;px;opacity:&quot;</span>+d[e].alpha+<span class="string">&quot;;transform:scale(&quot;</span>+d[e].scale+<span class="string">&quot;,&quot;</span>+d[e].scale+<span class="string">&quot;) rotate(45deg);background:&quot;</span>+d[e].color+<span class="string">&quot;;z-index:99999&quot;</span>);requestAnimationFrame(r)&#125;<span class="function"><span class="keyword">function</span> <span class="title">o</span>(<span class="params"></span>)</span>&#123;<span class="keyword">var</span> t=<span class="string">&quot;function&quot;</span>==<span class="keyword">typeof</span> e.onclick&amp;&amp;e.onclick;e.onclick=<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;t&amp;&amp;t(),i(e)&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">i</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">&quot;div&quot;</span>);a.className=<span class="string">&quot;heart&quot;</span>,d.push(&#123;<span class="attr">el</span>:a,<span class="attr">x</span>:e.clientX-<span class="number">5</span>,<span class="attr">y</span>:e.clientY-<span class="number">5</span>,<span class="attr">scale</span>:<span class="number">1</span>,<span class="attr">alpha</span>:<span class="number">1</span>,<span class="attr">color</span>:s()&#125;),t.body.appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">&quot;style&quot;</span>);a.type=<span class="string">&quot;text/css&quot;</span>;<span class="keyword">try</span>&#123;a.appendChild(t.createTextNode(e))&#125;<span class="keyword">catch</span>(t)&#123;a.styleSheet.cssText=e&#125;t.getElementsByTagName(<span class="string">&quot;head&quot;</span>)[<span class="number">0</span>].appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">s</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span><span class="string">&quot;rgb(&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;,&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;,&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;)&quot;</span>&#125;<span class="keyword">var</span> d=[];e.requestAnimationFrame=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="built_in">setTimeout</span>(e,<span class="number">1e3</span>/<span class="number">60</span>)&#125;&#125;(),n()&#125;(<span class="built_in">window</span>,<span class="built_in">document</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>在文件 <code>\themes\next\layout\_layout.swig</code> 末尾添加如下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 页面点击小红心 --&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span> src=<span class="string">&quot;/js/src/clicklove.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h2 id="文章结束标记"><a href="#文章结束标记" class="headerlink" title="文章结束标记"></a>文章结束标记</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
+<h2 id="文章阴影设置"><a href="#文章阴影设置" class="headerlink" title="文章阴影设置"></a>文章阴影设置</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a><br>设置好后感觉没有效果</p>
+<h2 id="设置博客摘要显示"><a href="#设置博客摘要显示" class="headerlink" title="设置博客摘要显示"></a>设置博客摘要显示</h2><p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
+
       
     </div>
 
