@@ -790,6 +790,7 @@ Since not every customer received correct change, the answer is false.</code></p
 </li>
 <li><a href="#%E5%8F%82%E4%B8%8E%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE">参与开源项目</a></li>
 <li><a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E5%A4%9A%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">本地仓库关联多个远程仓库</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 <!-- /TOC -->
 
@@ -817,7 +818,7 @@ Since not every customer received correct change, the answer is false.</code></p
 <hr>
 <p>查看已有的配置信息的命令 <code>git config --list</code><br>配置用户名和邮箱：<code>git config --global user.name &quot;名字&quot;</code> <code>git config --global user.email &quot;邮箱&quot;</code> （<code>global</code> 参数表示这台机器上所有的 git 仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和邮箱）</p>
 <h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><ol>
-<li>新建一个空的文件夹 learngit ，在该文件夹下执行 <code>git init</code> 命令，初始化一个Git仓库。</li>
+<li>新建一个空的文件夹 learngit ，在该文件夹下执行 <code>git init</code> 命令，初始化一个 Git 仓库。</li>
 <li>在 learngit 这个文件夹下新建一个或几个文件，创建文本文件最好用 Notepad++ ，不要用 windows 自带的文本文件，涉及到编码问题</li>
 <li>将文件添加到 Git 仓库，分两步：<ul>
 <li>使用命令git add <file>，注意，可反复多次使用，添加多个文件；<file>指的是文件名</li>
@@ -910,6 +911,7 @@ Since not every customer received correct change, the answer is false.</code></p
 <li>将本地仓库推送到远程，<code>git push gitee master</code></li>
 </ol>
 <p>修改远程仓库名：<code>git remote rename 旧名字 新名字</code><br>删除已关联的远程仓库：<code>git remote remove 远程仓库名</code><br>显示已关联的远程仓库的信息：<code>git remote -v</code><br>修改远程仓库的地址：<code>git remote set-url 远程仓库名 新地址</code></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://i.loli.net/2020/12/19/rExAoiPVfLMm18u.png" alt="image.png"></p>
 ]]></content>
       <categories>
         <category>学习笔记</category>
