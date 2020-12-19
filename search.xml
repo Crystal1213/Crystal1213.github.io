@@ -893,7 +893,7 @@ Since not every customer received correct change, the answer is false.</code></p
 <h2 id="删除标签"><a href="#删除标签" class="headerlink" title="删除标签"></a>删除标签</h2><ul>
 <li><code>git push origin 标签名</code> ：将本地标签推送到远程</li>
 <li><code>git push origin --tags</code> ：将本地所有标签推送到远程</li>
-<li><code>git tags -d 标签名</code> ：删除的本地标签</li>
+<li><code>git tag -d 标签名</code> ：删除的本地标签</li>
 <li><code>git push origin :refs/tags/标签名</code> ：删除远程标签，:refs/tags/标签名 这里其实是 .git 目录下对应的目录</li>
 </ul>
 <h1 id="参与开源项目"><a href="#参与开源项目" class="headerlink" title="参与开源项目"></a>参与开源项目</h1><p>基本步骤：</p>
