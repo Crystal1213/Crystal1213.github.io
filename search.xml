@@ -1,43 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>C++ 字符串比较大小的原理</title>
-    <url>/posts/60551/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA">问题引出</a></li>
-<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86">字符串比较大小的原理</a></li>
-</ul>
-<!-- /TOC -->
-<h2 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h2><p>笔者在比较两个字符串大小的时候踩过的坑，本意是想利用数值型对应的字符串的形式比较字符串本身的大小，例如：<code>&quot;21&quot; &gt; &quot;111&quot;</code>显然对于数值型的<code>21 &gt; 111</code>】结果肯定为false,但是<code>&quot;21&quot; &gt; &quot;111&quot;</code>的结果为true</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1 = <span class="string">&quot;21&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> n1 = <span class="number">21</span>, n2 = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">bool</span> res = (n1 &gt; n2);   </span><br><span class="line">    <span class="keyword">bool</span> res1 = (s1 &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(n1 &gt; n2) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(s1 &gt; s2) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="字符串比较大小的原理"><a href="#字符串比较大小的原理" class="headerlink" title="字符串比较大小的原理"></a>字符串比较大小的原理</h2><p>首先看下《C++ Primer》这本书中的描述：<img src="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png" alt="image.png"><br>原理：字符串中第一个相异的字符比较的结果<br>明确以下几点：</p>
-<ol>
-<li>两个字符串是可以用【&gt;,&lt;,&gt;=,&lt;=】来比较大小的</li>
-<li>对于数值型对应的字符串形式，<ul>
-<li>两个字符串长度相等的情况下，例如：<code>&quot;12&quot; &lt; &quot;22&quot;</code>，是可以比较出两个字符串对应的原数值型数据的大小关系</li>
-<li>两个字符串长度不等的情况下，无法比较出其对应数值型的大小关系，因为比较的结果取决于从左向右遇到的第一个不等的字符。</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s = <span class="string">&quot;21&quot;</span>, s1 = <span class="string">&quot;11&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>; </span><br><span class="line">    <span class="comment">// TODO：长度相等的字符串比较的结果   </span></span><br><span class="line">    <span class="keyword">bool</span> res = (s &gt; s1);   </span><br><span class="line">    <span class="comment">// TODO：长度不等的字符串比较的结果</span></span><br><span class="line">    <span class="keyword">bool</span> res1 = (s &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;11\&quot;) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;111\&quot;) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;11&quot;</span>) = <span class="number">1</span></span><br><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;111&quot;</span>) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>编程中踩过的坑</category>
-      </categories>
-      <tags>
-        <tag>string</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 学习笔记</title>
     <url>/posts/3003968415/</url>
-    <content><![CDATA[<h2 id="命令的通用格式"><a href="#命令的通用格式" class="headerlink" title="命令的通用格式"></a>命令的通用格式</h2><blockquote>
+    <content><![CDATA[<p>主要讲解 Linux 相关的命令，以及 Linux 相关的知识</p>
+<a id="more"></a>
+<h2 id="命令的通用格式"><a href="#命令的通用格式" class="headerlink" title="命令的通用格式"></a>命令的通用格式</h2><blockquote>
 <p>command [-options] paramter1 parameter1 parameter2…</p>
 </blockquote>
 <ul>
@@ -99,7 +67,7 @@
 <ul>
 <li>查询与该命令有关的说明文档<br>例如查询date这个命令有关的说明文档：<code>man -f date</code>，-f这里就表示获得更多与date相关的信息；<br>如果有多个文件，那么可以在查看该文件时，指定查看哪个文件<code>man 1 date</code>；如果不指定，就和系统的搜寻顺序有关，先搜到的会先显示    </li>
 </ul>
-<h2 id="文本编辑器nano"><a href="#文本编辑器nano" class="headerlink" title="文本编辑器nano"></a>文本编辑器nano</h2><p>命令：<code>nano text.txt</code>文件存在就打开该文件，不存在就创建一个该名字的新文件</p>
+<h2 id="文本编辑器-nano"><a href="#文本编辑器-nano" class="headerlink" title="文本编辑器 nano"></a>文本编辑器 nano</h2><p>命令：<code>nano text.txt</code>文件存在就打开该文件，不存在就创建一个该名字的新文件</p>
 <blockquote>
 <p>^该符号表示ctrl这个键</p>
 </blockquote>
@@ -273,14 +241,219 @@
 <p>档案群组拥有<code>s</code>权限，（对目录档案均有效）称为 set GID == SGID（2），表示执行者执行该命令时会获得该命令所属群组的支持</p>
 <p>目录拥有<code>t</code>权限，（仅对目录有效）称为 Sticky Bit = SBIT（1），表示如果用户具有<code>wx</code>权限，当用户在该目录下建立档案或目录时，只有自己或者root才有权限删除该档案或目录</p>
 <p>注：设置文件或档案具有上述三种权限时，只需在<code>rwx</code>对应的数字前面加上相应的数字即可</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">显示档案类型的命令：&#96;file 档案名&#96; （该命令可以显示档案的基本数据的类型，例如：ASCII，data档案，binary等等）</span><br></pre></td></tr></table></figure>
-<p>显示命令（执行档）所在路径的命令<code>which [-a] 命令名</code> （在PATH中搜寻）：a 这个参数表示将所有在PATH目录中可以找到的指令均列出<br>寻找特定档案<code>whereis [-bmsu] 命令名</code>（在系统中的一个数据库档案中找，可能未加入PATH）：参数可以指定档案的格式</p>
+<hr>
+<p>显示档案类型的命令：<code>file 档案名</code> （该命令可以显示档案的基本数据的类型，例如：ASCII，data档案，binary 等等）</p>
+<hr>
+<p>显示命令的路径：</p>
+<ul>
+<li><p>显示命令（执行档）所在路径的命令 <code>which [-a] 命令名</code> （在 PATH 中搜寻）：a 这个参数表示将所有在 PATH 目录中可以找到的指令均列出。</p>
+</li>
+<li><p>寻找特定档案 <code>whereis [-bmsu] 命令名</code>（在系统中的一个数据库档案中找，可能未加入 PATH）：参数可以指定档案的格式。</p>
+</li>
+<li><p>依据 <code>/var/lib/mlocate</code> 内的数据库记载，找出用户输入的关键词文件名，<code>locate [-ir] 命令名</code></p>
+<ul>
+<li>【-i】：表示忽略大小写的差异</li>
+<li>【-r】：表示可接正则表示法的显示方式</li>
+</ul>
+</li>
+<li><p>按照条件进行查找：<code>find [路径][参数]</code> （在路径下，按照参数指定的条件进行查找，可同时列出多个路径）</p>
+<ul>
+<li>查找相应文件名的路径：<code>find / -name passwd</code></li>
+<li>对查找到的路径进行额外的操作：<code>find [路径][参数] -exec command</code>，例如：<code>find / -name passwd -exec ls -l &#123;&#125; \;</code> （注意这里额外操作命令后面的 <code>&#123;&#125; \;</code>）<ul>
+<li><code>&#123;&#125;</code> 代表 find 找到的结果；</li>
+<li>-exec 到 ; 之间的内容是 find 指令的额外操作，本例中就是 【ls -l {}】；</li>
+<li>【\】在 bash 环境下有特殊意义，因此前面加上反斜杠）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="磁盘与文件系统（第八章）"><a href="#磁盘与文件系统（第八章）" class="headerlink" title="磁盘与文件系统（第八章）"></a>磁盘与文件系统（第八章）</h2><p>文件系统的区块：</p>
+<ul>
+<li>inode 区块：文件的权限（rwx）和属性（拥有者、群组、时间参数等）；</li>
+<li>data block 区块：实际数据；</li>
+<li>supperblock 区块：整个文件系统的整体信息，包括 innode 与 block 总量、使用量、剩余量等。</li>
+</ul>
 ]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 学习笔记</title>
+    <url>/posts/1/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C">文件操作</a><ul>
+<li><a href="#git-%E5%9F%BA%E7%A1%80">git 基础</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93">创建版本库</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E5%B7%A5%E4%BD%9C%E5%8C%BA%E7%8A%B6%E6%80%81">查看工作区状态</a></li>
+<li><a href="#%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E4%B9%8B%E9%97%B4%E5%88%87%E6%8D%A2">在不同版本之间切换</a></li>
+<li><a href="#git%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%92%8C%E6%9A%82%E5%AD%98%E5%8C%BA">git工作区和暂存区</a></li>
+<li><a href="#%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9">撤销修改</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6">删除文件</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">远程仓库</a><ul>
+<li><a href="#%E5%B0%86%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%BB%BA%E7%AB%8B%E5%85%B3%E8%81%94">将本地仓库和远程仓库建立关联</a></li>
+<li><a href="#%E5%B0%86%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%85%8B%E9%9A%86%E5%88%B0%E6%9C%AC%E5%9C%B0">将远程仓库克隆到本地</a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%86%E6%94%AF">分支</a><ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E4%BA%8E%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF">创建于合并分支</a></li>
+<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E5%87%BA%E7%8E%B0%E5%86%B2%E7%AA%81">合并分支出现冲突</a></li>
+<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E6%97%B6%E4%BF%9D%E7%95%99%E5%8E%86%E5%8F%B2%E5%88%86%E6%94%AF">合并分支时保留历史分支</a></li>
+<li><a href="#%E4%BF%AE%E5%A4%8D%E5%85%B6%E4%BB%96%E5%88%86%E6%94%AF%E7%9A%84-bug-%E6%97%B6%E4%BF%9D%E5%AD%98%E8%AF%A5%E5%88%86%E6%94%AF%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%8E%B0%E5%9C%BA">修复其他分支的 bug 时，保存该分支的工作现场</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AA%E8%A2%AB%E5%90%88%E5%B9%B6%E7%9A%84%E5%88%86%E6%94%AF">删除未被合并的分支</a></li>
+<li><a href="#%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C%E7%9A%84%E6%AD%A5%E9%AA%A4">多人协作的步骤</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A0%87%E7%AD%BE">标签</a><ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E6%A0%87%E7%AD%BE">创建标签</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E6%A0%87%E7%AD%BE">删除标签</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E4%B8%8E%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE">参与开源项目</a></li>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E5%A4%9A%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">本地仓库关联多个远程仓库</a></li>
+<li><a href="#%E5%BF%BD%E7%95%A5%E7%89%B9%E6%AE%8A%E6%96%87%E4%BB%B6">忽略特殊文件</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+<!-- /TOC -->
+
+<p>本文主要讲述 git 相关的命令操作</p>
+<a id="more"></a>
+<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="git-基础"><a href="#git-基础" class="headerlink" title="git 基础"></a>git 基础</h2><p>git 文件的三种状态：</p>
+<ul>
+<li>已提交（committed）：表示该文件已经被安全地保存在本地数据库中了</li>
+<li>已修改（modified）：表示修改了某个文件，但还没有提交保存</li>
+<li>已暂存（staged）：把已修改的文件放在下次提交时要保存的清单中</li>
+</ul>
+<p>Git 目录：（译注：如果 git clone 出来的话，就是其中 .git 的目录；如果 <code>git clone --bare</code> 的话，新建的目录本身就是 Git 目录。），它是 Git 用来保存元数据和对象数据库的地方。该目录非常重要，每次克隆镜像仓库的时候，实际拷贝的就是这个目录里面的数据。<br>文件流转的三个工作区域：</p>
+<ul>
+<li>Git 的工作目录：从项目中取出某个版本的所有文件和目录，用以开始后续工作。这些文件实际上都是从 Git 目录中的压缩对象数据库中提取出来的，接下来就可以在工作目录中对这些文件进行编辑。</li>
+<li>暂存区域：所谓的暂存区域只不过是个简单的文件，一般都放在 Git 目录中。有时候人们会把这个文件叫做索引文件。</li>
+<li>本地仓库</li>
+</ul>
+<p>基本的 Git 工作流程如下：</p>
+<ol>
+<li>在工作目录中修改某些文件。</li>
+<li>对修改后的文件进行快照，然后保存到暂存区域。</li>
+<li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中。</li>
+</ol>
+<p>所以，我们可以从文件所处的位置来判断状态：如果是 Git 目录中保存着的特定版本文件，就属于已提交状态；如果作了修改并已放入暂存区域，就属于已暂存状态；如果自上次取出后，作了修改但还没有放到暂存区域，就是已修改状态。</p>
+<hr>
+<p>查看已有的配置信息的命令 <code>git config --list</code><br>配置用户名和邮箱：<code>git config --global user.name &quot;名字&quot;</code> <code>git config --global user.email &quot;邮箱&quot;</code> （<code>global</code> 参数表示这台机器上所有的 git 仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和邮箱）</p>
+<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><ol>
+<li>新建一个空的文件夹 learngit ，在该文件夹下执行 <code>git init</code> 命令，初始化一个 Git 仓库。</li>
+<li>在 learngit 这个文件夹下新建一个或几个文件，创建文本文件最好用 Notepad++ ，不要用 windows 自带的文本文件，涉及到编码问题</li>
+<li>将文件添加到 Git 仓库，分两步：<ul>
+<li>使用命令git add <file>，注意，可反复多次使用，添加多个文件；<file>指的是文件名</li>
+<li>使用命令git commit -m <message>，完成。<message>表示一些提示性的信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="查看工作区状态"><a href="#查看工作区状态" class="headerlink" title="查看工作区状态"></a>查看工作区状态</h2><ul>
+<li>查看工作区的状态，执行命令 <code>git status</code></li>
+<li>如果文件有被修改，查看文件的不同，执行命令 <code>git diff &lt;文件名&gt;</code>。（比较的是工作区的文件和暂存区的文件的不同，如果想比较当前文件和提交到分支中文件的不同，需要明确指明，例如用命令 <code>git diff HEAD -- readme.txt</code> 比较工作区中的readme.txt文件和提交到分支的readme.txt的不同）</li>
+</ul>
+<h2 id="在不同版本之间切换"><a href="#在不同版本之间切换" class="headerlink" title="在不同版本之间切换"></a>在不同版本之间切换</h2><ul>
+<li>HEAD 指向的版本就是当前版本（HEAD^ 表示上一个版本，HEAD^^ 表示上上个版本，如果是往上100个版本，用 HEAD~100 来表示），因此，Git 允许我们在版本的历史之间穿梭，使用命令 <code>git reset --hard commit_id</code>，commit_id指的是每一个版本的编号，也可以用 HEAD^这种形式来表示</li>
+<li><code>git log</code> 命令可以查看提交历史，以便确定要回退到哪个版本。<code>git log --pretty=oneline</code> 将提交的历史在一行显示</li>
+<li><code>git reflog</code> 命令查看命令历史，以便确定要回到未来的哪个版本。</li>
+</ul>
+<h2 id="git工作区和暂存区"><a href="#git工作区和暂存区" class="headerlink" title="git工作区和暂存区"></a>git工作区和暂存区</h2><ul>
+<li>工作区：是指我们所操作的文件所属的文件夹，例如上述例子中的 learngit 文件夹</li>
+<li>暂存区：执行 <code>git add &quot;文件名&quot;</code> 命令后，文件会从工作区转移到暂存区</li>
+<li>分支：执行 <code>git commit -m &quot;说明信息&quot;</code> 命令后，文件会从暂存区提交到分支</li>
+</ul>
+<h2 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h2><ul>
+<li>改变了工作区的内容，想退回到原来（最近一次）的状态，执行命令 <code>git checkout -- &quot;文件名&quot;</code></li>
+<li>使文件从暂存区回到工作区，执行命令 <code>git reset HEAD &quot;文件名&quot;</code></li>
+</ul>
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><p><code>git rm &quot;文件名&quot;</code> ：删除分支中的文件<br>如果误删了（在文件夹中删除了，但是分支中没有删除）可以用 <code>git checkout -- &quot;文件名&quot;</code> 使文件夹中该文件的内容恢复到和分支中一样的情形</p>
+<h1 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h1><h2 id="将本地仓库和远程仓库建立关联"><a href="#将本地仓库和远程仓库建立关联" class="headerlink" title="将本地仓库和远程仓库建立关联"></a>将本地仓库和远程仓库建立关联</h2><ol>
+<li>首先在远程仓库中添加本地仓库的 SSH公钥<ul>
+<li>执行 <code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code></li>
+<li>此时，会在用户主目录下出现 <code>.ssh</code> 目录，该目录下有 <code>id_rsa</code> （私钥）和 <code>id_rsa.pub</code> （公钥）两个文件</li>
+<li>在 github 上为该电脑添加 SSH Keys，将 <code>id_rsa.pub</code> 文件中的内容拷贝到 Key 中 </li>
+</ul>
+</li>
+<li>在远程仓库中建立一个新的 repository ，将本地仓库和远程仓库之间建立关联，执行命令：<code> git remote add origin git@github.com:Crystal1213/learngit.git</code></li>
+<li>将本地仓库的内容推送到远程，执行命令 <code>git push -u origin master</code> origin 是远程库的名字，master 是当前分支，这里加了 <code>-u</code> ，Git 不但会把本地的 master 分支内容推送的远程新的 master 分支，还会把本地的 master 分支和远程的 master 分支关联起来，在以后的推送或者拉取时就可以简化命令。注：以后推送时，只需执行 <code>git push origin master</code></li>
+</ol>
+<h2 id="将远程仓库克隆到本地"><a href="#将远程仓库克隆到本地" class="headerlink" title="将远程仓库克隆到本地"></a>将远程仓库克隆到本地</h2><p><code>git clone 远程仓库地址</code></p>
+<h1 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h1><p>创建一个自己的分支，当所有工作都做完后合并到原来的分支</p>
+<h2 id="创建于合并分支"><a href="#创建于合并分支" class="headerlink" title="创建于合并分支"></a>创建于合并分支</h2><ul>
+<li>查看分支：<code>git branch</code></li>
+<li>创建分支：<code>git branch 分支名</code></li>
+<li>切换分支：<code>git checkout 分支名</code> 或者 <code>git switch 分支名</code></li>
+<li>创建并切换分支：<code>git checkout -b 分支名</code> 或者 <code>git switch -c 分支名</code></li>
+<li>合并到当前分支分支：<code>git merge 分支名</code></li>
+<li>删除分支：<code>git branch -d 分支名</code></li>
+</ul>
+<h2 id="合并分支出现冲突"><a href="#合并分支出现冲突" class="headerlink" title="合并分支出现冲突"></a>合并分支出现冲突</h2><p>手动修改出现冲突的文件，可以用命令 <code>git log --graph</code> 查看分支合并图<br><code>git log --graph --pretty=oneline --abbrev-commit</code></p>
+<h2 id="合并分支时保留历史分支"><a href="#合并分支时保留历史分支" class="headerlink" title="合并分支时保留历史分支"></a>合并分支时保留历史分支</h2><p>合并分支：默认情况下是 <code>Fast Forward</code> 模式，也就是合并后，会丢掉分支信息<br>禁止使用 <code>Fast Forward</code> 模式，在合并分支时，就会生成一个新的 commit，这样就能从分支历史上看出分支信息，合并分支时执行命令 <code>git merge --no-ff -m &quot;提示信息&quot; 待合并的分支名</code></p>
+<h2 id="修复其他分支的-bug-时，保存该分支的工作现场"><a href="#修复其他分支的-bug-时，保存该分支的工作现场" class="headerlink" title="修复其他分支的 bug 时，保存该分支的工作现场"></a>修复其他分支的 bug 时，保存该分支的工作现场</h2><p>保存工作现场命令：<code>git stash</code> （保存哪个分支的工作现场，就在哪个分支上执行）<br>查看已保存的工作现场：<code>git stash list</code><br>恢复工作现场：</p>
+<ul>
+<li><code>git stash pop</code> </li>
+<li>或者 <code>git stash apply stash@&#123;数字&#125;</code> 此时 list 中还有此工作现场，需要执行 <code>git stash drop</code> 来将该工作现场删除</li>
+</ul>
+<p>注：如果想将其他分支修复 bug 后的结果，合并到该分支，在恢复该分支的工作现场之前，执行 <code>git cherry-pick &lt;commit&gt;</code> commit 是在执行 <code>git commit -m &quot;&quot;</code> 命令后，显示出来的那一串字母加数字，例如：<code>1d4b803</code></p>
+<h2 id="删除未被合并的分支"><a href="#删除未被合并的分支" class="headerlink" title="删除未被合并的分支"></a>删除未被合并的分支</h2><p><code>git branch -D 分支名</code> 将原来小写的 d 改为大写的 D</p>
+<h2 id="多人协作的步骤"><a href="#多人协作的步骤" class="headerlink" title="多人协作的步骤"></a>多人协作的步骤</h2><p>查看远程仓库的信息：<code>git remote -v</code></p>
+<ol>
+<li>将远程仓库克隆到本地，执行命令 <code>git clone git@github.com:Crystal1213/learngit.git</code>注意先将本地电脑的 SSH 加入到 github 中，然后再克隆；</li>
+<li>创建并切换到 dev 分支，执行命令 <code>git checkout -b dev origin/dev</code> 本地分支和远程仓库的分支名最好相同，注意：这里是创建远程分支 <code>origin/dev</code> 的对应分支 <code>dev</code></li>
+<li>开发完成后，在本地 commit 后，即执行 <code>git add 文件名</code> <code>git commit -m &quot;备注&quot;</code> 后，将该分支推送到远程 <code>git push origin dev</code></li>
+</ol>
+<p>推送到远程可能出现的问题：<br><code>your current branch is behind</code> ：表明当前的分支落后了，那么需要将远程仓库相应分支的内容 pull （pull = fetch + merge），即将远程的分支拉下来，并和本地合并。执行命令 <code>git pull</code>。如果有冲突，在本地解决冲突后，再合并。</p>
+<p>执行 <code>git pull</code> 出现 <code>no tracking information for the current branch</code> ，意思是没有指定本地分支 <code>dev</code> 和 远程分支 <code>origin/dev</code> 之间的连接，执行命令 <code>git branch --set-upstream-to=origin/dev dev</code></p>
+<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><p>commit 号比较难记，所以用标签来表示 commit 号。</p>
+<h2 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h2><ul>
+<li><code>git tag 标签名</code> ：默认在 HEAD 处创建标签</li>
+<li><code>git tag 标签名 commit号</code> ：在 commit 号处创建标签</li>
+<li><code>git tag -a 标签名 -m “Tagger信息” commit号</code> ：在 commit 号处创建标签的同时增加该标签的一些说明信息，<code>-a</code> 指定标签名，<code>-m</code> 指定说明文字</li>
+<li><code>git tag</code> ：显示所有标签，按照字母顺序排列</li>
+<li><code>git show 标签名</code>：显示该标签处对应的详细信息</li>
+</ul>
+<h2 id="删除标签"><a href="#删除标签" class="headerlink" title="删除标签"></a>删除标签</h2><ul>
+<li><code>git push origin 标签名</code> ：将本地标签推送到远程</li>
+<li><code>git push origin --tags</code> ：将本地所有标签推送到远程</li>
+<li><code>git tag -d 标签名</code> ：删除的本地标签</li>
+<li><code>git push origin :refs/tags/标签名</code> ：删除远程标签，:refs/tags/标签名 这里其实是 .git 目录下对应的目录</li>
+</ul>
+<h1 id="参与开源项目"><a href="#参与开源项目" class="headerlink" title="参与开源项目"></a>参与开源项目</h1><p>基本步骤：</p>
+<ol>
+<li>将他人的开源仓库 fork 到自己的 Github 上；</li>
+<li>将该开源仓库从自己的 Github 上克隆到本地；<code>git clone 项目地址</code></li>
+<li>修改该项目；</li>
+<li>推送一个 pull request 到他人开源仓库。（当然他人可选择接受或不接受）</li>
+</ol>
+<h1 id="本地仓库关联多个远程仓库"><a href="#本地仓库关联多个远程仓库" class="headerlink" title="本地仓库关联多个远程仓库"></a>本地仓库关联多个远程仓库</h1><p>以既关联 github 又关联 gitee 为例，此时已经关联了 github。</p>
+<ol>
+<li>创建 gitee 账号，将本地电脑的 SSH 公钥增加到 gitee 中；</li>
+<li>在 gitee 中创建一个仓库（最好与本地仓库同名）；</li>
+<li>将本地仓库与远程仓库建立关联，<code>git remote add gitee git@gitee.com:yanyufang/learngit.git</code> （注意：这里的 gitee 是远程仓库名，github 中对应的远程仓库名叫 origin，这也是默认的远程仓库名，这两个远程仓库名不能重名，否则会出现 <code> fatal: remote origin already exists.</code>）</li>
+<li>将本地仓库推送到远程，<code>git push gitee master</code></li>
+</ol>
+<p>修改远程仓库名：<code>git remote rename 旧名字 新名字</code><br>删除已关联的远程仓库：<code>git remote remove 远程仓库名</code><br>显示已关联的远程仓库的信息：<code>git remote -v</code><br>修改远程仓库的地址：<code>git remote set-url 远程仓库名 新地址</code></p>
+<h1 id="忽略特殊文件"><a href="#忽略特殊文件" class="headerlink" title="忽略特殊文件"></a>忽略特殊文件</h1><p>一些文件只在本地 git 仓库有，并不想推送到远程。<br>处理方法：</p>
+<ol>
+<li>建立 <code>.gitignore</code> 文件，将想要忽略的文件的写入其中；</li>
+<li>将 <code>.gitignore</code> 文件提交到 git 仓库；</li>
+<li>检查是否创建成功，用 <code>git status</code> 命令，是否显示 <code>working directory clean</code>。</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://i.loli.net/2020/12/19/rExAoiPVfLMm18u.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -299,54 +472,37 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode62.Unique Paths</title>
-    <url>/posts/3208550628/</url>
-    <content><![CDATA[<h2 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h2><p>A robot is located at the top-left corner of a m x n grid (marked ‘Start’ in the diagram below).</p>
-<p>The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked ‘Finish’ in the diagram below).</p>
-<p>How many possible unique paths are there?</p>
-<p><strong>Example 1:</strong><br><img src="https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png" alt="图片"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 7</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 2</span><br><span class="line">Output: 3</span><br><span class="line">Explanation:</span><br><span class="line">From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:</span><br><span class="line">1. Right -&gt; Down -&gt; Down</span><br><span class="line">2. Down -&gt; Down -&gt; Right</span><br><span class="line">3. Down -&gt; Right -&gt; Down</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 7, n &#x3D; 3</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
-<p><strong>Example 4:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 3</span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
+    <title>C++ 字符串比较大小的原理</title>
+    <url>/posts/60551/</url>
+    <content><![CDATA[<!-- TOC -->
 
-<p><strong>Constraints:</strong></p>
 <ul>
-<li>1 &lt;= m, n &lt;= 100</li>
-<li>It’s guaranteed that the answer will be less than or equal to 2 * 109.</li>
+<li><a href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA">问题引出</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86">字符串比较大小的原理</a></li>
 </ul>
-<p><strong>题目链接：</strong></p>
-<ul>
-<li>中文站：<a href="https://leetcode-cn.com/problems/unique-paths/">https://leetcode-cn.com/problems/unique-paths/</a></li>
-<li>英文站：<a href="https://leetcode.com/problems/unique-paths/">https://leetcode.com/problems/unique-paths/</a></li>
-</ul>
-<h2 id="基本思想1：动态规划"><a href="#基本思想1：动态规划" class="headerlink" title="基本思想1：动态规划"></a>基本思想1：动态规划</h2><ul>
-<li>dp[i]：到达该行第i列的路径数</li>
-<li>状态：网格的每一个位置</li>
-<li>选择：从上面到达该位置，或者从左面到达该位置</li>
-<li>状态转移方程：dp[i] = dp[i] + dp[i - 1]，这里其实是用的降维后的dp，<ul>
-<li>等号右面的dp[i]表示上一行第i列的路径数</li>
-<li>等号右面的dp[i - 1]表示本行第i - 1列的路径数</li>
-<li>初始条件：对于第0行和第0列结果都为1</li>
+<!-- /TOC -->
+<h2 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h2><p>笔者在比较两个字符串大小的时候踩过的坑，本意是想利用数值型对应的字符串的形式比较字符串本身的大小，例如：<code>&quot;21&quot; &gt; &quot;111&quot;</code>显然对于数值型的<code>21 &gt; 111</code>】结果肯定为false,但是<code>&quot;21&quot; &gt; &quot;111&quot;</code>的结果为true</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1 = <span class="string">&quot;21&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> n1 = <span class="number">21</span>, n2 = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">bool</span> res = (n1 &gt; n2);   </span><br><span class="line">    <span class="keyword">bool</span> res1 = (s1 &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(n1 &gt; n2) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(s1 &gt; s2) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="字符串比较大小的原理"><a href="#字符串比较大小的原理" class="headerlink" title="字符串比较大小的原理"></a>字符串比较大小的原理</h2><p>首先看下《C++ Primer》这本书中的描述：<img src="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png" alt="image.png"><br>原理：字符串中第一个相异的字符比较的结果<br>明确以下几点：</p>
+<ol>
+<li>两个字符串是可以用【&gt;,&lt;,&gt;=,&lt;=】来比较大小的</li>
+<li>对于数值型对应的字符串形式，<ul>
+<li>两个字符串长度相等的情况下，例如：<code>&quot;12&quot; &lt; &quot;22&quot;</code>，是可以比较出两个字符串对应的原数值型数据的大小关系</li>
+<li>两个字符串长度不等的情况下，无法比较出其对应数值型的大小关系，因为比较的结果取决于从左向右遇到的第一个不等的字符。</li>
 </ul>
 </li>
-</ul>
-<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n, <span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; ++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)&#123;</span><br><span class="line">                dp[j] += (j &gt; <span class="number">0</span>? dp[j - <span class="number">1</span>] : <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                dp[j] += (dp[j - <span class="number">1</span>] <span class="keyword">if</span> j &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>]</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
-<h2 id="基本思想2：dfs"><a href="#基本思想2：dfs" class="headerlink" title="基本思想2：dfs"></a>基本思想2：dfs</h2><ul>
-<li>核心思想：从当前点走到终点的路径数 = 向右的路径的数 + 向左的路径的数</li>
-<li>dfs的过程中，为了提高程序运行的效率，采用记忆化dfs，即保存下当前位置的结果，因为会多次从当前位置进行dfs。（可以画一下dfs的递归树看一下）</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        mp = &#123;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">x: <span class="built_in">int</span>, y: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">            <span class="keyword">nonlocal</span> mp</span><br><span class="line">             </span><br><span class="line">            <span class="keyword">if</span> x == m - <span class="number">1</span> <span class="keyword">and</span> y == n - <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> x == m <span class="keyword">or</span> y == n:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            k = <span class="built_in">str</span>(x) + <span class="string">&quot;*&quot;</span> + <span class="built_in">str</span>(y)</span><br><span class="line">            <span class="keyword">if</span> k <span class="keyword">in</span> mp.keys():</span><br><span class="line">                <span class="keyword">return</span> mp[k]</span><br><span class="line">                </span><br><span class="line">            down = dfs(x + <span class="number">1</span>, y)</span><br><span class="line">            right = dfs(x, y + <span class="number">1</span>)</span><br><span class="line">            mp[k] = down + right</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> mp[k]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        </span><br></pre></td></tr></table></figure>]]></content>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s = <span class="string">&quot;21&quot;</span>, s1 = <span class="string">&quot;11&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>; </span><br><span class="line">    <span class="comment">// TODO：长度相等的字符串比较的结果   </span></span><br><span class="line">    <span class="keyword">bool</span> res = (s &gt; s1);   </span><br><span class="line">    <span class="comment">// TODO：长度不等的字符串比较的结果</span></span><br><span class="line">    <span class="keyword">bool</span> res1 = (s &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;11\&quot;) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;111\&quot;) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;11&quot;</span>) = <span class="number">1</span></span><br><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;111&quot;</span>) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+]]></content>
       <categories>
-        <category>算法</category>
+        <category>编程中踩过的坑</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
-        <tag>dfs</tag>
+        <tag>string</tag>
       </tags>
   </entry>
   <entry>
@@ -406,6 +562,57 @@ And in the round 2, the third senator can just announce the victory since he is 
       </categories>
       <tags>
         <tag>贪心算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode62.Unique Paths</title>
+    <url>/posts/3208550628/</url>
+    <content><![CDATA[<h2 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h2><p>A robot is located at the top-left corner of a m x n grid (marked ‘Start’ in the diagram below).</p>
+<p>The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked ‘Finish’ in the diagram below).</p>
+<p>How many possible unique paths are there?</p>
+<p><strong>Example 1:</strong><br><img src="https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 7</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 2</span><br><span class="line">Output: 3</span><br><span class="line">Explanation:</span><br><span class="line">From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:</span><br><span class="line">1. Right -&gt; Down -&gt; Down</span><br><span class="line">2. Down -&gt; Down -&gt; Right</span><br><span class="line">3. Down -&gt; Right -&gt; Down</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 7, n &#x3D; 3</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 3</span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>1 &lt;= m, n &lt;= 100</li>
+<li>It’s guaranteed that the answer will be less than or equal to 2 * 109.</li>
+</ul>
+<p><strong>题目链接：</strong></p>
+<ul>
+<li>中文站：<a href="https://leetcode-cn.com/problems/unique-paths/">https://leetcode-cn.com/problems/unique-paths/</a></li>
+<li>英文站：<a href="https://leetcode.com/problems/unique-paths/">https://leetcode.com/problems/unique-paths/</a></li>
+</ul>
+<h2 id="基本思想1：动态规划"><a href="#基本思想1：动态规划" class="headerlink" title="基本思想1：动态规划"></a>基本思想1：动态规划</h2><ul>
+<li>dp[i]：到达该行第i列的路径数</li>
+<li>状态：网格的每一个位置</li>
+<li>选择：从上面到达该位置，或者从左面到达该位置</li>
+<li>状态转移方程：dp[i] = dp[i] + dp[i - 1]，这里其实是用的降维后的dp，<ul>
+<li>等号右面的dp[i]表示上一行第i列的路径数</li>
+<li>等号右面的dp[i - 1]表示本行第i - 1列的路径数</li>
+<li>初始条件：对于第0行和第0列结果都为1</li>
+</ul>
+</li>
+</ul>
+<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n, <span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; ++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)&#123;</span><br><span class="line">                dp[j] += (j &gt; <span class="number">0</span>? dp[j - <span class="number">1</span>] : <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                dp[j] += (dp[j - <span class="number">1</span>] <span class="keyword">if</span> j &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>]</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+<h2 id="基本思想2：dfs"><a href="#基本思想2：dfs" class="headerlink" title="基本思想2：dfs"></a>基本思想2：dfs</h2><ul>
+<li>核心思想：从当前点走到终点的路径数 = 向右的路径的数 + 向左的路径的数</li>
+<li>dfs的过程中，为了提高程序运行的效率，采用记忆化dfs，即保存下当前位置的结果，因为会多次从当前位置进行dfs。（可以画一下dfs的递归树看一下）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        mp = &#123;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">x: <span class="built_in">int</span>, y: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">            <span class="keyword">nonlocal</span> mp</span><br><span class="line">             </span><br><span class="line">            <span class="keyword">if</span> x == m - <span class="number">1</span> <span class="keyword">and</span> y == n - <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> x == m <span class="keyword">or</span> y == n:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            k = <span class="built_in">str</span>(x) + <span class="string">&quot;*&quot;</span> + <span class="built_in">str</span>(y)</span><br><span class="line">            <span class="keyword">if</span> k <span class="keyword">in</span> mp.keys():</span><br><span class="line">                <span class="keyword">return</span> mp[k]</span><br><span class="line">                </span><br><span class="line">            down = dfs(x + <span class="number">1</span>, y)</span><br><span class="line">            right = dfs(x, y + <span class="number">1</span>)</span><br><span class="line">            mp[k] = down + right</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> mp[k]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        </span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>dfs</tag>
       </tags>
   </entry>
   <entry>
@@ -524,54 +731,6 @@ Since not every customer received correct change, the answer is false.</code></p
       </tags>
   </entry>
   <entry>
-    <title>leetcode861.Score After Flipping Matrix</title>
-    <url>/posts/12814/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E8%B4%AA%E5%BF%83">基本思想：贪心</a><ul>
-<li><a href="#cpp%E7%89%88%E6%9C%AC">cpp版本</a></li>
-<li><a href="#python%E7%89%88%E6%9C%AC">python版本</a></li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
-
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>We have a two dimensional matrix A where each value is 0 or 1.</p>
-<p>A move consists of choosing any row or column, and toggling each value in that row or column: changing all 0s to 1s, and all 1s to 0s.</p>
-<p>After making any number of moves, every row of this matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.</p>
-<p>Return the highest possible score.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Input: [[<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">Output: <span class="number">39</span></span><br><span class="line">Explanation:</span><br><span class="line">Toggled to [[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]].</span><br><span class="line"><span class="number">0b1111</span> + <span class="number">0b1001</span> + <span class="number">0b1111</span> = <span class="number">15</span> + <span class="number">9</span> + <span class="number">15</span> = <span class="number">39</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>Note:</strong></p>
-<ul>
-<li>1 &lt;= A.length &lt;= 20</li>
-<li>1 &lt;= A[0].length &lt;= 20</li>
-<li>A[i][j] is 0 or 1.</li>
-</ul>
-<h2 id="基本思想：贪心"><a href="#基本思想：贪心" class="headerlink" title="基本思想：贪心"></a>基本思想：贪心</h2><p>首先明确一点：对于最终的结果而言，每一行每一列翻转的顺序对最终结果没有影响，即得到最优结果的最后一步是翻转第一行，那么最先翻转第一行和最后翻转第一行对最终的结果没有任何影响。</p>
-<p>基于上述思想：</p>
-<ul>
-<li>为了保证最终的结果最大，首先将第一列全部处理成1，也就是将第一列不是1的行进行翻转</li>
-<li>除第一列外的其他列，如果当前列1的个数大于0的个数则进行翻转，同时记录该列的结果</li>
-</ul>
-<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">matrixScore</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO：首先将第一列通过行翻转都转化成 1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(A[i][<span class="number">0</span>] == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A[i].size(); ++j)&#123;</span><br><span class="line">                    A[i][j] = !A[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：初始化为第一列的结果</span></span><br><span class="line">        <span class="keyword">int</span> res = <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - <span class="number">1</span>) * A.size();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：单独处理每一列,只需保证每一列中的1的个数大于0的个数即可, 并不是真的翻转，只是保存每列的每个元素的得分</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; A[<span class="number">0</span>].size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A.size(); ++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(A[j][i])</span><br><span class="line">                    ++cnt;</span><br><span class="line">            &#125;</span><br><span class="line">            res += <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - i - <span class="number">1</span>) * max(cnt, <span class="keyword">int</span>(A.size() - cnt));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><ul>
-<li>说明：代码和cpp版本稍微有一点区别，未将第一列单独处理</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">matrixScore</span>(<span class="params">self, A: List[List[<span class="built_in">int</span>]]</span>) -&gt; int:</span></span><br><span class="line">        row = <span class="built_in">len</span>(A)</span><br><span class="line">        col = <span class="built_in">len</span>(A[<span class="number">0</span>])</span><br><span class="line">        res = <span class="built_in">pow</span>(<span class="number">2</span>, col - <span class="number">1</span>) * row</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(col):</span><br><span class="line">            <span class="keyword">if</span> i:</span><br><span class="line">                <span class="comment"># <span class="doctag">TODO:</span>统计该列中1的个数，注意看下对应的该行元素是否为1来决定该行是否被翻转过</span></span><br><span class="line">                cnt = <span class="number">0</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(row):</span><br><span class="line">                    <span class="keyword">if</span> A[j][i] == A[j][<span class="number">0</span>] :</span><br><span class="line">                        cnt += <span class="number">1</span></span><br><span class="line">                res += <span class="built_in">pow</span>(<span class="number">2</span>, col - i - <span class="number">1</span>) * <span class="built_in">max</span>(cnt, row - cnt)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>贪心算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python 中 nonlocal 和 global 的作用</title>
     <url>/posts/2750345904/</url>
     <content><![CDATA[<h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>如下代码，由于对 cpp 十分熟悉，想当然的认为变量 a 的作用域为它所在的这个函数，包括其嵌套函数中也可以使用，然而这种想法在 python 中完全不适用。</p>
@@ -624,6 +783,54 @@ Since not every customer received correct change, the answer is false.</code></p
       <tags>
         <tag>nonlocal</tag>
         <tag>global</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode861.Score After Flipping Matrix</title>
+    <url>/posts/12814/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E8%B4%AA%E5%BF%83">基本思想：贪心</a><ul>
+<li><a href="#cpp%E7%89%88%E6%9C%AC">cpp版本</a></li>
+<li><a href="#python%E7%89%88%E6%9C%AC">python版本</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>We have a two dimensional matrix A where each value is 0 or 1.</p>
+<p>A move consists of choosing any row or column, and toggling each value in that row or column: changing all 0s to 1s, and all 1s to 0s.</p>
+<p>After making any number of moves, every row of this matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.</p>
+<p>Return the highest possible score.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Input: [[<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">Output: <span class="number">39</span></span><br><span class="line">Explanation:</span><br><span class="line">Toggled to [[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]].</span><br><span class="line"><span class="number">0b1111</span> + <span class="number">0b1001</span> + <span class="number">0b1111</span> = <span class="number">15</span> + <span class="number">9</span> + <span class="number">15</span> = <span class="number">39</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong></p>
+<ul>
+<li>1 &lt;= A.length &lt;= 20</li>
+<li>1 &lt;= A[0].length &lt;= 20</li>
+<li>A[i][j] is 0 or 1.</li>
+</ul>
+<h2 id="基本思想：贪心"><a href="#基本思想：贪心" class="headerlink" title="基本思想：贪心"></a>基本思想：贪心</h2><p>首先明确一点：对于最终的结果而言，每一行每一列翻转的顺序对最终结果没有影响，即得到最优结果的最后一步是翻转第一行，那么最先翻转第一行和最后翻转第一行对最终的结果没有任何影响。</p>
+<p>基于上述思想：</p>
+<ul>
+<li>为了保证最终的结果最大，首先将第一列全部处理成1，也就是将第一列不是1的行进行翻转</li>
+<li>除第一列外的其他列，如果当前列1的个数大于0的个数则进行翻转，同时记录该列的结果</li>
+</ul>
+<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">matrixScore</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO：首先将第一列通过行翻转都转化成 1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(A[i][<span class="number">0</span>] == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A[i].size(); ++j)&#123;</span><br><span class="line">                    A[i][j] = !A[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：初始化为第一列的结果</span></span><br><span class="line">        <span class="keyword">int</span> res = <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - <span class="number">1</span>) * A.size();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：单独处理每一列,只需保证每一列中的1的个数大于0的个数即可, 并不是真的翻转，只是保存每列的每个元素的得分</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; A[<span class="number">0</span>].size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A.size(); ++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(A[j][i])</span><br><span class="line">                    ++cnt;</span><br><span class="line">            &#125;</span><br><span class="line">            res += <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - i - <span class="number">1</span>) * max(cnt, <span class="keyword">int</span>(A.size() - cnt));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><ul>
+<li>说明：代码和cpp版本稍微有一点区别，未将第一列单独处理</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">matrixScore</span>(<span class="params">self, A: List[List[<span class="built_in">int</span>]]</span>) -&gt; int:</span></span><br><span class="line">        row = <span class="built_in">len</span>(A)</span><br><span class="line">        col = <span class="built_in">len</span>(A[<span class="number">0</span>])</span><br><span class="line">        res = <span class="built_in">pow</span>(<span class="number">2</span>, col - <span class="number">1</span>) * row</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(col):</span><br><span class="line">            <span class="keyword">if</span> i:</span><br><span class="line">                <span class="comment"># <span class="doctag">TODO:</span>统计该列中1的个数，注意看下对应的该行元素是否为1来决定该行是否被翻转过</span></span><br><span class="line">                cnt = <span class="number">0</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(row):</span><br><span class="line">                    <span class="keyword">if</span> A[j][i] == A[j][<span class="number">0</span>] :</span><br><span class="line">                        cnt += <span class="number">1</span></span><br><span class="line">                res += <span class="built_in">pow</span>(<span class="number">2</span>, col - i - <span class="number">1</span>) * <span class="built_in">max</span>(cnt, row - cnt)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>贪心算法</tag>
       </tags>
   </entry>
   <entry>
@@ -751,173 +958,6 @@ Since not every customer received correct change, the answer is false.</code></p
       </categories>
       <tags>
         <tag>工具说明</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 学习笔记</title>
-    <url>/posts/1/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C">文件操作</a><ul>
-<li><a href="#git-%E5%9F%BA%E7%A1%80">git 基础</a></li>
-<li><a href="#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93">创建版本库</a></li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E5%B7%A5%E4%BD%9C%E5%8C%BA%E7%8A%B6%E6%80%81">查看工作区状态</a></li>
-<li><a href="#%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E4%B9%8B%E9%97%B4%E5%88%87%E6%8D%A2">在不同版本之间切换</a></li>
-<li><a href="#git%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%92%8C%E6%9A%82%E5%AD%98%E5%8C%BA">git工作区和暂存区</a></li>
-<li><a href="#%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9">撤销修改</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6">删除文件</a></li>
-</ul>
-</li>
-<li><a href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">远程仓库</a><ul>
-<li><a href="#%E5%B0%86%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%BB%BA%E7%AB%8B%E5%85%B3%E8%81%94">将本地仓库和远程仓库建立关联</a></li>
-<li><a href="#%E5%B0%86%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%85%8B%E9%9A%86%E5%88%B0%E6%9C%AC%E5%9C%B0">将远程仓库克隆到本地</a></li>
-</ul>
-</li>
-<li><a href="#%E5%88%86%E6%94%AF">分支</a><ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E4%BA%8E%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF">创建于合并分支</a></li>
-<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E5%87%BA%E7%8E%B0%E5%86%B2%E7%AA%81">合并分支出现冲突</a></li>
-<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E6%97%B6%E4%BF%9D%E7%95%99%E5%8E%86%E5%8F%B2%E5%88%86%E6%94%AF">合并分支时保留历史分支</a></li>
-<li><a href="#%E4%BF%AE%E5%A4%8D%E5%85%B6%E4%BB%96%E5%88%86%E6%94%AF%E7%9A%84-bug-%E6%97%B6%E4%BF%9D%E5%AD%98%E8%AF%A5%E5%88%86%E6%94%AF%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%8E%B0%E5%9C%BA">修复其他分支的 bug 时，保存该分支的工作现场</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AA%E8%A2%AB%E5%90%88%E5%B9%B6%E7%9A%84%E5%88%86%E6%94%AF">删除未被合并的分支</a></li>
-<li><a href="#%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C%E7%9A%84%E6%AD%A5%E9%AA%A4">多人协作的步骤</a></li>
-</ul>
-</li>
-<li><a href="#%E6%A0%87%E7%AD%BE">标签</a><ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E6%A0%87%E7%AD%BE">创建标签</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%A0%87%E7%AD%BE">删除标签</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E4%B8%8E%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE">参与开源项目</a></li>
-<li><a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E5%A4%9A%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">本地仓库关联多个远程仓库</a></li>
-<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
-</ul>
-<!-- /TOC -->
-
-<p>本文主要讲述 git 相关的命令操作</p>
-<a id="more"></a>
-<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="git-基础"><a href="#git-基础" class="headerlink" title="git 基础"></a>git 基础</h2><p>git 文件的三种状态：</p>
-<ul>
-<li>已提交（committed）：表示该文件已经被安全地保存在本地数据库中了</li>
-<li>已修改（modified）：表示修改了某个文件，但还没有提交保存</li>
-<li>已暂存（staged）：把已修改的文件放在下次提交时要保存的清单中</li>
-</ul>
-<p>Git 目录：（译注：如果 git clone 出来的话，就是其中 .git 的目录；如果 <code>git clone --bare</code> 的话，新建的目录本身就是 Git 目录。），它是 Git 用来保存元数据和对象数据库的地方。该目录非常重要，每次克隆镜像仓库的时候，实际拷贝的就是这个目录里面的数据。<br>文件流转的三个工作区域：</p>
-<ul>
-<li>Git 的工作目录：从项目中取出某个版本的所有文件和目录，用以开始后续工作。这些文件实际上都是从 Git 目录中的压缩对象数据库中提取出来的，接下来就可以在工作目录中对这些文件进行编辑。</li>
-<li>暂存区域：所谓的暂存区域只不过是个简单的文件，一般都放在 Git 目录中。有时候人们会把这个文件叫做索引文件。</li>
-<li>本地仓库</li>
-</ul>
-<p>基本的 Git 工作流程如下：</p>
-<ol>
-<li>在工作目录中修改某些文件。</li>
-<li>对修改后的文件进行快照，然后保存到暂存区域。</li>
-<li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中。</li>
-</ol>
-<p>所以，我们可以从文件所处的位置来判断状态：如果是 Git 目录中保存着的特定版本文件，就属于已提交状态；如果作了修改并已放入暂存区域，就属于已暂存状态；如果自上次取出后，作了修改但还没有放到暂存区域，就是已修改状态。</p>
-<hr>
-<p>查看已有的配置信息的命令 <code>git config --list</code><br>配置用户名和邮箱：<code>git config --global user.name &quot;名字&quot;</code> <code>git config --global user.email &quot;邮箱&quot;</code> （<code>global</code> 参数表示这台机器上所有的 git 仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和邮箱）</p>
-<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><ol>
-<li>新建一个空的文件夹 learngit ，在该文件夹下执行 <code>git init</code> 命令，初始化一个 Git 仓库。</li>
-<li>在 learngit 这个文件夹下新建一个或几个文件，创建文本文件最好用 Notepad++ ，不要用 windows 自带的文本文件，涉及到编码问题</li>
-<li>将文件添加到 Git 仓库，分两步：<ul>
-<li>使用命令git add <file>，注意，可反复多次使用，添加多个文件；<file>指的是文件名</li>
-<li>使用命令git commit -m <message>，完成。<message>表示一些提示性的信息</li>
-</ul>
-</li>
-</ol>
-<h2 id="查看工作区状态"><a href="#查看工作区状态" class="headerlink" title="查看工作区状态"></a>查看工作区状态</h2><ul>
-<li>查看工作区的状态，执行命令 <code>git status</code></li>
-<li>如果文件有被修改，查看文件的不同，执行命令 <code>git diff &lt;文件名&gt;</code>。（比较的是工作区的文件和暂存区的文件的不同，如果想比较当前文件和提交到分支中文件的不同，需要明确指明，例如用命令 <code>git diff HEAD -- readme.txt</code> 比较工作区中的readme.txt文件和提交到分支的readme.txt的不同）</li>
-</ul>
-<h2 id="在不同版本之间切换"><a href="#在不同版本之间切换" class="headerlink" title="在不同版本之间切换"></a>在不同版本之间切换</h2><ul>
-<li>HEAD 指向的版本就是当前版本（HEAD^ 表示上一个版本，HEAD^^ 表示上上个版本，如果是往上100个版本，用 HEAD~100 来表示），因此，Git 允许我们在版本的历史之间穿梭，使用命令 <code>git reset --hard commit_id</code>，commit_id指的是每一个版本的编号，也可以用 HEAD^这种形式来表示</li>
-<li><code>git log</code> 命令可以查看提交历史，以便确定要回退到哪个版本。<code>git log --pretty=oneline</code> 将提交的历史在一行显示</li>
-<li><code>git reflog</code> 命令查看命令历史，以便确定要回到未来的哪个版本。</li>
-</ul>
-<h2 id="git工作区和暂存区"><a href="#git工作区和暂存区" class="headerlink" title="git工作区和暂存区"></a>git工作区和暂存区</h2><ul>
-<li>工作区：是指我们所操作的文件所属的文件夹，例如上述例子中的 learngit 文件夹</li>
-<li>暂存区：执行 <code>git add &quot;文件名&quot;</code> 命令后，文件会从工作区转移到暂存区</li>
-<li>分支：执行 <code>git commit -m &quot;说明信息&quot;</code> 命令后，文件会从暂存区提交到分支</li>
-</ul>
-<h2 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h2><ul>
-<li>改变了工作区的内容，想退回到原来（最近一次）的状态，执行命令 <code>git checkout -- &quot;文件名&quot;</code></li>
-<li>使文件从暂存区回到工作区，执行命令 <code>git reset HEAD &quot;文件名&quot;</code></li>
-</ul>
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><p><code>git rm &quot;文件名&quot;</code> ：删除分支中的文件<br>如果误删了（在文件夹中删除了，但是分支中没有删除）可以用 <code>git checkout -- &quot;文件名&quot;</code> 使文件夹中该文件的内容恢复到和分支中一样的情形</p>
-<h1 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h1><h2 id="将本地仓库和远程仓库建立关联"><a href="#将本地仓库和远程仓库建立关联" class="headerlink" title="将本地仓库和远程仓库建立关联"></a>将本地仓库和远程仓库建立关联</h2><ol>
-<li>首先在远程仓库中添加本地仓库的 SSH公钥<ul>
-<li>执行 <code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code></li>
-<li>此时，会在用户主目录下出现 <code>.ssh</code> 目录，该目录下有 <code>id_rsa</code> （私钥）和 <code>id_rsa.pub</code> （公钥）两个文件</li>
-<li>在 github 上为该电脑添加 SSH Keys，将 <code>id_rsa.pub</code> 文件中的内容拷贝到 Key 中 </li>
-</ul>
-</li>
-<li>在远程仓库中建立一个新的 repository ，将本地仓库和远程仓库之间建立关联，执行命令：<code> git remote add origin git@github.com:Crystal1213/learngit.git</code></li>
-<li>将本地仓库的内容推送到远程，执行命令 <code>git push -u origin master</code> origin 是远程库的名字，master 是当前分支，这里加了 <code>-u</code> ，Git 不但会把本地的 master 分支内容推送的远程新的 master 分支，还会把本地的 master 分支和远程的 master 分支关联起来，在以后的推送或者拉取时就可以简化命令。注：以后推送时，只需执行 <code>git push origin master</code></li>
-</ol>
-<h2 id="将远程仓库克隆到本地"><a href="#将远程仓库克隆到本地" class="headerlink" title="将远程仓库克隆到本地"></a>将远程仓库克隆到本地</h2><p><code>git clone 远程仓库地址</code></p>
-<h1 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h1><p>创建一个自己的分支，当所有工作都做完后合并到原来的分支</p>
-<h2 id="创建于合并分支"><a href="#创建于合并分支" class="headerlink" title="创建于合并分支"></a>创建于合并分支</h2><ul>
-<li>查看分支：<code>git branch</code></li>
-<li>创建分支：<code>git branch 分支名</code></li>
-<li>切换分支：<code>git checkout 分支名</code> 或者 <code>git switch 分支名</code></li>
-<li>创建并切换分支：<code>git checkout -b 分支名</code> 或者 <code>git switch -c 分支名</code></li>
-<li>合并到当前分支分支：<code>git merge 分支名</code></li>
-<li>删除分支：<code>git branch -d 分支名</code></li>
-</ul>
-<h2 id="合并分支出现冲突"><a href="#合并分支出现冲突" class="headerlink" title="合并分支出现冲突"></a>合并分支出现冲突</h2><p>手动修改出现冲突的文件，可以用命令 <code>git log --graph</code> 查看分支合并图<br><code>git log --graph --pretty=oneline --abbrev-commit</code></p>
-<h2 id="合并分支时保留历史分支"><a href="#合并分支时保留历史分支" class="headerlink" title="合并分支时保留历史分支"></a>合并分支时保留历史分支</h2><p>合并分支：默认情况下是 <code>Fast Forward</code> 模式，也就是合并后，会丢掉分支信息<br>禁止使用 <code>Fast Forward</code> 模式，在合并分支时，就会生成一个新的 commit，这样就能从分支历史上看出分支信息，合并分支时执行命令 <code>git merge --no-ff -m &quot;提示信息&quot; 待合并的分支名</code></p>
-<h2 id="修复其他分支的-bug-时，保存该分支的工作现场"><a href="#修复其他分支的-bug-时，保存该分支的工作现场" class="headerlink" title="修复其他分支的 bug 时，保存该分支的工作现场"></a>修复其他分支的 bug 时，保存该分支的工作现场</h2><p>保存工作现场命令：<code>git stash</code> （保存哪个分支的工作现场，就在哪个分支上执行）<br>查看已保存的工作现场：<code>git stash list</code><br>恢复工作现场：</p>
-<ul>
-<li><code>git stash pop</code> </li>
-<li>或者 <code>git stash apply stash@&#123;数字&#125;</code> 此时 list 中还有此工作现场，需要执行 <code>git stash drop</code> 来将该工作现场删除</li>
-</ul>
-<p>注：如果想将其他分支修复 bug 后的结果，合并到该分支，在恢复该分支的工作现场之前，执行 <code>git cherry-pick &lt;commit&gt;</code> commit 是在执行 <code>git commit -m &quot;&quot;</code> 命令后，显示出来的那一串字母加数字，例如：<code>1d4b803</code></p>
-<h2 id="删除未被合并的分支"><a href="#删除未被合并的分支" class="headerlink" title="删除未被合并的分支"></a>删除未被合并的分支</h2><p><code>git branch -D 分支名</code> 将原来小写的 d 改为大写的 D</p>
-<h2 id="多人协作的步骤"><a href="#多人协作的步骤" class="headerlink" title="多人协作的步骤"></a>多人协作的步骤</h2><p>查看远程仓库的信息：<code>git remote -v</code></p>
-<ol>
-<li>将远程仓库克隆到本地，执行命令 <code>git clone git@github.com:Crystal1213/learngit.git</code>注意先将本地电脑的 SSH 加入到 github 中，然后再克隆；</li>
-<li>创建并切换到 dev 分支，执行命令 <code>git checkout -b dev origin/dev</code> 本地分支和远程仓库的分支名最好相同，注意：这里是创建远程分支 <code>origin/dev</code> 的对应分支 <code>dev</code></li>
-<li>开发完成后，在本地 commit 后，即执行 <code>git add 文件名</code> <code>git commit -m &quot;备注&quot;</code> 后，将该分支推送到远程 <code>git push origin dev</code></li>
-</ol>
-<p>推送到远程可能出现的问题：<br><code>your current branch is behind</code> ：表明当前的分支落后了，那么需要将远程仓库相应分支的内容 pull （pull = fetch + merge），即将远程的分支拉下来，并和本地合并。执行命令 <code>git pull</code>。如果有冲突，在本地解决冲突后，再合并。</p>
-<p>执行 <code>git pull</code> 出现 <code>no tracking information for the current branch</code> ，意思是没有指定本地分支 <code>dev</code> 和 远程分支 <code>origin/dev</code> 之间的连接，执行命令 <code>git branch --set-upstream-to=origin/dev dev</code></p>
-<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><p>commit 号比较难记，所以用标签来表示 commit 号。</p>
-<h2 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h2><ul>
-<li><code>git tag 标签名</code> ：默认在 HEAD 处创建标签</li>
-<li><code>git tag 标签名 commit号</code> ：在 commit 号处创建标签</li>
-<li><code>git tag -a 标签名 -m “Tagger信息” commit号</code> ：在 commit 号处创建标签的同时增加该标签的一些说明信息，<code>-a</code> 指定标签名，<code>-m</code> 指定说明文字</li>
-<li><code>git tag</code> ：显示所有标签，按照字母顺序排列</li>
-<li><code>git show 标签名</code>：显示该标签处对应的详细信息</li>
-</ul>
-<h2 id="删除标签"><a href="#删除标签" class="headerlink" title="删除标签"></a>删除标签</h2><ul>
-<li><code>git push origin 标签名</code> ：将本地标签推送到远程</li>
-<li><code>git push origin --tags</code> ：将本地所有标签推送到远程</li>
-<li><code>git tag -d 标签名</code> ：删除的本地标签</li>
-<li><code>git push origin :refs/tags/标签名</code> ：删除远程标签，:refs/tags/标签名 这里其实是 .git 目录下对应的目录</li>
-</ul>
-<h1 id="参与开源项目"><a href="#参与开源项目" class="headerlink" title="参与开源项目"></a>参与开源项目</h1><p>基本步骤：</p>
-<ol>
-<li>将他人的开源仓库 fork 到自己的 Github 上；</li>
-<li>将该开源仓库从自己的 Github 上克隆到本地；<code>git clone 项目地址</code></li>
-<li>修改该项目；</li>
-<li>推送一个 pull request 到他人开源仓库。（当然他人可选择接受或不接受）</li>
-</ol>
-<h1 id="本地仓库关联多个远程仓库"><a href="#本地仓库关联多个远程仓库" class="headerlink" title="本地仓库关联多个远程仓库"></a>本地仓库关联多个远程仓库</h1><p>以既关联 github 又关联 gitee 为例，此时已经关联了 github。</p>
-<ol>
-<li>创建 gitee 账号，将本地电脑的 SSH 公钥增加到 gitee 中；</li>
-<li>在 gitee 中创建一个仓库（最好与本地仓库同名）；</li>
-<li>将本地仓库与远程仓库建立关联，<code>git remote add gitee git@gitee.com:yanyufang/learngit.git</code> （注意：这里的 gitee 是远程仓库名，github 中对应的远程仓库名叫 origin，这也是默认的远程仓库名，这两个远程仓库名不能重名，否则会出现 <code> fatal: remote origin already exists.</code>）</li>
-<li>将本地仓库推送到远程，<code>git push gitee master</code></li>
-</ol>
-<p>修改远程仓库名：<code>git remote rename 旧名字 新名字</code><br>删除已关联的远程仓库：<code>git remote remove 远程仓库名</code><br>显示已关联的远程仓库的信息：<code>git remote -v</code><br>修改远程仓库的地址：<code>git remote set-url 远程仓库名 新地址</code></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://i.loli.net/2020/12/19/rExAoiPVfLMm18u.png" alt="image.png"></p>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
 </search>
