@@ -3,7 +3,22 @@
   <entry>
     <title>Linux 学习笔记</title>
     <url>/posts/3003968415/</url>
-    <content><![CDATA[<p>主要讲解 Linux 相关的命令，以及 Linux 相关的知识</p>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E9%80%9A%E7%94%A8%E6%A0%BC%E5%BC%8F">命令的通用格式</a></li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E7%9B%B8%E5%85%B3%E7%83%AD%E9%94%AE">命令相关热键</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E7%9A%84%E5%85%B7%E4%BD%93%E8%AF%B4%E6%98%8E">查看命令的具体说明</a></li>
+<li><a href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8-nano">文本编辑器 nano</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81%E4%B8%8E%E5%85%B3%E6%9C%BA%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4">查看系统状态与关机相关命令</a></li>
+<li><a href="#%E6%A1%A3%E6%A1%88%E6%9D%83%E9%99%90%E7%AC%AC%E5%85%AD%E7%AB%A0">档案权限（第六章）</a></li>
+<li><a href="#%E7%9B%AE%E5%BD%95%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C%E7%AC%AC%E4%B8%83%E7%AB%A0">目录相关操作（第七章）</a></li>
+<li><a href="#%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AC%AC%E5%85%AB%E7%AB%A0">磁盘与文件系统（第八章）</a></li>
+</ul>
+<!-- /TOC -->
+
+
+<p>主要讲解 Linux 相关的命令，以及 Linux 相关的知识</p>
 <a id="more"></a>
 <h2 id="命令的通用格式"><a href="#命令的通用格式" class="headerlink" title="命令的通用格式"></a>命令的通用格式</h2><blockquote>
 <p>command [-options] paramter1 parameter1 parameter2…</p>
