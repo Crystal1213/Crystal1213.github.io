@@ -1,6 +1,684 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C++ 字符串比较大小的原理</title>
+    <url>/posts/60551/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA">问题引出</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86">字符串比较大小的原理</a></li>
+</ul>
+<!-- /TOC -->
+<h2 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h2><p>笔者在比较两个字符串大小的时候踩过的坑，本意是想利用数值型对应的字符串的形式比较字符串本身的大小，例如：<code>&quot;21&quot; &gt; &quot;111&quot;</code>显然对于数值型的<code>21 &gt; 111</code>】结果肯定为false,但是<code>&quot;21&quot; &gt; &quot;111&quot;</code>的结果为true</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1 = <span class="string">&quot;21&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> n1 = <span class="number">21</span>, n2 = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">bool</span> res = (n1 &gt; n2);   </span><br><span class="line">    <span class="keyword">bool</span> res1 = (s1 &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(n1 &gt; n2) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(s1 &gt; s2) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="字符串比较大小的原理"><a href="#字符串比较大小的原理" class="headerlink" title="字符串比较大小的原理"></a>字符串比较大小的原理</h2><p>首先看下《C++ Primer》这本书中的描述：<img src="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png" alt="image.png"><br>原理：字符串中第一个相异的字符比较的结果<br>明确以下几点：</p>
+<ol>
+<li>两个字符串是可以用【&gt;,&lt;,&gt;=,&lt;=】来比较大小的</li>
+<li>对于数值型对应的字符串形式，<ul>
+<li>两个字符串长度相等的情况下，例如：<code>&quot;12&quot; &lt; &quot;22&quot;</code>，是可以比较出两个字符串对应的原数值型数据的大小关系</li>
+<li>两个字符串长度不等的情况下，无法比较出其对应数值型的大小关系，因为比较的结果取决于从左向右遇到的第一个不等的字符。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s = <span class="string">&quot;21&quot;</span>, s1 = <span class="string">&quot;11&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>; </span><br><span class="line">    <span class="comment">// TODO：长度相等的字符串比较的结果   </span></span><br><span class="line">    <span class="keyword">bool</span> res = (s &gt; s1);   </span><br><span class="line">    <span class="comment">// TODO：长度不等的字符串比较的结果</span></span><br><span class="line">    <span class="keyword">bool</span> res1 = (s &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;11\&quot;) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;111\&quot;) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;11&quot;</span>) = <span class="number">1</span></span><br><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;111&quot;</span>) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>编程中踩过的坑</category>
+      </categories>
+      <tags>
+        <tag>string</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>My first blog</title>
+    <url>/posts/11206/</url>
+    <content><![CDATA[<p>2020年12月6日晚8：52分  周日 主楼实验室 沈阳</p>
+<p>在2020年的最后一个月搭建好了个人博客，即将开始博客之旅，将自己的学习笔记，成长轨迹，生活中的点滴，记录在这里。初次搭完博客，还有些许的成就感，当然要完善的地方还有很多，目前而言能够发布文章，以及文章的一些统计功能，还有站点的一些统计功能。一些按钮还未设置好。</p>
+<p>博客的主题采用hexo中使用量最多的next主题，重点考虑到用的人多，遇到问题更容易找到解决办法。</p>
+<p>新的开始，加油~~~</p>
+]]></content>
+      <categories>
+        <category>成长轨迹</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode62.Unique Paths</title>
+    <url>/posts/3208550628/</url>
+    <content><![CDATA[<h2 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h2><p>A robot is located at the top-left corner of a m x n grid (marked ‘Start’ in the diagram below).</p>
+<p>The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked ‘Finish’ in the diagram below).</p>
+<p>How many possible unique paths are there?</p>
+<p><strong>Example 1:</strong><br><img src="https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 7</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 2</span><br><span class="line">Output: 3</span><br><span class="line">Explanation:</span><br><span class="line">From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:</span><br><span class="line">1. Right -&gt; Down -&gt; Down</span><br><span class="line">2. Down -&gt; Down -&gt; Right</span><br><span class="line">3. Down -&gt; Right -&gt; Down</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 7, n &#x3D; 3</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 3</span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>1 &lt;= m, n &lt;= 100</li>
+<li>It’s guaranteed that the answer will be less than or equal to 2 * 109.</li>
+</ul>
+<p><strong>题目链接：</strong></p>
+<ul>
+<li>中文站：<a href="https://leetcode-cn.com/problems/unique-paths/">https://leetcode-cn.com/problems/unique-paths/</a></li>
+<li>英文站：<a href="https://leetcode.com/problems/unique-paths/">https://leetcode.com/problems/unique-paths/</a></li>
+</ul>
+<h2 id="基本思想1：动态规划"><a href="#基本思想1：动态规划" class="headerlink" title="基本思想1：动态规划"></a>基本思想1：动态规划</h2><ul>
+<li>dp[i]：到达该行第i列的路径数</li>
+<li>状态：网格的每一个位置</li>
+<li>选择：从上面到达该位置，或者从左面到达该位置</li>
+<li>状态转移方程：dp[i] = dp[i] + dp[i - 1]，这里其实是用的降维后的dp，<ul>
+<li>等号右面的dp[i]表示上一行第i列的路径数</li>
+<li>等号右面的dp[i - 1]表示本行第i - 1列的路径数</li>
+<li>初始条件：对于第0行和第0列结果都为1</li>
+</ul>
+</li>
+</ul>
+<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n, <span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; ++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)&#123;</span><br><span class="line">                dp[j] += (j &gt; <span class="number">0</span>? dp[j - <span class="number">1</span>] : <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                dp[j] += (dp[j - <span class="number">1</span>] <span class="keyword">if</span> j &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>]</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+<h2 id="基本思想2：dfs"><a href="#基本思想2：dfs" class="headerlink" title="基本思想2：dfs"></a>基本思想2：dfs</h2><ul>
+<li>核心思想：从当前点走到终点的路径数 = 向右的路径的数 + 向左的路径的数</li>
+<li>dfs的过程中，为了提高程序运行的效率，采用记忆化dfs，即保存下当前位置的结果，因为会多次从当前位置进行dfs。（可以画一下dfs的递归树看一下）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        mp = &#123;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">x: <span class="built_in">int</span>, y: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">            <span class="keyword">nonlocal</span> mp</span><br><span class="line">             </span><br><span class="line">            <span class="keyword">if</span> x == m - <span class="number">1</span> <span class="keyword">and</span> y == n - <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> x == m <span class="keyword">or</span> y == n:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            k = <span class="built_in">str</span>(x) + <span class="string">&quot;*&quot;</span> + <span class="built_in">str</span>(y)</span><br><span class="line">            <span class="keyword">if</span> k <span class="keyword">in</span> mp.keys():</span><br><span class="line">                <span class="keyword">return</span> mp[k]</span><br><span class="line">                </span><br><span class="line">            down = dfs(x + <span class="number">1</span>, y)</span><br><span class="line">            right = dfs(x, y + <span class="number">1</span>)</span><br><span class="line">            mp[k] = down + right</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> mp[k]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        </span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>dfs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode649.Dota2 Senate</title>
+    <url>/posts/2004464160/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>In the world of Dota2, there are two parties: the Radiant and the Dire.</p>
+<p>The Dota2 senate consists of senators coming from two parties. Now the senate wants to make a decision about a change in the Dota2 game. The voting for this change is a round-based procedure. In each round, each senator can exercise one of the two rights:</p>
+<p>Ban one senator’s right:</p>
+<ul>
+<li>A senator can make another senator lose all his rights in this and all the following rounds.<br>Announce the victory:</li>
+<li>If this senator found the senators who still have rights to vote are all from the same party, he can announce the victory and make the decision about the change in the game.</li>
+</ul>
+<p>Given a string representing each senator’s party belonging. The character ‘R’ and ‘D’ represent the Radiant party and the Dire party respectively. Then if there are n senators, the size of the given string will be n.</p>
+<p>The round-based procedure starts from the first senator to the last senator in the given order. This procedure will last until the end of voting. All the senators who have lost their rights will be skipped during the procedure.</p>
+<p>Suppose every senator is smart enough and will play the best strategy for his own party, you need to predict which party will finally announce the victory and make the change in the Dota2 game. The output should be Radiant or Dire.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: &quot;RD&quot;
+Output: &quot;Radiant&quot;
+Explanation: The first senator comes from Radiant and he can just ban the next senator&#39;s right in the round 1. 
+And the second senator can&#39;t exercise any rights any more since his right has been banned. 
+And in the round 2, the first senator can just announce the victory since he is the only guy in the senate who can vote.</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: &quot;RDD&quot;
+Output: &quot;Dire&quot;
+Explanation: 
+The first senator comes from Radiant and he can just ban the next senator&#39;s right in the round 1. 
+And the second senator can&#39;t exercise any rights anymore since his right has been banned. 
+And the third senator comes from Dire and he can ban the first senator&#39;s right in the round 1. 
+And in the round 2, the third senator can just announce the victory since he is the only guy in the senate who can vote.</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The length of the given string will in the range [1, 10,000].</li>
+</ul>
+<p><strong>题目链接：</strong></p>
+<ul>
+<li>中文站：<a href="https://leetcode-cn.com/problems/dota2-senate/">https://leetcode-cn.com/problems/dota2-senate/</a></li>
+<li>英文站：<a href="https://leetcode.com/problems/dota2-senate/">https://leetcode.com/problems/dota2-senate/</a></li>
+</ul>
+<h2 id="基本思想：贪心"><a href="#基本思想：贪心" class="headerlink" title="基本思想：贪心"></a>基本思想：贪心</h2><p>首先明确一下问题：</p>
+<ul>
+<li>为了保证自己方获胜，每一轮禁掉对方一个人的权利</li>
+<li>当一方的权利全部被禁掉的时候，另一方就是胜方</li>
+</ul>
+<p><strong>Q：</strong>禁掉对方的权利时，对方有多名候选人，该禁掉哪一个？<br><strong>A：</strong>贪心思想，禁掉对方的候选人中能够最早行使权力的那一个，因为如果禁掉最晚行使权力的那一个，可能等到它行使权力的时候，我方已经输了</p>
+<p>解决方法：</p>
+<ul>
+<li>维护两个队列，保存每一个候选人行使权力的时间</li>
+<li>两个队列的队头元素中，谁的时间早，谁就行使权力，每次禁掉对方的队头元素的权利，自己下一次行使权力的时间为当前时间 + 原始字符串的长度（能够保证比当前轮次所有候选人的时间都大）</li>
+</ul>
+<p>注意：这里加的是最初的字符串的长度，而不是删除候选人之后的长度</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">predictPartyVictory</span><span class="params">(<span class="built_in">string</span> senate)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; rq, dq;</span><br><span class="line">        <span class="keyword">int</span> time = <span class="number">0</span>, n = senate.size();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> s : senate)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s == <span class="string">&#x27;R&#x27;</span>)&#123;</span><br><span class="line">                rq.push(time++);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dq.push(time++);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!rq.empty() &amp;&amp; !dq.empty())&#123;</span><br><span class="line">            <span class="keyword">if</span>(rq.front() &lt; dq.front())&#123;</span><br><span class="line">                dq.pop();</span><br><span class="line">                rq.push(rq.front() + n);</span><br><span class="line">                rq.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                rq.pop();</span><br><span class="line">                dq.push(dq.front() + n);</span><br><span class="line">                dq.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rq.empty()? <span class="string">&quot;Dire&quot;</span> : <span class="string">&quot;Radiant&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>贪心算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode842.Split Array into Fibonacci Sequence</title>
+    <url>/posts/30354/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3dfs%E5%89%AA%E6%9E%9D">基本思想：dfs+剪枝</a><ul>
+<li><a href="#cpp%E7%89%88%E6%9C%AC">cpp版本</a></li>
+<li><a href="#python%E7%89%88%E6%9C%AC">python版本</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>Given a string S of digits, such as S = “123456579”, we can split it into a Fibonacci-like sequence [123, 456, 579].</p>
+<p>Formally, a Fibonacci-like sequence is a list F of non-negative integers such that:</p>
+<ul>
+<li>0 &lt;= F[i] &lt;= 2^31 - 1, (that is, each integer fits a 32-bit signed integer type);</li>
+<li>F.length &gt;= 3;</li>
+<li>and F[i] + F[i+1] = F[i+2] for all 0 &lt;= i &lt; F.length - 2.</li>
+</ul>
+<p>Also, note that when splitting the string into pieces, each piece must not have extra leading zeroes, except if the piece is the number 0 itself.</p>
+<p>Return any Fibonacci-like sequence split from S, or return [] if it cannot be done.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;123456579&quot;</span><br><span class="line">Output: [123,456,579]</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;11235813&quot;</span><br><span class="line">Output: [1,1,2,3,5,8,13]</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;112358130&quot;</span><br><span class="line">Output: []</span><br><span class="line">Explanation: The task is impossible.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;0123&quot;</span><br><span class="line">Output: []</span><br><span class="line">Explanation: Leading zeroes are not allowed, so &quot;01&quot;, &quot;2&quot;, &quot;3&quot; is not valid.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 5:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;1101111&quot;</span><br><span class="line">Output: [110, 1, 111]</span><br><span class="line">Explanation: The output [11, 0, 11, 11] would also be accepted.</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong></p>
+<ul>
+<li>1 &lt;= S.length &lt;= 200</li>
+<li>S contains only digits.</li>
+</ul>
+<p><strong>题目链接：</strong></p>
+<ul>
+<li>英文站：<a href="https://leetcode.com/problems/split-array-into-fibonacci-sequence/">https://leetcode.com/problems/split-array-into-fibonacci-sequence/</a></li>
+<li>中文站：<a href="https://leetcode-cn.com/problems/split-array-into-fibonacci-sequence/">https://leetcode-cn.com/problems/split-array-into-fibonacci-sequence/</a></li>
+</ul>
+<h2 id="基本思想：dfs-剪枝"><a href="#基本思想：dfs-剪枝" class="headerlink" title="基本思想：dfs+剪枝"></a>基本思想：dfs+剪枝</h2><ul>
+<li>借助dfs考虑每一种情况</li>
+<li>并配合剪枝操作，剪枝的思想：如果已处理的数据中，前两个数的和已经比当前数小了，就没有必要继续往后扩增当前数了</li>
+<li>关键点：处理下数值越界的情况：<ul>
+<li>首先是当前数本身不能超过<code>INT_MAX</code>，具体处理方法见程序，要特别注意：只有当两个字符串长度相等的时候，才能用字符串的形式正确的比较出其对应的数值的大小</li>
+<li>再者已处理的数据中前两个数的和不能超过<code>INT_MAX</code>，这里可用强制类型转化处理</li>
+</ul>
+</li>
+</ul>
+<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">splitIntoFibonacci</span><span class="params">(<span class="built_in">string</span> S)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        dfs(S, <span class="number">0</span>, res, &#123;&#125;);</span><br><span class="line">        <span class="keyword">return</span> res;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="built_in">string</span> S, <span class="keyword">int</span> pos, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; cur)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur.size() &gt; <span class="number">2</span> &amp;&amp; pos == S.length())&#123;</span><br><span class="line">            res = cur;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">bool</span> flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(S[pos] == <span class="string">&#x27;0&#x27;</span>)&#123;<span class="comment">//当起始位置是0的时候，0只能单独作为一个数</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(cur.size() &lt; <span class="number">2</span> || (cur.size() &gt;= <span class="number">2</span> &amp;&amp; cur[cur.size() - <span class="number">2</span>] + cur[cur.size() - <span class="number">1</span>] == <span class="number">0</span>)) &#123;</span><br><span class="line">                cur.push_back(<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">return</span> dfs(S, pos + <span class="number">1</span>, res, cur);</span><br><span class="line">            &#125;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">string</span> s1 = <span class="string">&quot;2147483647&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = pos; i &lt; S.length() &amp;&amp; !flag; ++i) &#123;</span><br><span class="line">            <span class="built_in">string</span> temp = S.substr(pos, i - pos + <span class="number">1</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// TODO：处理下当前数本身越界的情况</span></span><br><span class="line">            <span class="keyword">if</span>((temp.size() == s1.size() &amp;&amp; temp &gt; s1) || temp.size() &gt; s1.size())&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">                </span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> num = atoi(temp.c_str());</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> pre_2sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(cur.size() &gt;= <span class="number">2</span>)&#123;              </span><br><span class="line">                pre_2sum = (<span class="keyword">long</span> <span class="keyword">long</span>)cur[cur.size() - <span class="number">2</span>] + (<span class="keyword">long</span> <span class="keyword">long</span>)cur[cur.size() - <span class="number">1</span>];</span><br><span class="line">                <span class="comment">//<span class="doctag">TODO:</span>处理下前两个数相加越界的情况</span></span><br><span class="line">                <span class="keyword">if</span>(pre_2sum &gt; INT_MAX)&#123; </span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// TODO：前两个数的和小于当前数，就没有必要继续往下dfs了，因为后面的数只会越来越大</span></span><br><span class="line">                <span class="keyword">if</span>(pre_2sum &lt; num) </span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cur.size() &lt; <span class="number">2</span> || (cur.size() &gt;= <span class="number">2</span> &amp;&amp; pre_2sum == num)) &#123;</span><br><span class="line">                cur.push_back(num);</span><br><span class="line">                flag = dfs(S, i + <span class="number">1</span>, res, cur);</span><br><span class="line">                cur.pop_back();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">splitIntoFibonacci</span>(<span class="params">self, S: <span class="built_in">str</span></span>) -&gt; List[int]:</span></span><br><span class="line">        res = []</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">pos: <span class="built_in">int</span></span>) -&gt; bool:</span></span><br><span class="line">            <span class="keyword">if</span> pos == <span class="built_in">len</span>(S):</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">len</span>(res) &gt;= <span class="number">3</span></span><br><span class="line">            </span><br><span class="line">         </span><br><span class="line">            <span class="comment"># if S[pos] == &#x27;0&#x27;:</span></span><br><span class="line">            <span class="comment">#     if len(res) &lt; 2 or (len(res) &gt;= 2 and res[-2] + res[-1] == 0):</span></span><br><span class="line">            <span class="comment">#         res.append(0)</span></span><br><span class="line">            <span class="comment">#         return dfs(pos + 1)</span></span><br><span class="line">            <span class="comment">#     else:</span></span><br><span class="line">            <span class="comment">#         return False</span></span><br><span class="line">            </span><br><span class="line">            s1 = <span class="string">&quot;2147483647&quot;</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(pos, <span class="built_in">len</span>(S)):</span><br><span class="line">                <span class="keyword">if</span> i &gt; pos <span class="keyword">and</span> S[pos] == <span class="string">&quot;0&quot;</span>: <span class="comment">## 处理以0开头的情况，不知道为什么上面的处理方法用python来实现就不行呢！！</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                temp = S[pos : i + <span class="number">1</span>]</span><br><span class="line">                num = <span class="built_in">int</span>(temp)</span><br><span class="line">                print(temp)</span><br><span class="line">                <span class="keyword">if</span> num &gt; <span class="number">2147483647</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                </span><br><span class="line">                pre_2sum = <span class="number">0</span></span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(res) &gt;= <span class="number">2</span>:</span><br><span class="line">                    pre_2sum = res[-<span class="number">1</span>] + res[-<span class="number">2</span>]</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">if</span> pre_2sum &gt; <span class="number">2147483647</span>:</span><br><span class="line">                        <span class="keyword">break</span>                    </span><br><span class="line">                    <span class="keyword">if</span> pre_2sum &lt; num:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                        </span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(res) &lt; <span class="number">2</span> <span class="keyword">or</span> (<span class="built_in">len</span>(res) &gt;= <span class="number">2</span> <span class="keyword">and</span> pre_2sum == num):</span><br><span class="line">                    res.append(num)</span><br><span class="line">                    <span class="keyword">if</span> dfs(i + <span class="number">1</span>):</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                    res.pop()</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">                    </span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>dfs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode860.Lemonade Change</title>
+    <url>/posts/1739017705/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>At a lemonade stand, each lemonade costs $5. </p>
+<p>Customers are standing in a queue to buy from you, and order one at a time (in the order specified by bills).</p>
+<p>Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill.  You must provide the correct change to each customer, so that the net transaction is that the customer pays $5.</p>
+<p>Note that you don’t have any change in hand at first.</p>
+<p>Return true if and only if you can provide every customer with correct change.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: [5,5,5,10,20]
+Output: true
+Explanation: 
+From the first 3 customers, we collect three $5 bills in order.
+From the fourth customer, we collect a $10 bill and give back a $5.
+From the fifth customer, we give a $10 bill and a $5 bill.
+Since all customers got correct change, we output true.</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: [5,5,10]
+Output: true</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: [10,10]
+Output: false</code></pre>
+<p><strong>Example 4:</strong></p>
+<pre><code>Input: [5,5,10,10,20]
+Output: false
+Explanation: 
+From the first two customers in order, we collect two $5 bills.
+For the next two customers in order, we collect a $10 bill and give back a $5 bill.
+For the last customer, we can&#39;t give change of $15 back because we only have two $10 bills.
+Since not every customer received correct change, the answer is false.</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>0 &lt;= bills.length &lt;= 10000</li>
+<li>bills[i] will be either 5, 10, or 20.</li>
+</ul>
+<p><strong>题目链接：</strong></p>
+<ul>
+<li>中文站：<a href="https://leetcode-cn.com/problems/lemonade-change/">https://leetcode-cn.com/problems/lemonade-change/</a></li>
+<li>英文站：<a href="https://leetcode.com/problems/lemonade-change/">https://leetcode.com/problems/lemonade-change/</a></li>
+</ul>
+<h2 id="基本思想：数组遍历"><a href="#基本思想：数组遍历" class="headerlink" title="基本思想：数组遍历"></a>基本思想：数组遍历</h2><ul>
+<li>将 $5, $10, $20 各有多少张保存在map中</li>
+<li>遍历 bills 数组，每次判断能否找零，从 $20 开始判断，即找零的面值从大到小开始判断</li>
+</ul>
+<h3 id="cpp-版本"><a href="#cpp-版本" class="headerlink" title="cpp 版本"></a>cpp 版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">lemonadeChange</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; bills)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; ump;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; moneys = &#123;<span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> bill : bills)&#123;</span><br><span class="line">            ump[bill]++;</span><br><span class="line">            <span class="keyword">int</span> last_money = bill - <span class="number">5</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span> &amp;&amp; last_money; ++i)&#123;</span><br><span class="line">                <span class="keyword">int</span> cnt = last_money / moneys[i];</span><br><span class="line">                <span class="keyword">if</span>(cnt &lt;= ump[moneys[i]])&#123;</span><br><span class="line">                    ump[moneys[i]] -= cnt;</span><br><span class="line">                    last_money -= cnt * moneys[i];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    last_money -= ump[moneys[i]] * cnt;</span><br><span class="line">                    ump[moneys[i]] = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(last_money)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="python-版本"><a href="#python-版本" class="headerlink" title="python 版本"></a>python 版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lemonadeChange</span>(<span class="params">self, bills: List[<span class="built_in">int</span>]</span>) -&gt; bool:</span></span><br><span class="line">        ump = &#123;<span class="number">5</span>:<span class="number">0</span>, <span class="number">10</span>:<span class="number">0</span>, <span class="number">20</span>:<span class="number">0</span>&#125;</span><br><span class="line">        moneys = [<span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>]</span><br><span class="line">        <span class="keyword">for</span> bill <span class="keyword">in</span> bills:</span><br><span class="line">            ump[bill] += <span class="number">1</span></span><br><span class="line">            last_money = bill - <span class="number">5</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> money <span class="keyword">in</span> moneys:</span><br><span class="line">                <span class="keyword">if</span> last_money == <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                cnt = last_money // money</span><br><span class="line">                <span class="keyword">if</span> cnt &lt;= ump[money]:</span><br><span class="line">                    last_money -= cnt * money</span><br><span class="line">                    ump[money] -= cnt</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    last_money -= ump[money] * money</span><br><span class="line">                    ump[money] = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> last_money:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>  </span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode861.Score After Flipping Matrix</title>
+    <url>/posts/12814/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E8%B4%AA%E5%BF%83">基本思想：贪心</a><ul>
+<li><a href="#cpp%E7%89%88%E6%9C%AC">cpp版本</a></li>
+<li><a href="#python%E7%89%88%E6%9C%AC">python版本</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>We have a two dimensional matrix A where each value is 0 or 1.</p>
+<p>A move consists of choosing any row or column, and toggling each value in that row or column: changing all 0s to 1s, and all 1s to 0s.</p>
+<p>After making any number of moves, every row of this matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.</p>
+<p>Return the highest possible score.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Input: [[<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">Output: <span class="number">39</span></span><br><span class="line">Explanation:</span><br><span class="line">Toggled to [[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]].</span><br><span class="line"><span class="number">0b1111</span> + <span class="number">0b1001</span> + <span class="number">0b1111</span> = <span class="number">15</span> + <span class="number">9</span> + <span class="number">15</span> = <span class="number">39</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong></p>
+<ul>
+<li>1 &lt;= A.length &lt;= 20</li>
+<li>1 &lt;= A[0].length &lt;= 20</li>
+<li>A[i][j] is 0 or 1.</li>
+</ul>
+<h2 id="基本思想：贪心"><a href="#基本思想：贪心" class="headerlink" title="基本思想：贪心"></a>基本思想：贪心</h2><p>首先明确一点：对于最终的结果而言，每一行每一列翻转的顺序对最终结果没有影响，即得到最优结果的最后一步是翻转第一行，那么最先翻转第一行和最后翻转第一行对最终的结果没有任何影响。</p>
+<p>基于上述思想：</p>
+<ul>
+<li>为了保证最终的结果最大，首先将第一列全部处理成1，也就是将第一列不是1的行进行翻转</li>
+<li>除第一列外的其他列，如果当前列1的个数大于0的个数则进行翻转，同时记录该列的结果</li>
+</ul>
+<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">matrixScore</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO：首先将第一列通过行翻转都转化成 1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(A[i][<span class="number">0</span>] == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A[i].size(); ++j)&#123;</span><br><span class="line">                    A[i][j] = !A[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：初始化为第一列的结果</span></span><br><span class="line">        <span class="keyword">int</span> res = <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - <span class="number">1</span>) * A.size();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：单独处理每一列,只需保证每一列中的1的个数大于0的个数即可, 并不是真的翻转，只是保存每列的每个元素的得分</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; A[<span class="number">0</span>].size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A.size(); ++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(A[j][i])</span><br><span class="line">                    ++cnt;</span><br><span class="line">            &#125;</span><br><span class="line">            res += <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - i - <span class="number">1</span>) * max(cnt, <span class="keyword">int</span>(A.size() - cnt));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><ul>
+<li>说明：代码和cpp版本稍微有一点区别，未将第一列单独处理</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">matrixScore</span>(<span class="params">self, A: List[List[<span class="built_in">int</span>]]</span>) -&gt; int:</span></span><br><span class="line">        row = <span class="built_in">len</span>(A)</span><br><span class="line">        col = <span class="built_in">len</span>(A[<span class="number">0</span>])</span><br><span class="line">        res = <span class="built_in">pow</span>(<span class="number">2</span>, col - <span class="number">1</span>) * row</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(col):</span><br><span class="line">            <span class="keyword">if</span> i:</span><br><span class="line">                <span class="comment"># <span class="doctag">TODO:</span>统计该列中1的个数，注意看下对应的该行元素是否为1来决定该行是否被翻转过</span></span><br><span class="line">                cnt = <span class="number">0</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(row):</span><br><span class="line">                    <span class="keyword">if</span> A[j][i] == A[j][<span class="number">0</span>] :</span><br><span class="line">                        cnt += <span class="number">1</span></span><br><span class="line">                res += <span class="built_in">pow</span>(<span class="number">2</span>, col - i - <span class="number">1</span>) * <span class="built_in">max</span>(cnt, row - cnt)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>贪心算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python 中 nonlocal 和 global 的作用</title>
+    <url>/posts/2750345904/</url>
+    <content><![CDATA[<h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>如下代码，由于对 cpp 十分熟悉，想当然的认为变量 a 的作用域为它所在的这个函数，包括其嵌套函数中也可以使用，然而这种想法在 python 中完全不适用。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>程序报错：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">UnboundLocalError: local variable &#39;a&#39; referenced before assignment</span><br></pre></td></tr></table></figure>
+<p>原因在于：fun()函数中的变量a还未定义就使用，那本质上是此时程序认为fun()函数和外层函数中的变量a并无关系。</p>
+<p>正确的用法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">nonlocal</span> a <span class="comment"># 将a声明成上一级函数wfun中的局部变量</span></span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun()</span><br></pre></td></tr></table></figure>
+
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>参考链接：</p>
+<ul>
+<li><a href="https://blog.csdn.net/xCyansun/article/details/79672634">https://blog.csdn.net/xCyansun/article/details/79672634</a></li>
+<li><a href="https://www.cnblogs.com/z360519549/p/5172020.html">https://www.cnblogs.com/z360519549/p/5172020.html</a></li>
+</ul>
+<p>功能：</p>
+<ul>
+<li><code>global</code> 关键字修饰变量后，表示声明该变量是全局变量</li>
+<li><code>nonlocal</code> 关键字修饰变量后，表示声明该变量是上一级函数中的局部变量，若是上一级函数中不存在该变量，则发生错误</li>
+</ul>
+<p>使用范围：</p>
+<ul>
+<li><code>global</code> 关键字可以使用在任何地方，包括上层函数和嵌套函数中，即使是之前未定义的变量</li>
+<li><code>nonlocal</code> 关键字只能用于嵌套函数中，并且外层函数中定义了相应的局部变量</li>
+</ul>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><ol>
+<li><p><code>global</code> 关键字在函数中或其他作用域内修饰的变量表示该变量是全局变量，如果该变量在函数内不会被修改，也可以不用 <code>global</code> 修饰。即全局变量在函数中是可以直接访问的（读操作），但如果对其值进行改变（写操作）必须用 <code>global</code> 关键字声明</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span>        </span><br><span class="line">    print(a)</span><br><span class="line">fun() <span class="comment"># 3</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    a += <span class="number">3</span>        </span><br><span class="line">    print(a) </span><br><span class="line">fun() <span class="comment"># 6</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>global</code> 关键字可以使用在任何地方，即使是未定义的变量</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">global</span> b <span class="comment"># 将 b 声明为全局变量</span></span><br><span class="line">        b = <span class="number">4</span></span><br><span class="line">        print(b) <span class="comment"># 4 (全局变量 b)</span></span><br><span class="line">    a = <span class="number">5</span> <span class="comment"># wfun函数的局部变量 a</span></span><br><span class="line">    fun() </span><br><span class="line">    print(a) <span class="comment"># 5 (局部变量 a)</span></span><br><span class="line">wfun()</span><br><span class="line">print(b) <span class="comment"># 4 (全局变量 b)</span></span><br></pre></td></tr></table></figure>
+
+<p> python中引用变量的顺序：当前作用域局部变量–&gt;外层作用域变量–&gt;当前模块中的全局变量–&gt;python中内置变量</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">global</span> a <span class="comment"># 将 a 声明为全局变量，但不会影响外层函数wfun中的局部变量 a</span></span><br><span class="line">        a = <span class="number">4</span></span><br><span class="line">        print(a) <span class="comment"># 4 (全局变量 a)</span></span><br><span class="line">    a = <span class="number">5</span> <span class="comment"># wfun函数的局部变量 a</span></span><br><span class="line">    fun() </span><br><span class="line">    print(a) <span class="comment"># 5 (局部变量 a，这里涉及到python引用变量的顺序)</span></span><br><span class="line">wfun()</span><br><span class="line">print(a) <span class="comment"># 4 (全局变量 a)</span></span><br></pre></td></tr></table></figure>
+<p> <code>global</code> 声明未定义的变量</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_b</span>():</span></span><br><span class="line">    <span class="keyword">global</span> b <span class="comment"># 声明b为全局变量</span></span><br><span class="line">    b = <span class="number">42</span> <span class="comment"># 定义b，这里要注意下：不能在声明的同时定义</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span>():</span></span><br><span class="line">        <span class="keyword">global</span>  b <span class="comment"># 因为要在该函数内修改，所以要声明下，注意这里修改的是外层的全局变量b</span></span><br><span class="line">        b = b + <span class="number">10</span></span><br><span class="line">        print(b) <span class="comment"># 52</span></span><br><span class="line">    do_global()</span><br><span class="line">    print(b) <span class="comment"># 52</span></span><br><span class="line">add_b()</span><br></pre></td></tr></table></figure>
+<p> 对比如下两个程序：</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_b</span>():</span></span><br><span class="line">    <span class="comment">#global  b</span></span><br><span class="line">    b = <span class="number">42</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span>():</span></span><br><span class="line">        <span class="keyword">global</span>  b</span><br><span class="line">        b =  <span class="number">10</span></span><br><span class="line">        print(b) <span class="comment"># 10</span></span><br><span class="line">    do_global()</span><br><span class="line">    b  = b + <span class="number">5</span></span><br><span class="line">    print(b) <span class="comment"># 47 (注意下这里是等号右边的b是局部变量b)</span></span><br><span class="line">add_b()</span><br><span class="line">b = b + <span class="number">30</span> <span class="comment"># 40 (注意下这里的b是全局变量b)</span></span><br><span class="line">print(<span class="string">&quot; b = %s &quot;</span> % b)</span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_b</span>():</span></span><br><span class="line">    <span class="comment">#global  b</span></span><br><span class="line">    <span class="comment">#b = 42</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span>():</span></span><br><span class="line">        <span class="keyword">global</span>  b</span><br><span class="line">        b = <span class="number">10</span></span><br><span class="line">        print(b)</span><br><span class="line">    do_global()</span><br><span class="line">    b = b + <span class="number">20</span> <span class="comment"># 这里的b程序认为是局部变量，但是并没有定义局部变量</span></span><br><span class="line">    print(b)</span><br><span class="line">add_b()</span><br><span class="line">b = b + <span class="number">30</span></span><br><span class="line">print(<span class="string">&quot; b = %s &quot;</span> % b)</span><br><span class="line"><span class="comment"># 程序报错：UnboundLocalError: local variable &#x27;b&#x27; referenced before assignment</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>nonlocal</code> 关键字用来在函数或其他作用域内声明其外层函数的变量（非全局变量）。即如果内层函数想使用外层函数的变量（非全局变量）需要用 <code>nonlocal</code> 关键字声明下</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">nonlocal</span> a</span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun() <span class="comment"># 7</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    a = <span class="number">5</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">nonlocal</span> a <span class="comment"># 本意是想声明 a 为上层函数中的 a ，但是上层中的 a 是全局变量，所以程序报错：no binding for nonlocal &#x27;a&#x27; found</span></span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编程中踩过的坑</category>
+      </categories>
+      <tags>
+        <tag>nonlocal</tag>
+        <tag>global</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客说明文档</title>
+    <url>/posts/44808/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E8%AF%B4%E6%98%8E">本地文件夹说明</a></li>
+<li><a href="#hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">hexo常用命令</a></li>
+<li><a href="#%E4%B8%BAgithub%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0readme">为github仓库添加readme</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E5%85%B3%E4%BA%8E">添加分类、标签、关于</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD">添加搜索功能</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E5%86%85%E9%93%BE%E6%8E%A5%E6%96%87%E6%9C%AC%E6%A0%B7%E5%BC%8F">修改文章内链接文本样式</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E9%93%BE%E6%8E%A5">修改文章链接</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E5%8D%9A%E5%AE%A2%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BE%E6%A0%87">添加博客自定义图标</a></li>
+<li><a href="#%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E7%89%B9%E6%95%88">鼠标点击特效</a></li>
+<li><a href="#%E6%96%87%E7%AB%A0%E7%BB%93%E6%9D%9F%E6%A0%87%E8%AE%B0">文章结束标记</a></li>
+<li><a href="#%E6%96%87%E7%AB%A0%E9%98%B4%E5%BD%B1%E8%AE%BE%E7%BD%AE">文章阴影设置</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%8D%9A%E5%AE%A2%E6%91%98%E8%A6%81%E6%98%BE%E7%A4%BA">设置博客摘要显示</a></li>
+<li><a href="#%E5%B0%86%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%97%B6%E9%83%A8%E7%BD%B2%E5%9C%A8-githubgitee">将博客同时部署在 github、gitee</a></li>
+</ul>
+<!-- /TOC -->
+
+<p>本文主要介绍搭建好博客后，如何让博客的内容更加丰富，让博客整体的界面更加美观，以及一些特效的设置</p>
+<a id="more"></a>
+<h2 id="本地文件夹说明"><a href="#本地文件夹说明" class="headerlink" title="本地文件夹说明"></a>本地文件夹说明</h2><ul>
+<li>public：该文件夹最终会被push到github仓库中</li>
+<li>source：存放用户资源的地方。<ul>
+<li>_posts文件夹中的markdown文档会被解析成html文件并放到public文件夹</li>
+<li>除_posts文件及外，其余以【_】开头的文件或文件夹都会被忽略</li>
+<li>其余文件（例如：about文件）会被拷贝到public文件夹</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>scafflods：模板文件夹。新建markdown文件时，hexo会根据该文件夹下的模板来建立文件<ul>
+<li>post.md：新建文章<code>hexo new &quot;文章名&quot;</code>时，会按照该文件中的内容生成默认文件</li>
+<li>也可以自己定义模板，例如模板名为blog，新建文章时，为了使用该模板，键入命令<code>hexo new blog &quot;文章名&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h2><p>说明：笔者的博客目录名为blog</p>
+<ul>
+<li><code>hexo new &quot;文章名&quot;</code>：新建文章，在blog文件的路径下键入，最终会在blog/source/_posts文件夹下出现新建的文件</li>
+<li><code>hexo g</code>：生成静态页面至public文件夹下：在blog文件夹下键入，它是<code>hexo generate</code>的缩写</li>
+<li><code>hexo s</code>：开启本地预览端口，在blog文件夹下键入，它是<code>hexo server</code>的缩写</li>
+<li><code>hexo d</code>：部署到github：在blog文件夹下键入，它是<code>hexo deploy</code>的缩写</li>
+<li><code>hexo help</code>：查看帮助</li>
+<li><code>hexo version</code>：查看hexo版本</li>
+</ul>
+<p>组合命令：</p>
+<ul>
+<li><code>hexo s -g</code>：生成静态页面并本地预览</li>
+<li><code>hexo d -g</code>：生成静态页面并部署到github</li>
+</ul>
+<h2 id="为github仓库添加readme"><a href="#为github仓库添加readme" class="headerlink" title="为github仓库添加readme"></a>为github仓库添加readme</h2><p>因为source中的文件会被拷贝到public文件夹中，而public文件夹会被push到github中，因此想为github仓库添加readme，只需在source文件夹中创建即可。<br>注意：source文件夹中的【.md】文档会被解析成html文件，再放到public中。为了避免解析，将readme的扩展名改为【.MDWN】(这里一定要大写，小写的话也会被解析成html文件)</p>
+<h2 id="添加分类、标签、关于"><a href="#添加分类、标签、关于" class="headerlink" title="添加分类、标签、关于"></a>添加分类、标签、关于</h2><ul>
+<li>首先将站点配置文件中的menu下面的categories和tags前的【#】去掉<img src="https://i.loli.net/2020/12/07/JCdtcQwxAYfT7MX.png" alt="image.png"></li>
+<li>创建markdown文件<img src="https://i.loli.net/2020/12/07/DQ5aXjgtFGw83Ey.png" alt="image.png"><ul>
+<li>在blog文件夹下键入<code>hexo new page tags</code>，此时会生成blog/source/tags/index.md文件</li>
+<li>修改index.md文件，添加【type:”tags”】<img src="https://i.loli.net/2020/12/07/ZUySVMFOIDATw2J.png" alt="image.png"></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>在blog文件夹下键入<code>hexo new page categories</code>，此时会生成blog/source/categories/index.md</li>
+<li>修改index.md文件，添加【type:”categories”】<img src="https://i.loli.net/2020/12/07/iPwaHA5jQmIVreM.png" alt="image.png"></li>
+</ul>
+<p>about也是采用同样的方法，就不再赘述了</p>
+<h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><p>参考链接：<a href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
+<ol>
+<li><p>在 blog 文件夹下执行命令<code>npm install hexo-generator-searchdb --save</code></p>
+</li>
+<li><p>修改站点配置文件，在Extension下添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 搜索</span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure></li>
+<li><p>修改主题配置文件，找到 Local search，将 enable 设置为 <code>true</code></p>
+</li>
+</ol>
+<h2 id="修改文章内链接文本样式"><a href="#修改文章内链接文本样式" class="headerlink" title="修改文章内链接文本样式"></a>修改文章内链接文本样式</h2><p>参考链接：<a href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
+<p>打开文件<code>blog\themes\next\source\css\_common\components\post\post.styl</code>，在末尾添加：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.post-body p a &#123;</span><br><span class="line">  color: #0593d3;</span><br><span class="line">  border-bottom: none;</span><br><span class="line">  border-bottom: 1px solid #0593d3;</span><br><span class="line">  &amp;:hover &#123;</span><br><span class="line">    color: #fc6423;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #fc6423;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="修改文章链接"><a href="#修改文章链接" class="headerlink" title="修改文章链接"></a>修改文章链接</h2><p>参考链接：<a href="https://blog.csdn.net/as480133937/article/details/100138838">https://blog.csdn.net/as480133937/article/details/100138838</a><br>文章链接默认的生成规则<code>:year/:month/:day/:title</code>，生成的样式<code>https://crystal1213.github.io/2020/12/07/leetcode861-Score-After-Flipping-Matrix/</code><br>修改后的样式：<code>https://crystal1213.github.io/posts/30354/</code></p>
+<p>生成简洁的url的方法：</p>
+<ol>
+<li>安装插件，在blog文件夹下键入命令<code>npm install hexo-abbrlink --save </code></li>
+<li>修改站点配置文件，找到<code>permalink</code>，修改为如下的形式：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">permalink: posts&#x2F;:abbrlink&#x2F;</span><br><span class="line">abbrlink:</span><br><span class="line">	alg: crc32   #算法： crc16(default) and crc32</span><br><span class="line">	rep: hex     #进制： dec(default) and hex</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+样式选择：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">crc16 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;66c8.html</span><br><span class="line"></span><br><span class="line">crc16 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;65535.html</span><br><span class="line">crc32 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;8ddf18fb.html</span><br><span class="line"></span><br><span class="line">crc32 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;1690090958.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h2 id="添加博客自定义图标"><a href="#添加博客自定义图标" class="headerlink" title="添加博客自定义图标"></a>添加博客自定义图标</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a><br><img src="https://i.loli.net/2020/12/10/QdxwNLvE8ckIp3z.png" alt="image.png"></p>
+<ol>
+<li>在以下网站下载或者制作图标 <a href="https://www.iconfont.cn/plus/user/detail?uid=41718">iconfont</a> <a href="https://www.easyicon.net/">easyicon</a> 下载图标，注意下图标的大小</li>
+<li>将下载的图标放在 <code>...\blog\themes\next\source\images</code> 文件夹下</li>
+<li>修改主题配置文件 <code>favicon</code> 中的 <code>small</code> 和 <code>medium</code> ，改为图标的文件名</li>
+</ol>
+<h2 id="鼠标点击特效"><a href="#鼠标点击特效" class="headerlink" title="鼠标点击特效"></a>鼠标点击特效</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
+<ol>
+<li><p>在<code>/themes/next/source/js/src</code> 下新建文件 <code>clicklove.js</code>，将下面代码拷贝到文件中</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">!<span class="function"><span class="keyword">function</span>(<span class="params">e,t,a</span>)</span>&#123;<span class="function"><span class="keyword">function</span> <span class="title">n</span>(<span class="params"></span>)</span>&#123;c(<span class="string">&quot;.heart&#123;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);&#125;.heart:after,.heart:before&#123;content: &#x27;&#x27;;width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;&#125;.heart:after&#123;top: -5px;&#125;.heart:before&#123;left: -5px;&#125;&quot;</span>),o(),r()&#125;<span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params"></span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> e=<span class="number">0</span>;e&lt;d.length;e++)d[e].alpha&lt;=<span class="number">0</span>?(t.body.removeChild(d[e].el),d.splice(e,<span class="number">1</span>)):(d[e].y--,d[e].scale+=<span class="number">.004</span>,d[e].alpha-=<span class="number">.013</span>,d[e].el.style.cssText=<span class="string">&quot;left:&quot;</span>+d[e].x+<span class="string">&quot;px;top:&quot;</span>+d[e].y+<span class="string">&quot;px;opacity:&quot;</span>+d[e].alpha+<span class="string">&quot;;transform:scale(&quot;</span>+d[e].scale+<span class="string">&quot;,&quot;</span>+d[e].scale+<span class="string">&quot;) rotate(45deg);background:&quot;</span>+d[e].color+<span class="string">&quot;;z-index:99999&quot;</span>);requestAnimationFrame(r)&#125;<span class="function"><span class="keyword">function</span> <span class="title">o</span>(<span class="params"></span>)</span>&#123;<span class="keyword">var</span> t=<span class="string">&quot;function&quot;</span>==<span class="keyword">typeof</span> e.onclick&amp;&amp;e.onclick;e.onclick=<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;t&amp;&amp;t(),i(e)&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">i</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">&quot;div&quot;</span>);a.className=<span class="string">&quot;heart&quot;</span>,d.push(&#123;<span class="attr">el</span>:a,<span class="attr">x</span>:e.clientX-<span class="number">5</span>,<span class="attr">y</span>:e.clientY-<span class="number">5</span>,<span class="attr">scale</span>:<span class="number">1</span>,<span class="attr">alpha</span>:<span class="number">1</span>,<span class="attr">color</span>:s()&#125;),t.body.appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">&quot;style&quot;</span>);a.type=<span class="string">&quot;text/css&quot;</span>;<span class="keyword">try</span>&#123;a.appendChild(t.createTextNode(e))&#125;<span class="keyword">catch</span>(t)&#123;a.styleSheet.cssText=e&#125;t.getElementsByTagName(<span class="string">&quot;head&quot;</span>)[<span class="number">0</span>].appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">s</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span><span class="string">&quot;rgb(&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;,&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;,&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;)&quot;</span>&#125;<span class="keyword">var</span> d=[];e.requestAnimationFrame=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="built_in">setTimeout</span>(e,<span class="number">1e3</span>/<span class="number">60</span>)&#125;&#125;(),n()&#125;(<span class="built_in">window</span>,<span class="built_in">document</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>在文件 <code>\themes\next\layout\_layout.swig</code> 末尾添加如下代码：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;!-- 页面点击小红心 --&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span> src=<span class="string">&quot;/js/src/clicklove.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h2 id="文章结束标记"><a href="#文章结束标记" class="headerlink" title="文章结束标记"></a>文章结束标记</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
+<h2 id="文章阴影设置"><a href="#文章阴影设置" class="headerlink" title="文章阴影设置"></a>文章阴影设置</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a><br>设置好后感觉没有效果</p>
+<h2 id="设置博客摘要显示"><a href="#设置博客摘要显示" class="headerlink" title="设置博客摘要显示"></a>设置博客摘要显示</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
+<h2 id="将博客同时部署在-github、gitee"><a href="#将博客同时部署在-github、gitee" class="headerlink" title="将博客同时部署在 github、gitee"></a>将博客同时部署在 github、gitee</h2><p>参考链接：<a href="https://blog.csdn.net/weixin_45667885/article/details/101084532">https://blog.csdn.net/weixin_45667885/article/details/101084532</a></p>
+<ol>
+<li>同时在 github、gitee 上创建好账号、仓库（仓库名和用户名相同）；</li>
+<li>在 github、gitee 上添加 SSH Keys；</li>
+<li>开启 Pages 服务；</li>
+<li>打开站点配置文件，修改 <code>deploy</code> 如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line"> type: git</span><br><span class="line"> repo: </span><br><span class="line">     github: git@github.com:Crystal1213&#x2F;Crystal1213.github.io.git</span><br><span class="line">     gitee: git@gitee.com:Crystal1213&#x2F;crystal1213.git</span><br><span class="line"> branch: master</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>注：gitee Pages 不支持自动更新，每次部署后需要手动更新。</p>
+]]></content>
+      <categories>
+        <category>工具使用说明</category>
+      </categories>
+      <tags>
+        <tag>工具说明</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 学习笔记</title>
+    <url>/posts/1/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C">文件操作</a><ul>
+<li><a href="#git-%E5%9F%BA%E7%A1%80">git 基础</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93">创建版本库</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E5%B7%A5%E4%BD%9C%E5%8C%BA%E7%8A%B6%E6%80%81">查看工作区状态</a></li>
+<li><a href="#%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E4%B9%8B%E9%97%B4%E5%88%87%E6%8D%A2">在不同版本之间切换</a></li>
+<li><a href="#git%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%92%8C%E6%9A%82%E5%AD%98%E5%8C%BA">git工作区和暂存区</a></li>
+<li><a href="#%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9">撤销修改</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6">删除文件</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">远程仓库</a><ul>
+<li><a href="#%E5%B0%86%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%BB%BA%E7%AB%8B%E5%85%B3%E8%81%94">将本地仓库和远程仓库建立关联</a></li>
+<li><a href="#%E5%B0%86%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%85%8B%E9%9A%86%E5%88%B0%E6%9C%AC%E5%9C%B0">将远程仓库克隆到本地</a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%86%E6%94%AF">分支</a><ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF">创建与合并分支</a></li>
+<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E5%87%BA%E7%8E%B0%E5%86%B2%E7%AA%81">合并分支出现冲突</a></li>
+<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E6%97%B6%E4%BF%9D%E7%95%99%E5%8E%86%E5%8F%B2%E5%88%86%E6%94%AF">合并分支时保留历史分支</a></li>
+<li><a href="#%E4%BF%AE%E5%A4%8D%E5%85%B6%E4%BB%96%E5%88%86%E6%94%AF%E7%9A%84-bug-%E6%97%B6%E4%BF%9D%E5%AD%98%E8%AF%A5%E5%88%86%E6%94%AF%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%8E%B0%E5%9C%BA">修复其他分支的 bug 时，保存该分支的工作现场</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AA%E8%A2%AB%E5%90%88%E5%B9%B6%E7%9A%84%E5%88%86%E6%94%AF">删除未被合并的分支</a></li>
+<li><a href="#%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C%E7%9A%84%E6%AD%A5%E9%AA%A4">多人协作的步骤</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A0%87%E7%AD%BE">标签</a><ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E6%A0%87%E7%AD%BE">创建标签</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E6%A0%87%E7%AD%BE">删除标签</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E4%B8%8E%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE">参与开源项目</a></li>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E5%A4%9A%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">本地仓库关联多个远程仓库</a></li>
+<li><a href="#%E5%BF%BD%E7%95%A5%E7%89%B9%E6%AE%8A%E6%96%87%E4%BB%B6">忽略特殊文件</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+<!-- /TOC -->
+
+<p>本文主要讲述 git 相关的命令操作</p>
+<a id="more"></a>
+<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="git-基础"><a href="#git-基础" class="headerlink" title="git 基础"></a>git 基础</h2><p>git 文件的三种状态：</p>
+<ul>
+<li>已提交（committed）：表示该文件已经被安全地保存在本地数据库中了</li>
+<li>已修改（modified）：表示修改了某个文件，但还没有提交保存</li>
+<li>已暂存（staged）：把已修改的文件放在下次提交时要保存的清单中</li>
+</ul>
+<p>Git 目录：（译注：如果 git clone 出来的话，就是其中 .git 的目录；如果 <code>git clone --bare</code> 的话，新建的目录本身就是 Git 目录。），它是 Git 用来保存元数据和对象数据库的地方。该目录非常重要，每次克隆镜像仓库的时候，实际拷贝的就是这个目录里面的数据。<br>文件流转的三个工作区域：</p>
+<ul>
+<li>Git 的工作目录：从项目中取出某个版本的所有文件和目录，用以开始后续工作。这些文件实际上都是从 Git 目录中的压缩对象数据库中提取出来的，接下来就可以在工作目录中对这些文件进行编辑。</li>
+<li>暂存区域：所谓的暂存区域只不过是个简单的文件，一般都放在 Git 目录中。有时候人们会把这个文件叫做索引文件。</li>
+<li>本地仓库</li>
+</ul>
+<p>基本的 Git 工作流程如下：</p>
+<ol>
+<li>在工作目录中修改某些文件。</li>
+<li>对修改后的文件进行快照，然后保存到暂存区域。</li>
+<li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中。</li>
+</ol>
+<p>所以，我们可以从文件所处的位置来判断状态：如果是 Git 目录中保存着的特定版本文件，就属于已提交状态；如果作了修改并已放入暂存区域，就属于已暂存状态；如果自上次取出后，作了修改但还没有放到暂存区域，就是已修改状态。</p>
+<hr>
+<p>查看已有的配置信息的命令 <code>git config --list</code><br>配置用户名和邮箱：<code>git config --global user.name &quot;名字&quot;</code> <code>git config --global user.email &quot;邮箱&quot;</code> （<code>global</code> 参数表示这台机器上所有的 git 仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和邮箱）</p>
+<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><ol>
+<li>新建一个空的文件夹 learngit ，在该文件夹下执行 <code>git init</code> 命令，初始化一个 Git 仓库。</li>
+<li>在 learngit 这个文件夹下新建一个或几个文件，创建文本文件最好用 Notepad++ ，不要用 windows 自带的文本文件，涉及到编码问题</li>
+<li>将文件添加到 Git 仓库，分两步：<ul>
+<li>使用命令git add <file>，注意，可反复多次使用，添加多个文件；<file>指的是文件名</li>
+<li>使用命令git commit -m <message>，完成。<message>表示一些提示性的信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="查看工作区状态"><a href="#查看工作区状态" class="headerlink" title="查看工作区状态"></a>查看工作区状态</h2><ul>
+<li>查看工作区的状态，执行命令 <code>git status</code></li>
+<li>如果文件有被修改，查看文件的不同，执行命令 <code>git diff &lt;文件名&gt;</code>。（比较的是工作区的文件和暂存区的文件的不同，如果想比较当前文件和提交到分支中文件的不同，需要明确指明，例如用命令 <code>git diff HEAD -- readme.txt</code> 比较工作区中的readme.txt文件和提交到分支的readme.txt的不同）</li>
+</ul>
+<h2 id="在不同版本之间切换"><a href="#在不同版本之间切换" class="headerlink" title="在不同版本之间切换"></a>在不同版本之间切换</h2><ul>
+<li>HEAD 指向的版本就是当前版本（HEAD^ 表示上一个版本，HEAD^^ 表示上上个版本，如果是往上100个版本，用 HEAD~100 来表示），因此，Git 允许我们在版本的历史之间穿梭，使用命令 <code>git reset --hard commit_id</code>，commit_id指的是每一个版本的编号，也可以用 HEAD^这种形式来表示</li>
+<li><code>git log</code> 命令可以查看提交历史，以便确定要回退到哪个版本。<code>git log --pretty=oneline</code> 将提交的历史在一行显示</li>
+<li><code>git reflog</code> 命令查看命令历史，以便确定要回到未来的哪个版本。</li>
+</ul>
+<h2 id="git工作区和暂存区"><a href="#git工作区和暂存区" class="headerlink" title="git工作区和暂存区"></a>git工作区和暂存区</h2><ul>
+<li>工作区：是指我们所操作的文件所属的文件夹，例如上述例子中的 learngit 文件夹</li>
+<li>暂存区：执行 <code>git add &quot;文件名&quot;</code> 命令后，文件会从工作区转移到暂存区</li>
+<li>分支：执行 <code>git commit -m &quot;说明信息&quot;</code> 命令后，文件会从暂存区提交到分支</li>
+</ul>
+<h2 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h2><ul>
+<li>改变了工作区的内容，想退回到原来（最近一次）的状态，执行命令 <code>git checkout -- &quot;文件名&quot;</code></li>
+<li>使文件从暂存区回到工作区，执行命令 <code>git reset HEAD &quot;文件名&quot;</code></li>
+</ul>
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><p><code>git rm &quot;文件名&quot;</code> ：删除分支中的文件<br>如果误删了（在文件夹中删除了，但是分支中没有删除）可以用 <code>git checkout -- &quot;文件名&quot;</code> 使文件夹中该文件的内容恢复到和分支中一样的情形</p>
+<h1 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h1><h2 id="将本地仓库和远程仓库建立关联"><a href="#将本地仓库和远程仓库建立关联" class="headerlink" title="将本地仓库和远程仓库建立关联"></a>将本地仓库和远程仓库建立关联</h2><ol>
+<li>首先在远程仓库中添加本地仓库的 SSH公钥<ul>
+<li>执行 <code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code></li>
+<li>此时，会在用户主目录下出现 <code>.ssh</code> 目录，该目录下有 <code>id_rsa</code> （私钥）和 <code>id_rsa.pub</code> （公钥）两个文件</li>
+<li>在 github 上为该电脑添加 SSH Keys，将 <code>id_rsa.pub</code> 文件中的内容拷贝到 Key 中 </li>
+</ul>
+</li>
+<li>在远程仓库中建立一个新的 repository ，将本地仓库和远程仓库之间建立关联，执行命令：<code> git remote add origin git@github.com:Crystal1213/learngit.git</code></li>
+<li>将本地仓库的内容推送到远程，执行命令 <code>git push -u origin master</code> origin 是远程库的名字，master 是当前分支，这里加了 <code>-u</code> ，Git 不但会把本地的 master 分支内容推送的远程新的 master 分支，还会把本地的 master 分支和远程的 master 分支关联起来，在以后的推送或者拉取时就可以简化命令。注：以后推送时，只需执行 <code>git push origin master</code></li>
+</ol>
+<h2 id="将远程仓库克隆到本地"><a href="#将远程仓库克隆到本地" class="headerlink" title="将远程仓库克隆到本地"></a>将远程仓库克隆到本地</h2><p><code>git clone 远程仓库地址</code></p>
+<h1 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h1><p>创建一个自己的分支，当所有工作都做完后合并到原来的分支</p>
+<h2 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h2><ul>
+<li>查看分支：<code>git branch</code></li>
+<li>创建分支：<code>git branch 分支名</code></li>
+<li>切换分支：<code>git checkout 分支名</code> 或者 <code>git switch 分支名</code></li>
+<li>创建并切换分支：<code>git checkout -b 分支名</code> 或者 <code>git switch -c 分支名</code></li>
+<li>合并到当前分支分支：<code>git merge 分支名</code></li>
+<li>删除分支：<code>git branch -d 分支名</code></li>
+</ul>
+<h2 id="合并分支出现冲突"><a href="#合并分支出现冲突" class="headerlink" title="合并分支出现冲突"></a>合并分支出现冲突</h2><p>手动修改出现冲突的文件，可以用命令 <code>git log --graph</code> 查看分支合并图<br><code>git log --graph --pretty=oneline --abbrev-commit</code></p>
+<h2 id="合并分支时保留历史分支"><a href="#合并分支时保留历史分支" class="headerlink" title="合并分支时保留历史分支"></a>合并分支时保留历史分支</h2><p>合并分支：默认情况下是 <code>Fast Forward</code> 模式，也就是合并后，会丢掉分支信息<br>禁止使用 <code>Fast Forward</code> 模式，在合并分支时，就会生成一个新的 commit，这样就能从分支历史上看出分支信息，合并分支时执行命令 <code>git merge --no-ff -m &quot;提示信息&quot; 待合并的分支名</code></p>
+<h2 id="修复其他分支的-bug-时，保存该分支的工作现场"><a href="#修复其他分支的-bug-时，保存该分支的工作现场" class="headerlink" title="修复其他分支的 bug 时，保存该分支的工作现场"></a>修复其他分支的 bug 时，保存该分支的工作现场</h2><p>保存工作现场命令：<code>git stash</code> （保存哪个分支的工作现场，就在哪个分支上执行）<br>查看已保存的工作现场：<code>git stash list</code><br>恢复工作现场：</p>
+<ul>
+<li><code>git stash pop</code> </li>
+<li>或者 <code>git stash apply stash@&#123;数字&#125;</code> 此时 list 中还有此工作现场，需要执行 <code>git stash drop</code> 来将该工作现场删除</li>
+</ul>
+<p>注：如果想将其他分支修复 bug 后的结果，合并到该分支，在恢复该分支的工作现场之前，执行 <code>git cherry-pick &lt;commit&gt;</code> commit 是在执行 <code>git commit -m &quot;&quot;</code> 命令后，显示出来的那一串字母加数字，例如：<code>1d4b803</code></p>
+<h2 id="删除未被合并的分支"><a href="#删除未被合并的分支" class="headerlink" title="删除未被合并的分支"></a>删除未被合并的分支</h2><p><code>git branch -D 分支名</code> 将原来小写的 d 改为大写的 D</p>
+<h2 id="多人协作的步骤"><a href="#多人协作的步骤" class="headerlink" title="多人协作的步骤"></a>多人协作的步骤</h2><p>查看远程仓库的信息：<code>git remote -v</code></p>
+<ol>
+<li>将远程仓库克隆到本地，执行命令 <code>git clone git@github.com:Crystal1213/learngit.git</code>注意先将本地电脑的 SSH 加入到 github 中，然后再克隆；</li>
+<li>创建并切换到 dev 分支，执行命令 <code>git checkout -b dev origin/dev</code> 本地分支和远程仓库的分支名最好相同，注意：这里是创建远程分支 <code>origin/dev</code> 的对应分支 <code>dev</code></li>
+<li>开发完成后，在本地 commit 后，即执行 <code>git add 文件名</code> <code>git commit -m &quot;备注&quot;</code> 后，将该分支推送到远程 <code>git push origin dev</code></li>
+</ol>
+<p>推送到远程可能出现的问题：<br><code>your current branch is behind</code> ：表明当前的分支落后了，那么需要将远程仓库相应分支的内容 pull （pull = fetch + merge），即将远程的分支拉下来，并和本地合并。执行命令 <code>git pull</code>。如果有冲突，在本地解决冲突后，再合并。</p>
+<p>执行 <code>git pull</code> 出现 <code>no tracking information for the current branch</code> ，意思是没有指定本地分支 <code>dev</code> 和 远程分支 <code>origin/dev</code> 之间的连接，执行命令 <code>git branch --set-upstream-to=origin/dev dev</code></p>
+<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><p>commit 号比较难记，所以用标签来表示 commit 号。</p>
+<h2 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h2><ul>
+<li><code>git tag 标签名</code> ：默认在 HEAD 处创建标签</li>
+<li><code>git tag 标签名 commit号</code> ：在 commit 号处创建标签</li>
+<li><code>git tag -a 标签名 -m “Tagger信息” commit号</code> ：在 commit 号处创建标签的同时增加该标签的一些说明信息，<code>-a</code> 指定标签名，<code>-m</code> 指定说明文字</li>
+<li><code>git tag</code> ：显示所有标签，按照字母顺序排列</li>
+<li><code>git show 标签名</code>：显示该标签处对应的详细信息</li>
+</ul>
+<h2 id="删除标签"><a href="#删除标签" class="headerlink" title="删除标签"></a>删除标签</h2><ul>
+<li><code>git push origin 标签名</code> ：将本地标签推送到远程</li>
+<li><code>git push origin --tags</code> ：将本地所有标签推送到远程</li>
+<li><code>git tag -d 标签名</code> ：删除的本地标签</li>
+<li><code>git push origin :refs/tags/标签名</code> ：删除远程标签，:refs/tags/标签名 这里其实是 .git 目录下对应的目录</li>
+</ul>
+<h1 id="参与开源项目"><a href="#参与开源项目" class="headerlink" title="参与开源项目"></a>参与开源项目</h1><p>基本步骤：</p>
+<ol>
+<li>将他人的开源仓库 fork 到自己的 Github 上；</li>
+<li>将该开源仓库从自己的 Github 上克隆到本地；<code>git clone 项目地址</code></li>
+<li>修改该项目；</li>
+<li>推送一个 pull request 到他人开源仓库。（当然他人可选择接受或不接受）</li>
+</ol>
+<h1 id="本地仓库关联多个远程仓库"><a href="#本地仓库关联多个远程仓库" class="headerlink" title="本地仓库关联多个远程仓库"></a>本地仓库关联多个远程仓库</h1><p>以既关联 github 又关联 gitee 为例，此时已经关联了 github。</p>
+<ol>
+<li>创建 gitee 账号，将本地电脑的 SSH 公钥增加到 gitee 中；</li>
+<li>在 gitee 中创建一个仓库（最好与本地仓库同名）；</li>
+<li>将本地仓库与远程仓库建立关联，<code>git remote add gitee git@gitee.com:yanyufang/learngit.git</code> （注意：这里的 gitee 是远程仓库名，github 中对应的远程仓库名叫 origin，这也是默认的远程仓库名，这两个远程仓库名不能重名，否则会出现 <code> fatal: remote origin already exists.</code>）</li>
+<li>将本地仓库推送到远程，<code>git push gitee master</code></li>
+</ol>
+<p>修改远程仓库名：<code>git remote rename 旧名字 新名字</code><br>删除已关联的远程仓库：<code>git remote remove 远程仓库名</code><br>显示已关联的远程仓库的信息：<code>git remote -v</code><br>修改远程仓库的地址：<code>git remote set-url 远程仓库名 新地址</code></p>
+<h1 id="忽略特殊文件"><a href="#忽略特殊文件" class="headerlink" title="忽略特殊文件"></a>忽略特殊文件</h1><p>一些文件只在本地 git 仓库有，并不想推送到远程。<br>处理方法：</p>
+<ol>
+<li>建立 <code>.gitignore</code> 文件，将想要忽略的文件的写入其中；</li>
+<li>将 <code>.gitignore</code> 文件提交到 git 仓库；</li>
+<li>检查是否创建成功，用 <code>git status</code> 命令，是否显示 <code>working directory clean</code>。</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://i.loli.net/2020/12/19/rExAoiPVfLMm18u.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 学习笔记</title>
     <url>/posts/3003968415/</url>
     <content><![CDATA[<!-- TOC -->
@@ -295,684 +973,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 学习笔记</title>
-    <url>/posts/1/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C">文件操作</a><ul>
-<li><a href="#git-%E5%9F%BA%E7%A1%80">git 基础</a></li>
-<li><a href="#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93">创建版本库</a></li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E5%B7%A5%E4%BD%9C%E5%8C%BA%E7%8A%B6%E6%80%81">查看工作区状态</a></li>
-<li><a href="#%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E4%B9%8B%E9%97%B4%E5%88%87%E6%8D%A2">在不同版本之间切换</a></li>
-<li><a href="#git%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%92%8C%E6%9A%82%E5%AD%98%E5%8C%BA">git工作区和暂存区</a></li>
-<li><a href="#%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9">撤销修改</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6">删除文件</a></li>
-</ul>
-</li>
-<li><a href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">远程仓库</a><ul>
-<li><a href="#%E5%B0%86%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%BB%BA%E7%AB%8B%E5%85%B3%E8%81%94">将本地仓库和远程仓库建立关联</a></li>
-<li><a href="#%E5%B0%86%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%85%8B%E9%9A%86%E5%88%B0%E6%9C%AC%E5%9C%B0">将远程仓库克隆到本地</a></li>
-</ul>
-</li>
-<li><a href="#%E5%88%86%E6%94%AF">分支</a><ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E4%BA%8E%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF">创建于合并分支</a></li>
-<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E5%87%BA%E7%8E%B0%E5%86%B2%E7%AA%81">合并分支出现冲突</a></li>
-<li><a href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%E6%97%B6%E4%BF%9D%E7%95%99%E5%8E%86%E5%8F%B2%E5%88%86%E6%94%AF">合并分支时保留历史分支</a></li>
-<li><a href="#%E4%BF%AE%E5%A4%8D%E5%85%B6%E4%BB%96%E5%88%86%E6%94%AF%E7%9A%84-bug-%E6%97%B6%E4%BF%9D%E5%AD%98%E8%AF%A5%E5%88%86%E6%94%AF%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%8E%B0%E5%9C%BA">修复其他分支的 bug 时，保存该分支的工作现场</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AA%E8%A2%AB%E5%90%88%E5%B9%B6%E7%9A%84%E5%88%86%E6%94%AF">删除未被合并的分支</a></li>
-<li><a href="#%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C%E7%9A%84%E6%AD%A5%E9%AA%A4">多人协作的步骤</a></li>
-</ul>
-</li>
-<li><a href="#%E6%A0%87%E7%AD%BE">标签</a><ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E6%A0%87%E7%AD%BE">创建标签</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%A0%87%E7%AD%BE">删除标签</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E4%B8%8E%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE">参与开源项目</a></li>
-<li><a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E5%A4%9A%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">本地仓库关联多个远程仓库</a></li>
-<li><a href="#%E5%BF%BD%E7%95%A5%E7%89%B9%E6%AE%8A%E6%96%87%E4%BB%B6">忽略特殊文件</a></li>
-<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
-</ul>
-<!-- /TOC -->
-
-<p>本文主要讲述 git 相关的命令操作</p>
-<a id="more"></a>
-<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="git-基础"><a href="#git-基础" class="headerlink" title="git 基础"></a>git 基础</h2><p>git 文件的三种状态：</p>
-<ul>
-<li>已提交（committed）：表示该文件已经被安全地保存在本地数据库中了</li>
-<li>已修改（modified）：表示修改了某个文件，但还没有提交保存</li>
-<li>已暂存（staged）：把已修改的文件放在下次提交时要保存的清单中</li>
-</ul>
-<p>Git 目录：（译注：如果 git clone 出来的话，就是其中 .git 的目录；如果 <code>git clone --bare</code> 的话，新建的目录本身就是 Git 目录。），它是 Git 用来保存元数据和对象数据库的地方。该目录非常重要，每次克隆镜像仓库的时候，实际拷贝的就是这个目录里面的数据。<br>文件流转的三个工作区域：</p>
-<ul>
-<li>Git 的工作目录：从项目中取出某个版本的所有文件和目录，用以开始后续工作。这些文件实际上都是从 Git 目录中的压缩对象数据库中提取出来的，接下来就可以在工作目录中对这些文件进行编辑。</li>
-<li>暂存区域：所谓的暂存区域只不过是个简单的文件，一般都放在 Git 目录中。有时候人们会把这个文件叫做索引文件。</li>
-<li>本地仓库</li>
-</ul>
-<p>基本的 Git 工作流程如下：</p>
-<ol>
-<li>在工作目录中修改某些文件。</li>
-<li>对修改后的文件进行快照，然后保存到暂存区域。</li>
-<li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中。</li>
-</ol>
-<p>所以，我们可以从文件所处的位置来判断状态：如果是 Git 目录中保存着的特定版本文件，就属于已提交状态；如果作了修改并已放入暂存区域，就属于已暂存状态；如果自上次取出后，作了修改但还没有放到暂存区域，就是已修改状态。</p>
-<hr>
-<p>查看已有的配置信息的命令 <code>git config --list</code><br>配置用户名和邮箱：<code>git config --global user.name &quot;名字&quot;</code> <code>git config --global user.email &quot;邮箱&quot;</code> （<code>global</code> 参数表示这台机器上所有的 git 仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和邮箱）</p>
-<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><ol>
-<li>新建一个空的文件夹 learngit ，在该文件夹下执行 <code>git init</code> 命令，初始化一个 Git 仓库。</li>
-<li>在 learngit 这个文件夹下新建一个或几个文件，创建文本文件最好用 Notepad++ ，不要用 windows 自带的文本文件，涉及到编码问题</li>
-<li>将文件添加到 Git 仓库，分两步：<ul>
-<li>使用命令git add <file>，注意，可反复多次使用，添加多个文件；<file>指的是文件名</li>
-<li>使用命令git commit -m <message>，完成。<message>表示一些提示性的信息</li>
-</ul>
-</li>
-</ol>
-<h2 id="查看工作区状态"><a href="#查看工作区状态" class="headerlink" title="查看工作区状态"></a>查看工作区状态</h2><ul>
-<li>查看工作区的状态，执行命令 <code>git status</code></li>
-<li>如果文件有被修改，查看文件的不同，执行命令 <code>git diff &lt;文件名&gt;</code>。（比较的是工作区的文件和暂存区的文件的不同，如果想比较当前文件和提交到分支中文件的不同，需要明确指明，例如用命令 <code>git diff HEAD -- readme.txt</code> 比较工作区中的readme.txt文件和提交到分支的readme.txt的不同）</li>
-</ul>
-<h2 id="在不同版本之间切换"><a href="#在不同版本之间切换" class="headerlink" title="在不同版本之间切换"></a>在不同版本之间切换</h2><ul>
-<li>HEAD 指向的版本就是当前版本（HEAD^ 表示上一个版本，HEAD^^ 表示上上个版本，如果是往上100个版本，用 HEAD~100 来表示），因此，Git 允许我们在版本的历史之间穿梭，使用命令 <code>git reset --hard commit_id</code>，commit_id指的是每一个版本的编号，也可以用 HEAD^这种形式来表示</li>
-<li><code>git log</code> 命令可以查看提交历史，以便确定要回退到哪个版本。<code>git log --pretty=oneline</code> 将提交的历史在一行显示</li>
-<li><code>git reflog</code> 命令查看命令历史，以便确定要回到未来的哪个版本。</li>
-</ul>
-<h2 id="git工作区和暂存区"><a href="#git工作区和暂存区" class="headerlink" title="git工作区和暂存区"></a>git工作区和暂存区</h2><ul>
-<li>工作区：是指我们所操作的文件所属的文件夹，例如上述例子中的 learngit 文件夹</li>
-<li>暂存区：执行 <code>git add &quot;文件名&quot;</code> 命令后，文件会从工作区转移到暂存区</li>
-<li>分支：执行 <code>git commit -m &quot;说明信息&quot;</code> 命令后，文件会从暂存区提交到分支</li>
-</ul>
-<h2 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h2><ul>
-<li>改变了工作区的内容，想退回到原来（最近一次）的状态，执行命令 <code>git checkout -- &quot;文件名&quot;</code></li>
-<li>使文件从暂存区回到工作区，执行命令 <code>git reset HEAD &quot;文件名&quot;</code></li>
-</ul>
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><p><code>git rm &quot;文件名&quot;</code> ：删除分支中的文件<br>如果误删了（在文件夹中删除了，但是分支中没有删除）可以用 <code>git checkout -- &quot;文件名&quot;</code> 使文件夹中该文件的内容恢复到和分支中一样的情形</p>
-<h1 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h1><h2 id="将本地仓库和远程仓库建立关联"><a href="#将本地仓库和远程仓库建立关联" class="headerlink" title="将本地仓库和远程仓库建立关联"></a>将本地仓库和远程仓库建立关联</h2><ol>
-<li>首先在远程仓库中添加本地仓库的 SSH公钥<ul>
-<li>执行 <code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code></li>
-<li>此时，会在用户主目录下出现 <code>.ssh</code> 目录，该目录下有 <code>id_rsa</code> （私钥）和 <code>id_rsa.pub</code> （公钥）两个文件</li>
-<li>在 github 上为该电脑添加 SSH Keys，将 <code>id_rsa.pub</code> 文件中的内容拷贝到 Key 中 </li>
-</ul>
-</li>
-<li>在远程仓库中建立一个新的 repository ，将本地仓库和远程仓库之间建立关联，执行命令：<code> git remote add origin git@github.com:Crystal1213/learngit.git</code></li>
-<li>将本地仓库的内容推送到远程，执行命令 <code>git push -u origin master</code> origin 是远程库的名字，master 是当前分支，这里加了 <code>-u</code> ，Git 不但会把本地的 master 分支内容推送的远程新的 master 分支，还会把本地的 master 分支和远程的 master 分支关联起来，在以后的推送或者拉取时就可以简化命令。注：以后推送时，只需执行 <code>git push origin master</code></li>
-</ol>
-<h2 id="将远程仓库克隆到本地"><a href="#将远程仓库克隆到本地" class="headerlink" title="将远程仓库克隆到本地"></a>将远程仓库克隆到本地</h2><p><code>git clone 远程仓库地址</code></p>
-<h1 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h1><p>创建一个自己的分支，当所有工作都做完后合并到原来的分支</p>
-<h2 id="创建于合并分支"><a href="#创建于合并分支" class="headerlink" title="创建于合并分支"></a>创建于合并分支</h2><ul>
-<li>查看分支：<code>git branch</code></li>
-<li>创建分支：<code>git branch 分支名</code></li>
-<li>切换分支：<code>git checkout 分支名</code> 或者 <code>git switch 分支名</code></li>
-<li>创建并切换分支：<code>git checkout -b 分支名</code> 或者 <code>git switch -c 分支名</code></li>
-<li>合并到当前分支分支：<code>git merge 分支名</code></li>
-<li>删除分支：<code>git branch -d 分支名</code></li>
-</ul>
-<h2 id="合并分支出现冲突"><a href="#合并分支出现冲突" class="headerlink" title="合并分支出现冲突"></a>合并分支出现冲突</h2><p>手动修改出现冲突的文件，可以用命令 <code>git log --graph</code> 查看分支合并图<br><code>git log --graph --pretty=oneline --abbrev-commit</code></p>
-<h2 id="合并分支时保留历史分支"><a href="#合并分支时保留历史分支" class="headerlink" title="合并分支时保留历史分支"></a>合并分支时保留历史分支</h2><p>合并分支：默认情况下是 <code>Fast Forward</code> 模式，也就是合并后，会丢掉分支信息<br>禁止使用 <code>Fast Forward</code> 模式，在合并分支时，就会生成一个新的 commit，这样就能从分支历史上看出分支信息，合并分支时执行命令 <code>git merge --no-ff -m &quot;提示信息&quot; 待合并的分支名</code></p>
-<h2 id="修复其他分支的-bug-时，保存该分支的工作现场"><a href="#修复其他分支的-bug-时，保存该分支的工作现场" class="headerlink" title="修复其他分支的 bug 时，保存该分支的工作现场"></a>修复其他分支的 bug 时，保存该分支的工作现场</h2><p>保存工作现场命令：<code>git stash</code> （保存哪个分支的工作现场，就在哪个分支上执行）<br>查看已保存的工作现场：<code>git stash list</code><br>恢复工作现场：</p>
-<ul>
-<li><code>git stash pop</code> </li>
-<li>或者 <code>git stash apply stash@&#123;数字&#125;</code> 此时 list 中还有此工作现场，需要执行 <code>git stash drop</code> 来将该工作现场删除</li>
-</ul>
-<p>注：如果想将其他分支修复 bug 后的结果，合并到该分支，在恢复该分支的工作现场之前，执行 <code>git cherry-pick &lt;commit&gt;</code> commit 是在执行 <code>git commit -m &quot;&quot;</code> 命令后，显示出来的那一串字母加数字，例如：<code>1d4b803</code></p>
-<h2 id="删除未被合并的分支"><a href="#删除未被合并的分支" class="headerlink" title="删除未被合并的分支"></a>删除未被合并的分支</h2><p><code>git branch -D 分支名</code> 将原来小写的 d 改为大写的 D</p>
-<h2 id="多人协作的步骤"><a href="#多人协作的步骤" class="headerlink" title="多人协作的步骤"></a>多人协作的步骤</h2><p>查看远程仓库的信息：<code>git remote -v</code></p>
-<ol>
-<li>将远程仓库克隆到本地，执行命令 <code>git clone git@github.com:Crystal1213/learngit.git</code>注意先将本地电脑的 SSH 加入到 github 中，然后再克隆；</li>
-<li>创建并切换到 dev 分支，执行命令 <code>git checkout -b dev origin/dev</code> 本地分支和远程仓库的分支名最好相同，注意：这里是创建远程分支 <code>origin/dev</code> 的对应分支 <code>dev</code></li>
-<li>开发完成后，在本地 commit 后，即执行 <code>git add 文件名</code> <code>git commit -m &quot;备注&quot;</code> 后，将该分支推送到远程 <code>git push origin dev</code></li>
-</ol>
-<p>推送到远程可能出现的问题：<br><code>your current branch is behind</code> ：表明当前的分支落后了，那么需要将远程仓库相应分支的内容 pull （pull = fetch + merge），即将远程的分支拉下来，并和本地合并。执行命令 <code>git pull</code>。如果有冲突，在本地解决冲突后，再合并。</p>
-<p>执行 <code>git pull</code> 出现 <code>no tracking information for the current branch</code> ，意思是没有指定本地分支 <code>dev</code> 和 远程分支 <code>origin/dev</code> 之间的连接，执行命令 <code>git branch --set-upstream-to=origin/dev dev</code></p>
-<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><p>commit 号比较难记，所以用标签来表示 commit 号。</p>
-<h2 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h2><ul>
-<li><code>git tag 标签名</code> ：默认在 HEAD 处创建标签</li>
-<li><code>git tag 标签名 commit号</code> ：在 commit 号处创建标签</li>
-<li><code>git tag -a 标签名 -m “Tagger信息” commit号</code> ：在 commit 号处创建标签的同时增加该标签的一些说明信息，<code>-a</code> 指定标签名，<code>-m</code> 指定说明文字</li>
-<li><code>git tag</code> ：显示所有标签，按照字母顺序排列</li>
-<li><code>git show 标签名</code>：显示该标签处对应的详细信息</li>
-</ul>
-<h2 id="删除标签"><a href="#删除标签" class="headerlink" title="删除标签"></a>删除标签</h2><ul>
-<li><code>git push origin 标签名</code> ：将本地标签推送到远程</li>
-<li><code>git push origin --tags</code> ：将本地所有标签推送到远程</li>
-<li><code>git tag -d 标签名</code> ：删除的本地标签</li>
-<li><code>git push origin :refs/tags/标签名</code> ：删除远程标签，:refs/tags/标签名 这里其实是 .git 目录下对应的目录</li>
-</ul>
-<h1 id="参与开源项目"><a href="#参与开源项目" class="headerlink" title="参与开源项目"></a>参与开源项目</h1><p>基本步骤：</p>
-<ol>
-<li>将他人的开源仓库 fork 到自己的 Github 上；</li>
-<li>将该开源仓库从自己的 Github 上克隆到本地；<code>git clone 项目地址</code></li>
-<li>修改该项目；</li>
-<li>推送一个 pull request 到他人开源仓库。（当然他人可选择接受或不接受）</li>
-</ol>
-<h1 id="本地仓库关联多个远程仓库"><a href="#本地仓库关联多个远程仓库" class="headerlink" title="本地仓库关联多个远程仓库"></a>本地仓库关联多个远程仓库</h1><p>以既关联 github 又关联 gitee 为例，此时已经关联了 github。</p>
-<ol>
-<li>创建 gitee 账号，将本地电脑的 SSH 公钥增加到 gitee 中；</li>
-<li>在 gitee 中创建一个仓库（最好与本地仓库同名）；</li>
-<li>将本地仓库与远程仓库建立关联，<code>git remote add gitee git@gitee.com:yanyufang/learngit.git</code> （注意：这里的 gitee 是远程仓库名，github 中对应的远程仓库名叫 origin，这也是默认的远程仓库名，这两个远程仓库名不能重名，否则会出现 <code> fatal: remote origin already exists.</code>）</li>
-<li>将本地仓库推送到远程，<code>git push gitee master</code></li>
-</ol>
-<p>修改远程仓库名：<code>git remote rename 旧名字 新名字</code><br>删除已关联的远程仓库：<code>git remote remove 远程仓库名</code><br>显示已关联的远程仓库的信息：<code>git remote -v</code><br>修改远程仓库的地址：<code>git remote set-url 远程仓库名 新地址</code></p>
-<h1 id="忽略特殊文件"><a href="#忽略特殊文件" class="headerlink" title="忽略特殊文件"></a>忽略特殊文件</h1><p>一些文件只在本地 git 仓库有，并不想推送到远程。<br>处理方法：</p>
-<ol>
-<li>建立 <code>.gitignore</code> 文件，将想要忽略的文件的写入其中；</li>
-<li>将 <code>.gitignore</code> 文件提交到 git 仓库；</li>
-<li>检查是否创建成功，用 <code>git status</code> 命令，是否显示 <code>working directory clean</code>。</li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://i.loli.net/2020/12/19/rExAoiPVfLMm18u.png" alt="image.png"></p>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>My first blog</title>
-    <url>/posts/11206/</url>
-    <content><![CDATA[<p>2020年12月6日晚8：52分  周日 主楼实验室 沈阳</p>
-<p>在2020年的最后一个月搭建好了个人博客，即将开始博客之旅，将自己的学习笔记，成长轨迹，生活中的点滴，记录在这里。初次搭完博客，还有些许的成就感，当然要完善的地方还有很多，目前而言能够发布文章，以及文章的一些统计功能，还有站点的一些统计功能。一些按钮还未设置好。</p>
-<p>博客的主题采用hexo中使用量最多的next主题，重点考虑到用的人多，遇到问题更容易找到解决办法。</p>
-<p>新的开始，加油~~~</p>
-]]></content>
-      <categories>
-        <category>成长轨迹</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++ 字符串比较大小的原理</title>
-    <url>/posts/60551/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA">问题引出</a></li>
-<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86">字符串比较大小的原理</a></li>
-</ul>
-<!-- /TOC -->
-<h2 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h2><p>笔者在比较两个字符串大小的时候踩过的坑，本意是想利用数值型对应的字符串的形式比较字符串本身的大小，例如：<code>&quot;21&quot; &gt; &quot;111&quot;</code>显然对于数值型的<code>21 &gt; 111</code>】结果肯定为false,但是<code>&quot;21&quot; &gt; &quot;111&quot;</code>的结果为true</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1 = <span class="string">&quot;21&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> n1 = <span class="number">21</span>, n2 = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">bool</span> res = (n1 &gt; n2);   </span><br><span class="line">    <span class="keyword">bool</span> res1 = (s1 &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(n1 &gt; n2) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(s1 &gt; s2) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="字符串比较大小的原理"><a href="#字符串比较大小的原理" class="headerlink" title="字符串比较大小的原理"></a>字符串比较大小的原理</h2><p>首先看下《C++ Primer》这本书中的描述：<img src="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png" alt="image.png"><br>原理：字符串中第一个相异的字符比较的结果<br>明确以下几点：</p>
-<ol>
-<li>两个字符串是可以用【&gt;,&lt;,&gt;=,&lt;=】来比较大小的</li>
-<li>对于数值型对应的字符串形式，<ul>
-<li>两个字符串长度相等的情况下，例如：<code>&quot;12&quot; &lt; &quot;22&quot;</code>，是可以比较出两个字符串对应的原数值型数据的大小关系</li>
-<li>两个字符串长度不等的情况下，无法比较出其对应数值型的大小关系，因为比较的结果取决于从左向右遇到的第一个不等的字符。</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s = <span class="string">&quot;21&quot;</span>, s1 = <span class="string">&quot;11&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>; </span><br><span class="line">    <span class="comment">// TODO：长度相等的字符串比较的结果   </span></span><br><span class="line">    <span class="keyword">bool</span> res = (s &gt; s1);   </span><br><span class="line">    <span class="comment">// TODO：长度不等的字符串比较的结果</span></span><br><span class="line">    <span class="keyword">bool</span> res1 = (s &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;11\&quot;) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;111\&quot;) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;11&quot;</span>) = <span class="number">1</span></span><br><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;111&quot;</span>) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>编程中踩过的坑</category>
-      </categories>
-      <tags>
-        <tag>string</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode649.Dota2 Senate</title>
-    <url>/posts/2004464160/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>In the world of Dota2, there are two parties: the Radiant and the Dire.</p>
-<p>The Dota2 senate consists of senators coming from two parties. Now the senate wants to make a decision about a change in the Dota2 game. The voting for this change is a round-based procedure. In each round, each senator can exercise one of the two rights:</p>
-<p>Ban one senator’s right:</p>
-<ul>
-<li>A senator can make another senator lose all his rights in this and all the following rounds.<br>Announce the victory:</li>
-<li>If this senator found the senators who still have rights to vote are all from the same party, he can announce the victory and make the decision about the change in the game.</li>
-</ul>
-<p>Given a string representing each senator’s party belonging. The character ‘R’ and ‘D’ represent the Radiant party and the Dire party respectively. Then if there are n senators, the size of the given string will be n.</p>
-<p>The round-based procedure starts from the first senator to the last senator in the given order. This procedure will last until the end of voting. All the senators who have lost their rights will be skipped during the procedure.</p>
-<p>Suppose every senator is smart enough and will play the best strategy for his own party, you need to predict which party will finally announce the victory and make the change in the Dota2 game. The output should be Radiant or Dire.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: &quot;RD&quot;
-Output: &quot;Radiant&quot;
-Explanation: The first senator comes from Radiant and he can just ban the next senator&#39;s right in the round 1. 
-And the second senator can&#39;t exercise any rights any more since his right has been banned. 
-And in the round 2, the first senator can just announce the victory since he is the only guy in the senate who can vote.</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: &quot;RDD&quot;
-Output: &quot;Dire&quot;
-Explanation: 
-The first senator comes from Radiant and he can just ban the next senator&#39;s right in the round 1. 
-And the second senator can&#39;t exercise any rights anymore since his right has been banned. 
-And the third senator comes from Dire and he can ban the first senator&#39;s right in the round 1. 
-And in the round 2, the third senator can just announce the victory since he is the only guy in the senate who can vote.</code></pre>
-<p><strong>Note:</strong></p>
-<ul>
-<li>The length of the given string will in the range [1, 10,000].</li>
-</ul>
-<p><strong>题目链接：</strong></p>
-<ul>
-<li>中文站：<a href="https://leetcode-cn.com/problems/dota2-senate/">https://leetcode-cn.com/problems/dota2-senate/</a></li>
-<li>英文站：<a href="https://leetcode.com/problems/dota2-senate/">https://leetcode.com/problems/dota2-senate/</a></li>
-</ul>
-<h2 id="基本思想：贪心"><a href="#基本思想：贪心" class="headerlink" title="基本思想：贪心"></a>基本思想：贪心</h2><p>首先明确一下问题：</p>
-<ul>
-<li>为了保证自己方获胜，每一轮禁掉对方一个人的权利</li>
-<li>当一方的权利全部被禁掉的时候，另一方就是胜方</li>
-</ul>
-<p><strong>Q：</strong>禁掉对方的权利时，对方有多名候选人，该禁掉哪一个？<br><strong>A：</strong>贪心思想，禁掉对方的候选人中能够最早行使权力的那一个，因为如果禁掉最晚行使权力的那一个，可能等到它行使权力的时候，我方已经输了</p>
-<p>解决方法：</p>
-<ul>
-<li>维护两个队列，保存每一个候选人行使权力的时间</li>
-<li>两个队列的队头元素中，谁的时间早，谁就行使权力，每次禁掉对方的队头元素的权利，自己下一次行使权力的时间为当前时间 + 原始字符串的长度（能够保证比当前轮次所有候选人的时间都大）</li>
-</ul>
-<p>注意：这里加的是最初的字符串的长度，而不是删除候选人之后的长度</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">predictPartyVictory</span><span class="params">(<span class="built_in">string</span> senate)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; rq, dq;</span><br><span class="line">        <span class="keyword">int</span> time = <span class="number">0</span>, n = senate.size();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> s : senate)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s == <span class="string">&#x27;R&#x27;</span>)&#123;</span><br><span class="line">                rq.push(time++);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dq.push(time++);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!rq.empty() &amp;&amp; !dq.empty())&#123;</span><br><span class="line">            <span class="keyword">if</span>(rq.front() &lt; dq.front())&#123;</span><br><span class="line">                dq.pop();</span><br><span class="line">                rq.push(rq.front() + n);</span><br><span class="line">                rq.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                rq.pop();</span><br><span class="line">                dq.push(dq.front() + n);</span><br><span class="line">                dq.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rq.empty()? <span class="string">&quot;Dire&quot;</span> : <span class="string">&quot;Radiant&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>贪心算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode62.Unique Paths</title>
-    <url>/posts/3208550628/</url>
-    <content><![CDATA[<h2 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h2><p>A robot is located at the top-left corner of a m x n grid (marked ‘Start’ in the diagram below).</p>
-<p>The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked ‘Finish’ in the diagram below).</p>
-<p>How many possible unique paths are there?</p>
-<p><strong>Example 1:</strong><br><img src="https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png" alt="图片"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 7</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 2</span><br><span class="line">Output: 3</span><br><span class="line">Explanation:</span><br><span class="line">From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:</span><br><span class="line">1. Right -&gt; Down -&gt; Down</span><br><span class="line">2. Down -&gt; Down -&gt; Right</span><br><span class="line">3. Down -&gt; Right -&gt; Down</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 7, n &#x3D; 3</span><br><span class="line">Output: 28</span><br></pre></td></tr></table></figure>
-<p><strong>Example 4:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: m &#x3D; 3, n &#x3D; 3</span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
-
-<p><strong>Constraints:</strong></p>
-<ul>
-<li>1 &lt;= m, n &lt;= 100</li>
-<li>It’s guaranteed that the answer will be less than or equal to 2 * 109.</li>
-</ul>
-<p><strong>题目链接：</strong></p>
-<ul>
-<li>中文站：<a href="https://leetcode-cn.com/problems/unique-paths/">https://leetcode-cn.com/problems/unique-paths/</a></li>
-<li>英文站：<a href="https://leetcode.com/problems/unique-paths/">https://leetcode.com/problems/unique-paths/</a></li>
-</ul>
-<h2 id="基本思想1：动态规划"><a href="#基本思想1：动态规划" class="headerlink" title="基本思想1：动态规划"></a>基本思想1：动态规划</h2><ul>
-<li>dp[i]：到达该行第i列的路径数</li>
-<li>状态：网格的每一个位置</li>
-<li>选择：从上面到达该位置，或者从左面到达该位置</li>
-<li>状态转移方程：dp[i] = dp[i] + dp[i - 1]，这里其实是用的降维后的dp，<ul>
-<li>等号右面的dp[i]表示上一行第i列的路径数</li>
-<li>等号右面的dp[i - 1]表示本行第i - 1列的路径数</li>
-<li>初始条件：对于第0行和第0列结果都为1</li>
-</ul>
-</li>
-</ul>
-<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n, <span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; ++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)&#123;</span><br><span class="line">                dp[j] += (j &gt; <span class="number">0</span>? dp[j - <span class="number">1</span>] : <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                dp[j] += (dp[j - <span class="number">1</span>] <span class="keyword">if</span> j &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>]</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
-<h2 id="基本思想2：dfs"><a href="#基本思想2：dfs" class="headerlink" title="基本思想2：dfs"></a>基本思想2：dfs</h2><ul>
-<li>核心思想：从当前点走到终点的路径数 = 向右的路径的数 + 向左的路径的数</li>
-<li>dfs的过程中，为了提高程序运行的效率，采用记忆化dfs，即保存下当前位置的结果，因为会多次从当前位置进行dfs。（可以画一下dfs的递归树看一下）</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniquePaths</span>(<span class="params">self, m: <span class="built_in">int</span>, n: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">        mp = &#123;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">x: <span class="built_in">int</span>, y: <span class="built_in">int</span></span>) -&gt; int:</span></span><br><span class="line">            <span class="keyword">nonlocal</span> mp</span><br><span class="line">             </span><br><span class="line">            <span class="keyword">if</span> x == m - <span class="number">1</span> <span class="keyword">and</span> y == n - <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> x == m <span class="keyword">or</span> y == n:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            k = <span class="built_in">str</span>(x) + <span class="string">&quot;*&quot;</span> + <span class="built_in">str</span>(y)</span><br><span class="line">            <span class="keyword">if</span> k <span class="keyword">in</span> mp.keys():</span><br><span class="line">                <span class="keyword">return</span> mp[k]</span><br><span class="line">                </span><br><span class="line">            down = dfs(x + <span class="number">1</span>, y)</span><br><span class="line">            right = dfs(x, y + <span class="number">1</span>)</span><br><span class="line">            mp[k] = down + right</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> mp[k]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        </span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>dfs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode842.Split Array into Fibonacci Sequence</title>
-    <url>/posts/30354/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3dfs%E5%89%AA%E6%9E%9D">基本思想：dfs+剪枝</a><ul>
-<li><a href="#cpp%E7%89%88%E6%9C%AC">cpp版本</a></li>
-<li><a href="#python%E7%89%88%E6%9C%AC">python版本</a></li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>Given a string S of digits, such as S = “123456579”, we can split it into a Fibonacci-like sequence [123, 456, 579].</p>
-<p>Formally, a Fibonacci-like sequence is a list F of non-negative integers such that:</p>
-<ul>
-<li>0 &lt;= F[i] &lt;= 2^31 - 1, (that is, each integer fits a 32-bit signed integer type);</li>
-<li>F.length &gt;= 3;</li>
-<li>and F[i] + F[i+1] = F[i+2] for all 0 &lt;= i &lt; F.length - 2.</li>
-</ul>
-<p>Also, note that when splitting the string into pieces, each piece must not have extra leading zeroes, except if the piece is the number 0 itself.</p>
-<p>Return any Fibonacci-like sequence split from S, or return [] if it cannot be done.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;123456579&quot;</span><br><span class="line">Output: [123,456,579]</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;11235813&quot;</span><br><span class="line">Output: [1,1,2,3,5,8,13]</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;112358130&quot;</span><br><span class="line">Output: []</span><br><span class="line">Explanation: The task is impossible.</span><br></pre></td></tr></table></figure>
-<p><strong>Example 4:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;0123&quot;</span><br><span class="line">Output: []</span><br><span class="line">Explanation: Leading zeroes are not allowed, so &quot;01&quot;, &quot;2&quot;, &quot;3&quot; is not valid.</span><br></pre></td></tr></table></figure>
-<p><strong>Example 5:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;1101111&quot;</span><br><span class="line">Output: [110, 1, 111]</span><br><span class="line">Explanation: The output [11, 0, 11, 11] would also be accepted.</span><br></pre></td></tr></table></figure>
-<p><strong>Note:</strong></p>
-<ul>
-<li>1 &lt;= S.length &lt;= 200</li>
-<li>S contains only digits.</li>
-</ul>
-<p><strong>题目链接：</strong></p>
-<ul>
-<li>英文站：<a href="https://leetcode.com/problems/split-array-into-fibonacci-sequence/">https://leetcode.com/problems/split-array-into-fibonacci-sequence/</a></li>
-<li>中文站：<a href="https://leetcode-cn.com/problems/split-array-into-fibonacci-sequence/">https://leetcode-cn.com/problems/split-array-into-fibonacci-sequence/</a></li>
-</ul>
-<h2 id="基本思想：dfs-剪枝"><a href="#基本思想：dfs-剪枝" class="headerlink" title="基本思想：dfs+剪枝"></a>基本思想：dfs+剪枝</h2><ul>
-<li>借助dfs考虑每一种情况</li>
-<li>并配合剪枝操作，剪枝的思想：如果已处理的数据中，前两个数的和已经比当前数小了，就没有必要继续往后扩增当前数了</li>
-<li>关键点：处理下数值越界的情况：<ul>
-<li>首先是当前数本身不能超过<code>INT_MAX</code>，具体处理方法见程序，要特别注意：只有当两个字符串长度相等的时候，才能用字符串的形式正确的比较出其对应的数值的大小</li>
-<li>再者已处理的数据中前两个数的和不能超过<code>INT_MAX</code>，这里可用强制类型转化处理</li>
-</ul>
-</li>
-</ul>
-<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">splitIntoFibonacci</span><span class="params">(<span class="built_in">string</span> S)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        dfs(S, <span class="number">0</span>, res, &#123;&#125;);</span><br><span class="line">        <span class="keyword">return</span> res;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="built_in">string</span> S, <span class="keyword">int</span> pos, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; cur)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur.size() &gt; <span class="number">2</span> &amp;&amp; pos == S.length())&#123;</span><br><span class="line">            res = cur;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">bool</span> flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(S[pos] == <span class="string">&#x27;0&#x27;</span>)&#123;<span class="comment">//当起始位置是0的时候，0只能单独作为一个数</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(cur.size() &lt; <span class="number">2</span> || (cur.size() &gt;= <span class="number">2</span> &amp;&amp; cur[cur.size() - <span class="number">2</span>] + cur[cur.size() - <span class="number">1</span>] == <span class="number">0</span>)) &#123;</span><br><span class="line">                cur.push_back(<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">return</span> dfs(S, pos + <span class="number">1</span>, res, cur);</span><br><span class="line">            &#125;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">string</span> s1 = <span class="string">&quot;2147483647&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = pos; i &lt; S.length() &amp;&amp; !flag; ++i) &#123;</span><br><span class="line">            <span class="built_in">string</span> temp = S.substr(pos, i - pos + <span class="number">1</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// TODO：处理下当前数本身越界的情况</span></span><br><span class="line">            <span class="keyword">if</span>((temp.size() == s1.size() &amp;&amp; temp &gt; s1) || temp.size() &gt; s1.size())&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">                </span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> num = atoi(temp.c_str());</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> pre_2sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(cur.size() &gt;= <span class="number">2</span>)&#123;              </span><br><span class="line">                pre_2sum = (<span class="keyword">long</span> <span class="keyword">long</span>)cur[cur.size() - <span class="number">2</span>] + (<span class="keyword">long</span> <span class="keyword">long</span>)cur[cur.size() - <span class="number">1</span>];</span><br><span class="line">                <span class="comment">//<span class="doctag">TODO:</span>处理下前两个数相加越界的情况</span></span><br><span class="line">                <span class="keyword">if</span>(pre_2sum &gt; INT_MAX)&#123; </span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// TODO：前两个数的和小于当前数，就没有必要继续往下dfs了，因为后面的数只会越来越大</span></span><br><span class="line">                <span class="keyword">if</span>(pre_2sum &lt; num) </span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cur.size() &lt; <span class="number">2</span> || (cur.size() &gt;= <span class="number">2</span> &amp;&amp; pre_2sum == num)) &#123;</span><br><span class="line">                cur.push_back(num);</span><br><span class="line">                flag = dfs(S, i + <span class="number">1</span>, res, cur);</span><br><span class="line">                cur.pop_back();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">splitIntoFibonacci</span>(<span class="params">self, S: <span class="built_in">str</span></span>) -&gt; List[int]:</span></span><br><span class="line">        res = []</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">pos: <span class="built_in">int</span></span>) -&gt; bool:</span></span><br><span class="line">            <span class="keyword">if</span> pos == <span class="built_in">len</span>(S):</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">len</span>(res) &gt;= <span class="number">3</span></span><br><span class="line">            </span><br><span class="line">         </span><br><span class="line">            <span class="comment"># if S[pos] == &#x27;0&#x27;:</span></span><br><span class="line">            <span class="comment">#     if len(res) &lt; 2 or (len(res) &gt;= 2 and res[-2] + res[-1] == 0):</span></span><br><span class="line">            <span class="comment">#         res.append(0)</span></span><br><span class="line">            <span class="comment">#         return dfs(pos + 1)</span></span><br><span class="line">            <span class="comment">#     else:</span></span><br><span class="line">            <span class="comment">#         return False</span></span><br><span class="line">            </span><br><span class="line">            s1 = <span class="string">&quot;2147483647&quot;</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(pos, <span class="built_in">len</span>(S)):</span><br><span class="line">                <span class="keyword">if</span> i &gt; pos <span class="keyword">and</span> S[pos] == <span class="string">&quot;0&quot;</span>: <span class="comment">## 处理以0开头的情况，不知道为什么上面的处理方法用python来实现就不行呢！！</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                temp = S[pos : i + <span class="number">1</span>]</span><br><span class="line">                num = <span class="built_in">int</span>(temp)</span><br><span class="line">                print(temp)</span><br><span class="line">                <span class="keyword">if</span> num &gt; <span class="number">2147483647</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                </span><br><span class="line">                pre_2sum = <span class="number">0</span></span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(res) &gt;= <span class="number">2</span>:</span><br><span class="line">                    pre_2sum = res[-<span class="number">1</span>] + res[-<span class="number">2</span>]</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">if</span> pre_2sum &gt; <span class="number">2147483647</span>:</span><br><span class="line">                        <span class="keyword">break</span>                    </span><br><span class="line">                    <span class="keyword">if</span> pre_2sum &lt; num:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                        </span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(res) &lt; <span class="number">2</span> <span class="keyword">or</span> (<span class="built_in">len</span>(res) &gt;= <span class="number">2</span> <span class="keyword">and</span> pre_2sum == num):</span><br><span class="line">                    res.append(num)</span><br><span class="line">                    <span class="keyword">if</span> dfs(i + <span class="number">1</span>):</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                    res.pop()</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">                    </span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>dfs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode860.Lemonade Change</title>
-    <url>/posts/1739017705/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>At a lemonade stand, each lemonade costs $5. </p>
-<p>Customers are standing in a queue to buy from you, and order one at a time (in the order specified by bills).</p>
-<p>Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill.  You must provide the correct change to each customer, so that the net transaction is that the customer pays $5.</p>
-<p>Note that you don’t have any change in hand at first.</p>
-<p>Return true if and only if you can provide every customer with correct change.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: [5,5,5,10,20]
-Output: true
-Explanation: 
-From the first 3 customers, we collect three $5 bills in order.
-From the fourth customer, we collect a $10 bill and give back a $5.
-From the fifth customer, we give a $10 bill and a $5 bill.
-Since all customers got correct change, we output true.</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: [5,5,10]
-Output: true</code></pre>
-<p><strong>Example 3:</strong></p>
-<pre><code>Input: [10,10]
-Output: false</code></pre>
-<p><strong>Example 4:</strong></p>
-<pre><code>Input: [5,5,10,10,20]
-Output: false
-Explanation: 
-From the first two customers in order, we collect two $5 bills.
-For the next two customers in order, we collect a $10 bill and give back a $5 bill.
-For the last customer, we can&#39;t give change of $15 back because we only have two $10 bills.
-Since not every customer received correct change, the answer is false.</code></pre>
-<p><strong>Note:</strong></p>
-<ul>
-<li>0 &lt;= bills.length &lt;= 10000</li>
-<li>bills[i] will be either 5, 10, or 20.</li>
-</ul>
-<p><strong>题目链接：</strong></p>
-<ul>
-<li>中文站：<a href="https://leetcode-cn.com/problems/lemonade-change/">https://leetcode-cn.com/problems/lemonade-change/</a></li>
-<li>英文站：<a href="https://leetcode.com/problems/lemonade-change/">https://leetcode.com/problems/lemonade-change/</a></li>
-</ul>
-<h2 id="基本思想：数组遍历"><a href="#基本思想：数组遍历" class="headerlink" title="基本思想：数组遍历"></a>基本思想：数组遍历</h2><ul>
-<li>将 $5, $10, $20 各有多少张保存在map中</li>
-<li>遍历 bills 数组，每次判断能否找零，从 $20 开始判断，即找零的面值从大到小开始判断</li>
-</ul>
-<h3 id="cpp-版本"><a href="#cpp-版本" class="headerlink" title="cpp 版本"></a>cpp 版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">lemonadeChange</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; bills)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; ump;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; moneys = &#123;<span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> bill : bills)&#123;</span><br><span class="line">            ump[bill]++;</span><br><span class="line">            <span class="keyword">int</span> last_money = bill - <span class="number">5</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span> &amp;&amp; last_money; ++i)&#123;</span><br><span class="line">                <span class="keyword">int</span> cnt = last_money / moneys[i];</span><br><span class="line">                <span class="keyword">if</span>(cnt &lt;= ump[moneys[i]])&#123;</span><br><span class="line">                    ump[moneys[i]] -= cnt;</span><br><span class="line">                    last_money -= cnt * moneys[i];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    last_money -= ump[moneys[i]] * cnt;</span><br><span class="line">                    ump[moneys[i]] = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(last_money)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="python-版本"><a href="#python-版本" class="headerlink" title="python 版本"></a>python 版本</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lemonadeChange</span>(<span class="params">self, bills: List[<span class="built_in">int</span>]</span>) -&gt; bool:</span></span><br><span class="line">        ump = &#123;<span class="number">5</span>:<span class="number">0</span>, <span class="number">10</span>:<span class="number">0</span>, <span class="number">20</span>:<span class="number">0</span>&#125;</span><br><span class="line">        moneys = [<span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>]</span><br><span class="line">        <span class="keyword">for</span> bill <span class="keyword">in</span> bills:</span><br><span class="line">            ump[bill] += <span class="number">1</span></span><br><span class="line">            last_money = bill - <span class="number">5</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> money <span class="keyword">in</span> moneys:</span><br><span class="line">                <span class="keyword">if</span> last_money == <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                cnt = last_money // money</span><br><span class="line">                <span class="keyword">if</span> cnt &lt;= ump[money]:</span><br><span class="line">                    last_money -= cnt * money</span><br><span class="line">                    ump[money] -= cnt</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    last_money -= ump[money] * money</span><br><span class="line">                    ump[money] = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> last_money:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>  </span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python 中 nonlocal 和 global 的作用</title>
-    <url>/posts/2750345904/</url>
-    <content><![CDATA[<h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>如下代码，由于对 cpp 十分熟悉，想当然的认为变量 a 的作用域为它所在的这个函数，包括其嵌套函数中也可以使用，然而这种想法在 python 中完全不适用。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>程序报错：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">UnboundLocalError: local variable &#39;a&#39; referenced before assignment</span><br></pre></td></tr></table></figure>
-<p>原因在于：fun()函数中的变量a还未定义就使用，那本质上是此时程序认为fun()函数和外层函数中的变量a并无关系。</p>
-<p>正确的用法：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">nonlocal</span> a <span class="comment"># 将a声明成上一级函数wfun中的局部变量</span></span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun()</span><br></pre></td></tr></table></figure>
-
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>参考链接：</p>
-<ul>
-<li><a href="https://blog.csdn.net/xCyansun/article/details/79672634">https://blog.csdn.net/xCyansun/article/details/79672634</a></li>
-<li><a href="https://www.cnblogs.com/z360519549/p/5172020.html">https://www.cnblogs.com/z360519549/p/5172020.html</a></li>
-</ul>
-<p>功能：</p>
-<ul>
-<li><code>global</code> 关键字修饰变量后，表示声明该变量是全局变量</li>
-<li><code>nonlocal</code> 关键字修饰变量后，表示声明该变量是上一级函数中的局部变量，若是上一级函数中不存在该变量，则发生错误</li>
-</ul>
-<p>使用范围：</p>
-<ul>
-<li><code>global</code> 关键字可以使用在任何地方，包括上层函数和嵌套函数中，即使是之前未定义的变量</li>
-<li><code>nonlocal</code> 关键字只能用于嵌套函数中，并且外层函数中定义了相应的局部变量</li>
-</ul>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><ol>
-<li><p><code>global</code> 关键字在函数中或其他作用域内修饰的变量表示该变量是全局变量，如果该变量在函数内不会被修改，也可以不用 <code>global</code> 修饰。即全局变量在函数中是可以直接访问的（读操作），但如果对其值进行改变（写操作）必须用 <code>global</code> 关键字声明</p>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span>        </span><br><span class="line">    print(a)</span><br><span class="line">fun() <span class="comment"># 3</span></span><br></pre></td></tr></table></figure>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    a += <span class="number">3</span>        </span><br><span class="line">    print(a) </span><br><span class="line">fun() <span class="comment"># 6</span></span><br></pre></td></tr></table></figure></li>
-<li><p><code>global</code> 关键字可以使用在任何地方，即使是未定义的变量</p>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">global</span> b <span class="comment"># 将 b 声明为全局变量</span></span><br><span class="line">        b = <span class="number">4</span></span><br><span class="line">        print(b) <span class="comment"># 4 (全局变量 b)</span></span><br><span class="line">    a = <span class="number">5</span> <span class="comment"># wfun函数的局部变量 a</span></span><br><span class="line">    fun() </span><br><span class="line">    print(a) <span class="comment"># 5 (局部变量 a)</span></span><br><span class="line">wfun()</span><br><span class="line">print(b) <span class="comment"># 4 (全局变量 b)</span></span><br></pre></td></tr></table></figure>
-
-<p> python中引用变量的顺序：当前作用域局部变量–&gt;外层作用域变量–&gt;当前模块中的全局变量–&gt;python中内置变量</p>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">global</span> a <span class="comment"># 将 a 声明为全局变量，但不会影响外层函数wfun中的局部变量 a</span></span><br><span class="line">        a = <span class="number">4</span></span><br><span class="line">        print(a) <span class="comment"># 4 (全局变量 a)</span></span><br><span class="line">    a = <span class="number">5</span> <span class="comment"># wfun函数的局部变量 a</span></span><br><span class="line">    fun() </span><br><span class="line">    print(a) <span class="comment"># 5 (局部变量 a，这里涉及到python引用变量的顺序)</span></span><br><span class="line">wfun()</span><br><span class="line">print(a) <span class="comment"># 4 (全局变量 a)</span></span><br></pre></td></tr></table></figure>
-<p> <code>global</code> 声明未定义的变量</p>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_b</span>():</span></span><br><span class="line">    <span class="keyword">global</span> b <span class="comment"># 声明b为全局变量</span></span><br><span class="line">    b = <span class="number">42</span> <span class="comment"># 定义b，这里要注意下：不能在声明的同时定义</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span>():</span></span><br><span class="line">        <span class="keyword">global</span>  b <span class="comment"># 因为要在该函数内修改，所以要声明下，注意这里修改的是外层的全局变量b</span></span><br><span class="line">        b = b + <span class="number">10</span></span><br><span class="line">        print(b) <span class="comment"># 52</span></span><br><span class="line">    do_global()</span><br><span class="line">    print(b) <span class="comment"># 52</span></span><br><span class="line">add_b()</span><br></pre></td></tr></table></figure>
-<p> 对比如下两个程序：</p>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_b</span>():</span></span><br><span class="line">    <span class="comment">#global  b</span></span><br><span class="line">    b = <span class="number">42</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span>():</span></span><br><span class="line">        <span class="keyword">global</span>  b</span><br><span class="line">        b =  <span class="number">10</span></span><br><span class="line">        print(b) <span class="comment"># 10</span></span><br><span class="line">    do_global()</span><br><span class="line">    b  = b + <span class="number">5</span></span><br><span class="line">    print(b) <span class="comment"># 47 (注意下这里是等号右边的b是局部变量b)</span></span><br><span class="line">add_b()</span><br><span class="line">b = b + <span class="number">30</span> <span class="comment"># 40 (注意下这里的b是全局变量b)</span></span><br><span class="line">print(<span class="string">&quot; b = %s &quot;</span> % b)</span><br></pre></td></tr></table></figure>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_b</span>():</span></span><br><span class="line">    <span class="comment">#global  b</span></span><br><span class="line">    <span class="comment">#b = 42</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span>():</span></span><br><span class="line">        <span class="keyword">global</span>  b</span><br><span class="line">        b = <span class="number">10</span></span><br><span class="line">        print(b)</span><br><span class="line">    do_global()</span><br><span class="line">    b = b + <span class="number">20</span> <span class="comment"># 这里的b程序认为是局部变量，但是并没有定义局部变量</span></span><br><span class="line">    print(b)</span><br><span class="line">add_b()</span><br><span class="line">b = b + <span class="number">30</span></span><br><span class="line">print(<span class="string">&quot; b = %s &quot;</span> % b)</span><br><span class="line"><span class="comment"># 程序报错：UnboundLocalError: local variable &#x27;b&#x27; referenced before assignment</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>nonlocal</code> 关键字用来在函数或其他作用域内声明其外层函数的变量（非全局变量）。即如果内层函数想使用外层函数的变量（非全局变量）需要用 <code>nonlocal</code> 关键字声明下</p>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">nonlocal</span> a</span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun() <span class="comment"># 7</span></span><br></pre></td></tr></table></figure>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wfun</span>():</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    a = <span class="number">5</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span>():</span></span><br><span class="line">        <span class="keyword">nonlocal</span> a <span class="comment"># 本意是想声明 a 为上层函数中的 a ，但是上层中的 a 是全局变量，所以程序报错：no binding for nonlocal &#x27;a&#x27; found</span></span><br><span class="line">        a += <span class="number">4</span></span><br><span class="line">        print(a)</span><br><span class="line">    fun()</span><br><span class="line">wfun()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>编程中踩过的坑</category>
-      </categories>
-      <tags>
-        <tag>nonlocal</tag>
-        <tag>global</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode861.Score After Flipping Matrix</title>
-    <url>/posts/12814/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E8%B4%AA%E5%BF%83">基本思想：贪心</a><ul>
-<li><a href="#cpp%E7%89%88%E6%9C%AC">cpp版本</a></li>
-<li><a href="#python%E7%89%88%E6%9C%AC">python版本</a></li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
-
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>We have a two dimensional matrix A where each value is 0 or 1.</p>
-<p>A move consists of choosing any row or column, and toggling each value in that row or column: changing all 0s to 1s, and all 1s to 0s.</p>
-<p>After making any number of moves, every row of this matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.</p>
-<p>Return the highest possible score.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Input: [[<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">Output: <span class="number">39</span></span><br><span class="line">Explanation:</span><br><span class="line">Toggled to [[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]].</span><br><span class="line"><span class="number">0b1111</span> + <span class="number">0b1001</span> + <span class="number">0b1111</span> = <span class="number">15</span> + <span class="number">9</span> + <span class="number">15</span> = <span class="number">39</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>Note:</strong></p>
-<ul>
-<li>1 &lt;= A.length &lt;= 20</li>
-<li>1 &lt;= A[0].length &lt;= 20</li>
-<li>A[i][j] is 0 or 1.</li>
-</ul>
-<h2 id="基本思想：贪心"><a href="#基本思想：贪心" class="headerlink" title="基本思想：贪心"></a>基本思想：贪心</h2><p>首先明确一点：对于最终的结果而言，每一行每一列翻转的顺序对最终结果没有影响，即得到最优结果的最后一步是翻转第一行，那么最先翻转第一行和最后翻转第一行对最终的结果没有任何影响。</p>
-<p>基于上述思想：</p>
-<ul>
-<li>为了保证最终的结果最大，首先将第一列全部处理成1，也就是将第一列不是1的行进行翻转</li>
-<li>除第一列外的其他列，如果当前列1的个数大于0的个数则进行翻转，同时记录该列的结果</li>
-</ul>
-<h3 id="cpp版本"><a href="#cpp版本" class="headerlink" title="cpp版本"></a>cpp版本</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">matrixScore</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO：首先将第一列通过行翻转都转化成 1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(A[i][<span class="number">0</span>] == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A[i].size(); ++j)&#123;</span><br><span class="line">                    A[i][j] = !A[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：初始化为第一列的结果</span></span><br><span class="line">        <span class="keyword">int</span> res = <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - <span class="number">1</span>) * A.size();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// TODO：单独处理每一列,只需保证每一列中的1的个数大于0的个数即可, 并不是真的翻转，只是保存每列的每个元素的得分</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; A[<span class="number">0</span>].size(); ++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A.size(); ++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(A[j][i])</span><br><span class="line">                    ++cnt;</span><br><span class="line">            &#125;</span><br><span class="line">            res += <span class="built_in">pow</span>(<span class="number">2</span>, A[<span class="number">0</span>].size() - i - <span class="number">1</span>) * max(cnt, <span class="keyword">int</span>(A.size() - cnt));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="python版本"><a href="#python版本" class="headerlink" title="python版本"></a>python版本</h3><ul>
-<li>说明：代码和cpp版本稍微有一点区别，未将第一列单独处理</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">matrixScore</span>(<span class="params">self, A: List[List[<span class="built_in">int</span>]]</span>) -&gt; int:</span></span><br><span class="line">        row = <span class="built_in">len</span>(A)</span><br><span class="line">        col = <span class="built_in">len</span>(A[<span class="number">0</span>])</span><br><span class="line">        res = <span class="built_in">pow</span>(<span class="number">2</span>, col - <span class="number">1</span>) * row</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(col):</span><br><span class="line">            <span class="keyword">if</span> i:</span><br><span class="line">                <span class="comment"># <span class="doctag">TODO:</span>统计该列中1的个数，注意看下对应的该行元素是否为1来决定该行是否被翻转过</span></span><br><span class="line">                cnt = <span class="number">0</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(row):</span><br><span class="line">                    <span class="keyword">if</span> A[j][i] == A[j][<span class="number">0</span>] :</span><br><span class="line">                        cnt += <span class="number">1</span></span><br><span class="line">                res += <span class="built_in">pow</span>(<span class="number">2</span>, col - i - <span class="number">1</span>) * <span class="built_in">max</span>(cnt, row - cnt)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>贪心算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客说明文档</title>
-    <url>/posts/44808/</url>
-    <content><![CDATA[<!-- TOC -->
-
-<ul>
-<li><a href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E8%AF%B4%E6%98%8E">本地文件夹说明</a></li>
-<li><a href="#hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">hexo常用命令</a></li>
-<li><a href="#%E4%B8%BAgithub%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0readme">为github仓库添加readme</a></li>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E5%85%B3%E4%BA%8E">添加分类、标签、关于</a></li>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD">添加搜索功能</a></li>
-<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E5%86%85%E9%93%BE%E6%8E%A5%E6%96%87%E6%9C%AC%E6%A0%B7%E5%BC%8F">修改文章内链接文本样式</a></li>
-<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E9%93%BE%E6%8E%A5">修改文章链接</a></li>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E5%8D%9A%E5%AE%A2%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BE%E6%A0%87">添加博客自定义图标</a></li>
-<li><a href="#%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E7%89%B9%E6%95%88">鼠标点击特效</a></li>
-<li><a href="#%E6%96%87%E7%AB%A0%E7%BB%93%E6%9D%9F%E6%A0%87%E8%AE%B0">文章结束标记</a></li>
-<li><a href="#%E6%96%87%E7%AB%A0%E9%98%B4%E5%BD%B1%E8%AE%BE%E7%BD%AE">文章阴影设置</a></li>
-<li><a href="#%E8%AE%BE%E7%BD%AE%E5%8D%9A%E5%AE%A2%E6%91%98%E8%A6%81%E6%98%BE%E7%A4%BA">设置博客摘要显示</a></li>
-<li><a href="#%E5%B0%86%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%97%B6%E9%83%A8%E7%BD%B2%E5%9C%A8-githubgitee">将博客同时部署在 github、gitee</a></li>
-</ul>
-<!-- /TOC -->
-
-<p>本文主要介绍搭建好博客后，如何让博客的内容更加丰富，让博客整体的界面更加美观，以及一些特效的设置</p>
-<a id="more"></a>
-<h2 id="本地文件夹说明"><a href="#本地文件夹说明" class="headerlink" title="本地文件夹说明"></a>本地文件夹说明</h2><ul>
-<li>public：该文件夹最终会被push到github仓库中</li>
-<li>source：存放用户资源的地方。<ul>
-<li>_posts文件夹中的markdown文档会被解析成html文件并放到public文件夹</li>
-<li>除_posts文件及外，其余以【_】开头的文件或文件夹都会被忽略</li>
-<li>其余文件（例如：about文件）会被拷贝到public文件夹</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>scafflods：模板文件夹。新建markdown文件时，hexo会根据该文件夹下的模板来建立文件<ul>
-<li>post.md：新建文章<code>hexo new &quot;文章名&quot;</code>时，会按照该文件中的内容生成默认文件</li>
-<li>也可以自己定义模板，例如模板名为blog，新建文章时，为了使用该模板，键入命令<code>hexo new blog &quot;文章名&quot;</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h2><p>说明：笔者的博客目录名为blog</p>
-<ul>
-<li><code>hexo new &quot;文章名&quot;</code>：新建文章，在blog文件的路径下键入，最终会在blog/source/_posts文件夹下出现新建的文件</li>
-<li><code>hexo g</code>：生成静态页面至public文件夹下：在blog文件夹下键入，它是<code>hexo generate</code>的缩写</li>
-<li><code>hexo s</code>：开启本地预览端口，在blog文件夹下键入，它是<code>hexo server</code>的缩写</li>
-<li><code>hexo d</code>：部署到github：在blog文件夹下键入，它是<code>hexo deploy</code>的缩写</li>
-<li><code>hexo help</code>：查看帮助</li>
-<li><code>hexo version</code>：查看hexo版本</li>
-</ul>
-<p>组合命令：</p>
-<ul>
-<li><code>hexo s -g</code>：生成静态页面并本地预览</li>
-<li><code>hexo d -g</code>：生成静态页面并部署到github</li>
-</ul>
-<h2 id="为github仓库添加readme"><a href="#为github仓库添加readme" class="headerlink" title="为github仓库添加readme"></a>为github仓库添加readme</h2><p>因为source中的文件会被拷贝到public文件夹中，而public文件夹会被push到github中，因此想为github仓库添加readme，只需在source文件夹中创建即可。<br>注意：source文件夹中的【.md】文档会被解析成html文件，再放到public中。为了避免解析，将readme的扩展名改为【.MDWN】(这里一定要大写，小写的话也会被解析成html文件)</p>
-<h2 id="添加分类、标签、关于"><a href="#添加分类、标签、关于" class="headerlink" title="添加分类、标签、关于"></a>添加分类、标签、关于</h2><ul>
-<li>首先将站点配置文件中的menu下面的categories和tags前的【#】去掉<img src="https://i.loli.net/2020/12/07/JCdtcQwxAYfT7MX.png" alt="image.png"></li>
-<li>创建markdown文件<img src="https://i.loli.net/2020/12/07/DQ5aXjgtFGw83Ey.png" alt="image.png"><ul>
-<li>在blog文件夹下键入<code>hexo new page tags</code>，此时会生成blog/source/tags/index.md文件</li>
-<li>修改index.md文件，添加【type:”tags”】<img src="https://i.loli.net/2020/12/07/ZUySVMFOIDATw2J.png" alt="image.png"></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>在blog文件夹下键入<code>hexo new page categories</code>，此时会生成blog/source/categories/index.md</li>
-<li>修改index.md文件，添加【type:”categories”】<img src="https://i.loli.net/2020/12/07/iPwaHA5jQmIVreM.png" alt="image.png"></li>
-</ul>
-<p>about也是采用同样的方法，就不再赘述了</p>
-<h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><p>参考链接：<a href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
-<ol>
-<li><p>在 blog 文件夹下执行命令<code>npm install hexo-generator-searchdb --save</code></p>
-</li>
-<li><p>修改站点配置文件，在Extension下添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 搜索</span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure></li>
-<li><p>修改主题配置文件，找到 Local search，将 enable 设置为 <code>true</code></p>
-</li>
-</ol>
-<h2 id="修改文章内链接文本样式"><a href="#修改文章内链接文本样式" class="headerlink" title="修改文章内链接文本样式"></a>修改文章内链接文本样式</h2><p>参考链接：<a href="https://www.jianshu.com/p/3a05351a37dc">https://www.jianshu.com/p/3a05351a37dc</a></p>
-<p>打开文件<code>blog\themes\next\source\css\_common\components\post\post.styl</code>，在末尾添加：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.post-body p a &#123;</span><br><span class="line">  color: #0593d3;</span><br><span class="line">  border-bottom: none;</span><br><span class="line">  border-bottom: 1px solid #0593d3;</span><br><span class="line">  &amp;:hover &#123;</span><br><span class="line">    color: #fc6423;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #fc6423;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="修改文章链接"><a href="#修改文章链接" class="headerlink" title="修改文章链接"></a>修改文章链接</h2><p>参考链接：<a href="https://blog.csdn.net/as480133937/article/details/100138838">https://blog.csdn.net/as480133937/article/details/100138838</a><br>文章链接默认的生成规则<code>:year/:month/:day/:title</code>，生成的样式<code>https://crystal1213.github.io/2020/12/07/leetcode861-Score-After-Flipping-Matrix/</code><br>修改后的样式：<code>https://crystal1213.github.io/posts/30354/</code></p>
-<p>生成简洁的url的方法：</p>
-<ol>
-<li>安装插件，在blog文件夹下键入命令<code>npm install hexo-abbrlink --save </code></li>
-<li>修改站点配置文件，找到<code>permalink</code>，修改为如下的形式：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">permalink: posts&#x2F;:abbrlink&#x2F;</span><br><span class="line">abbrlink:</span><br><span class="line">	alg: crc32   #算法： crc16(default) and crc32</span><br><span class="line">	rep: hex     #进制： dec(default) and hex</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-样式选择：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">crc16 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;66c8.html</span><br><span class="line"></span><br><span class="line">crc16 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;65535.html</span><br><span class="line">crc32 &amp; hex</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;8ddf18fb.html</span><br><span class="line"></span><br><span class="line">crc32 &amp; dec</span><br><span class="line">https:&#x2F;&#x2F;post.zz173.com&#x2F;posts&#x2F;1690090958.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ol>
-<h2 id="添加博客自定义图标"><a href="#添加博客自定义图标" class="headerlink" title="添加博客自定义图标"></a>添加博客自定义图标</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a><br><img src="https://i.loli.net/2020/12/10/QdxwNLvE8ckIp3z.png" alt="image.png"></p>
-<ol>
-<li>在以下网站下载或者制作图标 <a href="https://www.iconfont.cn/plus/user/detail?uid=41718">iconfont</a> <a href="https://www.easyicon.net/">easyicon</a> 下载图标，注意下图标的大小</li>
-<li>将下载的图标放在 <code>...\blog\themes\next\source\images</code> 文件夹下</li>
-<li>修改主题配置文件 <code>favicon</code> 中的 <code>small</code> 和 <code>medium</code> ，改为图标的文件名</li>
-</ol>
-<h2 id="鼠标点击特效"><a href="#鼠标点击特效" class="headerlink" title="鼠标点击特效"></a>鼠标点击特效</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
-<ol>
-<li><p>在<code>/themes/next/source/js/src</code> 下新建文件 <code>clicklove.js</code>，将下面代码拷贝到文件中</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">!<span class="function"><span class="keyword">function</span>(<span class="params">e,t,a</span>)</span>&#123;<span class="function"><span class="keyword">function</span> <span class="title">n</span>(<span class="params"></span>)</span>&#123;c(<span class="string">&quot;.heart&#123;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);&#125;.heart:after,.heart:before&#123;content: &#x27;&#x27;;width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;&#125;.heart:after&#123;top: -5px;&#125;.heart:before&#123;left: -5px;&#125;&quot;</span>),o(),r()&#125;<span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params"></span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> e=<span class="number">0</span>;e&lt;d.length;e++)d[e].alpha&lt;=<span class="number">0</span>?(t.body.removeChild(d[e].el),d.splice(e,<span class="number">1</span>)):(d[e].y--,d[e].scale+=<span class="number">.004</span>,d[e].alpha-=<span class="number">.013</span>,d[e].el.style.cssText=<span class="string">&quot;left:&quot;</span>+d[e].x+<span class="string">&quot;px;top:&quot;</span>+d[e].y+<span class="string">&quot;px;opacity:&quot;</span>+d[e].alpha+<span class="string">&quot;;transform:scale(&quot;</span>+d[e].scale+<span class="string">&quot;,&quot;</span>+d[e].scale+<span class="string">&quot;) rotate(45deg);background:&quot;</span>+d[e].color+<span class="string">&quot;;z-index:99999&quot;</span>);requestAnimationFrame(r)&#125;<span class="function"><span class="keyword">function</span> <span class="title">o</span>(<span class="params"></span>)</span>&#123;<span class="keyword">var</span> t=<span class="string">&quot;function&quot;</span>==<span class="keyword">typeof</span> e.onclick&amp;&amp;e.onclick;e.onclick=<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;t&amp;&amp;t(),i(e)&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">i</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">&quot;div&quot;</span>);a.className=<span class="string">&quot;heart&quot;</span>,d.push(&#123;<span class="attr">el</span>:a,<span class="attr">x</span>:e.clientX-<span class="number">5</span>,<span class="attr">y</span>:e.clientY-<span class="number">5</span>,<span class="attr">scale</span>:<span class="number">1</span>,<span class="attr">alpha</span>:<span class="number">1</span>,<span class="attr">color</span>:s()&#125;),t.body.appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">&quot;style&quot;</span>);a.type=<span class="string">&quot;text/css&quot;</span>;<span class="keyword">try</span>&#123;a.appendChild(t.createTextNode(e))&#125;<span class="keyword">catch</span>(t)&#123;a.styleSheet.cssText=e&#125;t.getElementsByTagName(<span class="string">&quot;head&quot;</span>)[<span class="number">0</span>].appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">s</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span><span class="string">&quot;rgb(&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;,&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;,&quot;</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">&quot;)&quot;</span>&#125;<span class="keyword">var</span> d=[];e.requestAnimationFrame=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="built_in">setTimeout</span>(e,<span class="number">1e3</span>/<span class="number">60</span>)&#125;&#125;(),n()&#125;(<span class="built_in">window</span>,<span class="built_in">document</span>);</span><br></pre></td></tr></table></figure></li>
-<li><p>在文件 <code>\themes\next\layout\_layout.swig</code> 末尾添加如下代码：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;!-- 页面点击小红心 --&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span> src=<span class="string">&quot;/js/src/clicklove.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ol>
-<h2 id="文章结束标记"><a href="#文章结束标记" class="headerlink" title="文章结束标记"></a>文章结束标记</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
-<h2 id="文章阴影设置"><a href="#文章阴影设置" class="headerlink" title="文章阴影设置"></a>文章阴影设置</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a><br>设置好后感觉没有效果</p>
-<h2 id="设置博客摘要显示"><a href="#设置博客摘要显示" class="headerlink" title="设置博客摘要显示"></a>设置博客摘要显示</h2><p>参考链接：<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502">https://blog.csdn.net/nightmare_dimple/article/details/86661502</a></p>
-<h2 id="将博客同时部署在-github、gitee"><a href="#将博客同时部署在-github、gitee" class="headerlink" title="将博客同时部署在 github、gitee"></a>将博客同时部署在 github、gitee</h2><p>参考链接：<a href="https://blog.csdn.net/weixin_45667885/article/details/101084532">https://blog.csdn.net/weixin_45667885/article/details/101084532</a></p>
-<ol>
-<li>同时在 github、gitee 上创建好账号、仓库（仓库名和用户名相同）；</li>
-<li>在 github、gitee 上添加 SSH Keys；</li>
-<li>开启 Pages 服务；</li>
-<li>打开站点配置文件，修改 <code>deploy</code> 如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line"> type: git</span><br><span class="line"> repo: </span><br><span class="line">     github: git@github.com:Crystal1213&#x2F;Crystal1213.github.io.git</span><br><span class="line">     gitee: git@gitee.com:Crystal1213&#x2F;crystal1213.git</span><br><span class="line"> branch: master</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>注：gitee Pages 不支持自动更新，每次部署后需要手动更新。</p>
-]]></content>
-      <categories>
-        <category>工具使用说明</category>
-      </categories>
-      <tags>
-        <tag>工具说明</tag>
       </tags>
   </entry>
 </search>
