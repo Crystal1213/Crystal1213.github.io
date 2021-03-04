@@ -688,6 +688,13 @@ Since not every customer received correct change, the answer is false.</code></p
     <content><![CDATA[<!-- TOC -->
 
 <ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a><ul>
+<li><a href="#%E7%89%88%E6%9C%AC%E5%88%86%E7%B1%BB">版本分类</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA">系统分区</a></li>
+<li><a href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7">远程登录管理工具</a></li>
+</ul>
+</li>
 <li><a href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E9%80%9A%E7%94%A8%E6%A0%BC%E5%BC%8F">命令的通用格式</a></li>
 <li><a href="#%E5%91%BD%E4%BB%A4%E7%9B%B8%E5%85%B3%E7%83%AD%E9%94%AE">命令相关热键</a></li>
 <li><a href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E7%9A%84%E5%85%B7%E4%BD%93%E8%AF%B4%E6%98%8E">查看命令的具体说明</a></li>
@@ -702,6 +709,94 @@ Since not every customer received correct change, the answer is false.</code></p
 
 <p>主要讲解 Linux 相关的命令，以及 Linux 相关的知识</p>
 <a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="版本分类"><a href="#版本分类" class="headerlink" title="版本分类"></a>版本分类</h3><ul>
+<li>内核版 <a href="http://www.kernel.org/">www.kernel.org</a> 主要用 RHEL6.x 2.6.x、REHL7.x 3.10.x</li>
+<li>发行版 （在内核版的基础上加了一些第三方软件等等）<ul>
+<li>RedHat 系列 </li>
+<li>个人版：Fedora </li>
+<li>服务器版：RHEL（RedHat Enterprise Linux）–&gt;Centos</li>
+<li>Debian系列</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/03/02/E9Vit1wP8oa7rML.png" alt="image.png"></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>虚拟机的安装：VMware</li>
+<li>centos 安装：<br>官网： <a href="https://www.centos.org/download/">https://www.centos.org/download/</a></li>
+</ul>
+<p>设置：</p>
+<ul>
+<li>网络设置：（虚拟机–&gt;设置–&gt;网络适配器）<br>桥接模式：虚拟机和本地真实网卡连接 （建议设置为该模式）。真实机器有两块网卡，无线网卡和有线网卡。如果是自动选择，网络有可能不通（因为真实机器如果此时连接的是无线网络，虚拟机连接了真实机的有线网卡，此时网络就不通了）。最好手动设置，编辑–&gt;虚拟网络编辑器<br>NAT 模式：使用虚拟网卡 8 进行通信<br>仅主机模式：使用虚拟网卡 1 进行通信<br><img src="https://i.loli.net/2021/03/02/3LsfW1AeJKVaqUj.png" alt="image.png"></li>
+</ul>
+<p>快照管理器：通过快照管理器可将系统恢复到指定的状态  </p>
+<p>将当前的镜像克隆变成另外一个镜像：虚拟机–&gt;管理–&gt;克隆，</p>
+<ul>
+<li>克隆的时候可以选择克隆当前的状态还是快照的状态</li>
+<li>选择创建链接克隆还是创建完整克隆：如果创建链接克隆，耗资源少，但是原始镜像删了，当前克隆的虚拟机也就不能用了。（推荐链接克隆，占用资源少，只要不删原始的镜像就行）</li>
+</ul>
+<p>系统启动：</p>
+<ul>
+<li>如果是安装的真实系统需要改 BIOS（基本输入输出系统）的设置，因为默认是从硬盘启动的，这里需要根据实际情况进行选择，是从光盘启动、U 盘启动还是硬盘启动等等。</li>
+<li>安装的是虚拟机，就不用改了。因为它自己会自动检测，检测到硬盘是空的，就从光盘启动或者其他地方。</li>
+</ul>
+<p>主机名：建议修改主机名，初学时建议不要修改</p>
+<p>密码三原则：</p>
+<ul>
+<li>复杂性：大于 8 位，大写、小写、数字、符号至少三种，不允许使用和个人身份相关的密码，不允许使用现有的英文单词</li>
+<li>易记忆</li>
+<li>时效性： 180 天<h3 id="系统分区"><a href="#系统分区" class="headerlink" title="系统分区"></a>系统分区</h3>两种分区表形式：</li>
+<li>MBR 分区表（主引导记录分区表）：最大支持 2.1T 硬盘，最多支持 4 个分区</li>
+<li>GPT 分区表（全局唯一标示分区表）：支持 9.4 ZB 硬盘（1ZB = 1024 PB, 1PB = 1024 EB, 1EB = 1024 TB），理论上支持的分区数没有限制，但 Windows 限制 128 个主分区</li>
+</ul>
+<p>分区类型：</p>
+<ul>
+<li>主分区：最多只能有 4 个</li>
+<li>扩展分区：最多只能有 1 个；主分区加扩展分区最多有 4 个；不能写入数据，只能包含逻辑分区</li>
+<li>逻辑分区：编号从 5 开始，（编号 1，2，3，4，都给主分区和扩展分区使用）</li>
+</ul>
+<p>格式化：<br>格式化并不是为了清空数据，而是为了写入文件系统，附带清空数据。<br>又称为逻辑格式化，是指根据用户选定的文件系统，在磁盘的特定区域（分区）写入特定数据，在分区中划出一片用于存放文件分配表、目录表等用于文件管理的磁盘空间。<br>将整个分区分成两个部分，大的部分用来保存数据，这个大的部分分成一个个 block；小的部分用来存放一些索引信息。</p>
+<ul>
+<li>Linux 下，一个 block 默认是 4KB</li>
+<li>block 不一定是连续的，但是系统尽量连续存放 </li>
+<li>block 是存储数据的最小单位，一个 block 只要占用了，即使没占满也不能存放其他数据</li>
+</ul>
+<p>设备文件名：<br>Linux 下所有的硬件设备都有设备文件名<br>举例：<img src="https://i.loli.net/2021/03/02/aX36ltZLxHMoukw.png" alt="image.png"><br>分区设备文件名：（命名规则要看懂）<br>硬件设备（device）文件名都保存在 /dev 这个文件夹下</p>
+<ul>
+<li>/dev/hda1 (IDE 硬盘接口) :hd 表示接口类型，a 表示第一块硬盘，1 表示第 1 个分区</li>
+<li>/dev/sda1 (SCSI 硬盘接口、SATA 硬盘接口、USB 接口) </li>
+<li>/dev/sdb5：第二块 SATA 接口硬盘的第一个逻辑分区</li>
+</ul>
+<p>挂载点：（类似于 Windows 里面的盘符，即每个盘的名称，C 盘、D 盘等）<br>“已经存在”的“空目录”作为挂载点，挂载点是进入分区访问数据的入口。理论上所有的目录都可以作为挂载点，但是有的目录，例如 /bin/、/lib/、/etc/ 必须放在根分区下<br>挂载：将设备文件名和挂载点连起来的过程称为挂载。<br>必须分区：</p>
+<ul>
+<li>/ (根分区)</li>
+<li>swap 分区（交换分区）内核访问的分区，普通用户无法直接访问<ul>
+<li>真实内存小于 4GB，swap 为内存的两倍</li>
+<li>真实内存大于 4GB，swap 和内存一致</li>
+<li>实验环境，不大于 2GB</li>
+</ul>
+</li>
+<li>推荐分区<ul>
+<li>/boot (启动分区，1GB)：系统启动时需要占一定的内存，如果没有分配该分区会占用根分区的内存，当根分区的内存满了以后，系统会无法启动。所以该分区也是必须的。</li>
+</ul>
+</li>
+<li>常用分区（根据个人需要来分区）<ul>
+<li>/home(用于文件服务器)</li>
+<li>/www(用于 Web 服务器)<br><img src="https://i.loli.net/2021/03/03/K56IxTDiaXVE3mn.png" alt="image.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="远程登录管理工具"><a href="#远程登录管理工具" class="headerlink" title="远程登录管理工具"></a>远程登录管理工具</h3><p>一般使用远程登录管理工具来访问 Linux 系统，这就需要配置 Linux 的 IP 地址</p>
+<ul>
+<li>Centos 6 使用 <code>setup</code> 命令进行网络配置，这是 Redhat 特有的命令。</li>
+<li>Centos 7 使用 <code>nutui</code> 命令进行网络配置</li>
+<li>选择 Edit a connection 进入</li>
+<li>选择接口 ens33</li>
+<li>选择 &lt;Edit …&gt;</li>
+<li>光标定位到 Show，回车，即可出现详细的信息</li>
+<li>注意修改 Automatically connect, 按下空格键，让其显示 X</li>
+</ul>
+<p><img src="https://i.loli.net/2021/03/04/vGf2LxzCekUw6Ri.png" alt="image.png"></p>
+<p>执行命令 <code>ip a</code> 来查看配置好的 IP </p>
 <h2 id="命令的通用格式"><a href="#命令的通用格式" class="headerlink" title="命令的通用格式"></a>命令的通用格式</h2><blockquote>
 <p>command [-options] paramter1 parameter1 parameter2…</p>
 </blockquote>
@@ -1071,6 +1166,40 @@ Since not every customer received correct change, the answer is false.</code></p
 <li>真实服务器响应完请求后，查看默认路由（NAT 模式下需要将 RS 默认路由设置成 LB 服务器，也就是调度器），把响应后的数据包发送给 LB。</li>
 <li>LB 接收到响应包，把源地址改成虚拟地址（VIP）然后发动给客户端。</li>
 </ol>
+<h4 id="2-2-2-DR-模式"><a href="#2-2-2-DR-模式" class="headerlink" title="2.2.2 DR 模式"></a>2.2.2 DR 模式</h4><p>DR (Direct Routing) 直接路由器模式<br><img src="https://i.loli.net/2021/02/26/4otkgJInYAdL2ED.png" alt="image.png"><br>工作原理：<br>DR 模式将报文直接路由给目标真实服务器。</p>
+<ol>
+<li>调度器根据真实服务器的负载情况，动态的选择一台路由器，不修改目标 IP 和目标端口，也不封装 IP 报文，而是将请求报文的数据帧的目标 MAC 地址改为真实服务器的 MAC 地址。</li>
+<li>然后将修改的数据帧在服务器组的局域网上发送。因为数据帧的 MAC 地址是真实服务器的 MAC 地址，并且又在同一个局域网，那么根据局域网的通信原理，真实服务器一定能够收到由 LB 发出的数据包。</li>
+<li>真实服务器收到数据包后，查看到目标 IP 是 VIP。（此时只有自己的 IP 符合目标 IP 才会接受进来，所以需要在本地回环接口上配置 VIP。由于网络接口都会进行 ARP 广播响应，但集群的其他机器都有这个 VIP 的 lo 接口，都响应就会冲突，所以要把真实服务器的 lo 接口的 ARP 响应关掉。）</li>
+<li>然后真实服务器做成请求响应，之后根据自己的路由信息将这个响应数据包发送给客户端，并且源 IP 依然是 VIP。</li>
+</ol>
+<p>特点：</p>
+<ul>
+<li>集群节点处于同一个广播域中</li>
+<li>真实服务器将网关指向真实路由器</li>
+<li>负载调度器只负责处理入站请求，压力最小</li>
+<li>不支持端口映射</li>
+<li>负载调度器必须是 Linux，真实服务器最好是 Linux</li>
+</ul>
+<h4 id="2-2-3-TUN-模式"><a href="#2-2-3-TUN-模式" class="headerlink" title="2.2.3 TUN 模式"></a>2.2.3 TUN 模式</h4><p><img src="https://i.loli.net/2021/02/27/WM5zAKwoiNXhqSs.png" alt="image.png"></p>
+<p>采用 NAT 模式，由于请求和响应的报文必须通过调度器将地址重写，当客户端的请求越来越多时，调度器的处理能力将成为瓶颈。为了解决这个问题，调度器将请求报文通过 IP 隧道转发到真实的服务器，真实的服务器将响应处理后的数据直接返回给客户端。这样调度器就只处理请求入站报文。</p>
+<p>工作原理：</p>
+<ol>
+<li>客户请求数据包，目标地址 VIP 发送到 LB 上；</li>
+<li>LB 接收到客户请求包，进行 IP Tunnel 封装，即在原有的包头加上 IP Tunnel 的包头。然后发送出去；</li>
+<li>RS 节点服务器根据 IP Tunnel 包头信息（此时就是一种逻辑上的隐形隧道，只有 LB 和 RS 之间懂）收到请求包，然后解开 IP Tunnel 包头信息，得到客户的请求包，并进行响应处理；</li>
+<li>响应处理完后，RS 服务器使用自己的公网线路，将这个响应数据包发送给客户端，源地址依然是 VIP 地址</li>
+</ol>
+<p>特点：</p>
+<ul>
+<li>集群所有节点都必须直接/间接拥有公网地址</li>
+<li>真实服务器必须将网关指向真实网关</li>
+<li>不支持端口映射</li>
+<li>DS 与 RS 必须开启隧道功能</li>
+<li>入站由 DS 完成，出站由 RS 完成</li>
+<li>负载调度器必须是 Linux 操作系统，真实服务器随意</li>
+<li>压力较大，需要大量的数据包的封装和解封</li>
+</ul>
 ]]></content>
       <categories>
         <category>学习笔记</category>
