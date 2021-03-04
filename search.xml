@@ -692,9 +692,13 @@ Since not every customer received correct change, the answer is false.</code></p
 <li><a href="#%E7%89%88%E6%9C%AC%E5%88%86%E7%B1%BB">版本分类</a></li>
 <li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
 <li><a href="#%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA">系统分区</a></li>
-<li><a href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7">远程登录管理工具</a></li>
+<li><a href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7xshell">远程登录管理工具（XShell）</a></li>
+<li><a href="#windows-%E7%B3%BB%E7%BB%9F%E5%92%8C-linux-%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%97%B4%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6">Windows 系统和 Linux 系统之间拷贝文件</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
 </ul>
 </li>
+<li><a href="#1">1</a></li>
+<li><a href="#linux-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">Linux 目录结构</a></li>
 <li><a href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E9%80%9A%E7%94%A8%E6%A0%BC%E5%BC%8F">命令的通用格式</a></li>
 <li><a href="#%E5%91%BD%E4%BB%A4%E7%9B%B8%E5%85%B3%E7%83%AD%E9%94%AE">命令相关热键</a></li>
 <li><a href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E7%9A%84%E5%85%B7%E4%BD%93%E8%AF%B4%E6%98%8E">查看命令的具体说明</a></li>
@@ -726,7 +730,12 @@ Since not every customer received correct change, the answer is false.</code></p
 </ul>
 <p>设置：</p>
 <ul>
-<li>网络设置：（虚拟机–&gt;设置–&gt;网络适配器）<br>桥接模式：虚拟机和本地真实网卡连接 （建议设置为该模式）。真实机器有两块网卡，无线网卡和有线网卡。如果是自动选择，网络有可能不通（因为真实机器如果此时连接的是无线网络，虚拟机连接了真实机的有线网卡，此时网络就不通了）。最好手动设置，编辑–&gt;虚拟网络编辑器。<br>NAT 模式：使用虚拟网卡 8 进行通信，虚拟网卡 8 的 ip 是自动配置的，不存在冲突的可能<br>仅主机模式：使用虚拟网卡 1 进行通信<br><img src="https://i.loli.net/2021/03/02/3LsfW1AeJKVaqUj.png" alt="image.png"></li>
+<li>网络设置：（虚拟机–&gt;设置–&gt;网络适配器）<ul>
+<li>桥接模式：虚拟机和本地真实网卡连接 （建议设置为该模式）。真实机器有两块网卡，无线网卡和有线网卡。如果是自动选择，网络有可能不通（因为真实机器如果此时连接的是无线网络，虚拟机连接了真实机的有线网卡，此时网络就不通了）。最好手动设置，编辑–&gt;虚拟网络编辑器。</li>
+<li>NAT 模式：使用虚拟网卡 8 进行通信，虚拟网卡 8 的 ip 是自动配置的，不存在冲突的可能</li>
+<li>仅主机模式：使用虚拟网卡 1 进行通信<br><img src="https://i.loli.net/2021/03/02/3LsfW1AeJKVaqUj.png" alt="image.png"></li>
+</ul>
+</li>
 </ul>
 <p>快照管理器：通过快照管理器可将系统恢复到指定的状态  </p>
 <p>将当前的镜像克隆变成另外一个镜像：虚拟机–&gt;管理–&gt;克隆，</p>
@@ -744,7 +753,14 @@ Since not every customer received correct change, the answer is false.</code></p
 <ul>
 <li>复杂性：大于 8 位，大写、小写、数字、符号至少三种，不允许使用和个人身份相关的密码，不允许使用现有的英文单词</li>
 <li>易记忆</li>
-<li>时效性： 180 天<h3 id="系统分区"><a href="#系统分区" class="headerlink" title="系统分区"></a>系统分区</h3>两种分区表形式：</li>
+<li>时效性： 180 天</li>
+</ul>
+<p>系统安装完以后，会有一些日志文件</p>
+<ul>
+<li>anaconda-ks.cfg：里面记录了安装系统时的一些设置</li>
+</ul>
+<h3 id="系统分区"><a href="#系统分区" class="headerlink" title="系统分区"></a>系统分区</h3><p>两种分区表形式：</p>
+<ul>
 <li>MBR 分区表（主引导记录分区表）：最大支持 2.1T 硬盘，最多支持 4 个分区</li>
 <li>GPT 分区表（全局唯一标示分区表）：支持 9.4 ZB 硬盘（1ZB = 1024 PB, 1PB = 1024 EB, 1EB = 1024 TB），理论上支持的分区数没有限制，但 Windows 限制 128 个主分区</li>
 </ul>
@@ -785,7 +801,7 @@ Since not every customer received correct change, the answer is false.</code></p
 </ul>
 </li>
 </ul>
-<h3 id="远程登录管理工具"><a href="#远程登录管理工具" class="headerlink" title="远程登录管理工具"></a>远程登录管理工具</h3><p>一般使用远程登录管理工具来访问 Linux 系统，这就需要配置 Linux 的 IP 地址</p>
+<h3 id="远程登录管理工具（XShell）"><a href="#远程登录管理工具（XShell）" class="headerlink" title="远程登录管理工具（XShell）"></a>远程登录管理工具（XShell）</h3><p>一般使用远程登录管理工具来访问 Linux 系统，这就需要配置 Linux 的 IP 地址</p>
 <ul>
 <li>Centos 6 使用 <code>setup</code> 命令进行网络配置，这是 Redhat 特有的命令。</li>
 <li>Centos 7 使用 <code>nmtui</code> 命令进行网络配置<ul>
@@ -800,7 +816,89 @@ Since not every customer received correct change, the answer is false.</code></p
 <p><img src="https://i.loli.net/2021/03/04/vGf2LxzCekUw6Ri.png" alt="image.png"></p>
 <p>执行命令 <code>service network restart</code> 重启网络服务<br>执行命令 <code>ip a</code> 来查看配置好的 IP </p>
 <p>桥接模式下，连接的是真实机，配置的虚拟机的 ip 要和真实机在同一个网段，但有可能出现配置的虚拟机的 ip 地址冲突。<br>NAT 模式下，连接的是虚拟网卡 8，虚拟网卡 8 是随机生成的一个网段。该模式下，设置虚拟机的网关时要设置为 … .2，可以查看下 NAT 模式下的网关（编辑–&gt;虚拟网络编辑器–&gt;NAT设置）</p>
-<h2 id="命令的通用格式"><a href="#命令的通用格式" class="headerlink" title="命令的通用格式"></a>命令的通用格式</h2><blockquote>
+<p>XShell 可以在 Windows 界面下用来访问远端不同系统下的服务器，从而达到远程控制终端的目的。因为在虚拟机中操作 Linux 系统需要频繁切换鼠标，缺乏个性化设置，不支持中文显示，所以使用 XShell 来连接并使用安装好的虚拟机。<br>设置好远程服务器的 ip 即可操作远程虚拟机的 Linux 系统</p>
+<h3 id="Windows-系统和-Linux-系统之间拷贝文件"><a href="#Windows-系统和-Linux-系统之间拷贝文件" class="headerlink" title="Windows 系统和 Linux 系统之间拷贝文件"></a>Windows 系统和 Linux 系统之间拷贝文件</h3><p>用 WinSCP 这个工具即可，只需设置远程 Linux 系统的 ip，使用的是 SSH 协议。</p>
+<p>Linux 中的文件，# 开头的是注释</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>Linux 中严格区分大小写</li>
+<li>Linux 一些皆文件：有些操作是临时生效，系统重启后就失效了；有些操作是永久生效，原因在于在对其进行修改时写入了文件中。</li>
+<li>Linux 不依赖于文件的扩展名来区分文件类型，靠权限标识来区分文件类型。因此，Linux 中并不要求文件一定要有扩展名，但是一些特殊文件还是要有扩展名的，例如：压缩包、二进制软件包（.rpm）、程序文件、网页文件。</li>
+<li>Linux 中所有的硬件设备必须挂载之后才能使用（挂载：将硬件设备文件名和空目录，即挂载点，连接起来的过程）</li>
+<li>Windows 下的程序不能直接在 Linux 下直接使用</li>
+</ul>
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><h2 id="Linux-目录结构"><a href="#Linux-目录结构" class="headerlink" title="Linux 目录结构"></a>Linux 目录结构</h2><p>系统命令相关的目录，bin 是 binary 的缩写，sbin 中的 s 表示 super</p>
+<ul>
+<li>/bin/：存放系统命令的目录，普通用户和超级用户都可以执行，是 /usr/bin/ 目录的软链接。</li>
+<li>/sbin/：存放系统命令的目录，只有超级用户才可以执行，是 /usr/sbin/ 目录的软链接。</li>
+<li>/usr/bin/：存放系统命令的目录，普通用户和超级用户都可以执行</li>
+<li>/usr/sbin/：存放系统命令的目录，只有超级用户可以执行</li>
+</ul>
+<hr>
+<ul>
+<li>/boot/：系统启动目录，保存与系统启动相关的文件</li>
+<li>/dev/：保存硬件设备的设备文件</li>
+<li>/etc/：配置文件保存位置。系统中所有采用默认安装方式（rpm安装）的服务配置文件全部保存在此目录中，如用户信息、服务的启动脚本、常用服务的配置文件等。</li>
+<li>/home/：普通用户的家目录。在创建用户时，每个用户要有一个默认登录和保存自己数据的位置，就是用户的家目录，所有普通用户的宿主目录是在 /home/ 下建立一个和用户名相同的的目录。如用户 user1 的家目录就是 /home/user1/</li>
+</ul>
+<hr>
+<p>系统函数相关的目录：</p>
+<ul>
+<li>/lib/：系统调用的函数库保存位置，是 /usr/lib/ 的软链接</li>
+<li>/lib64/：64位库函数保存位置。是 /usr/lib64/ 的软链接。文件夹中，以 .so.+数字结尾的文件都是系统中十分重要的文件，删掉后可能会导致系统崩溃。</li>
+</ul>
+<hr>
+<ul>
+<li>/lost+found/：当系统意外崩溃或者机器以外关机时，产生的一些碎片放在这里。系统启动的过程中 fsck 工具会检查这里，并修复已经损坏的文件系统。这个目录只在每个分区中出现，例如：/lost+found 就是根分区的备份恢复目录，/boot/lost+found 就是 /boot 分区的备份恢复目录。</li>
+</ul>
+<hr>
+<p>空目录：</p>
+<ul>
+<li>/media/：挂载目录。系统建议是用来挂载媒体设备的，如软件和光盘</li>
+<li>/misc/：挂载目录。系统建议用来挂载 NFS 服务的共享目录</li>
+<li>/mnt/：挂载目录。早期 Linux 只有这一个挂载目录，并没有细分，例如早期：/mnt/cdrom/ 挂载光盘，/mnt/usb/ 挂载 U 盘。</li>
+</ul>
+<hr>
+<ul>
+<li>/opt/：第三方安装软件的保存位置，但习惯放在 /usr/local/ 目录下。</li>
+</ul>
+<hr>
+<p>保存在内存下的目录：不要在该目录下做实验，内存满了就会死机，内存是临时存储，重启后数据就丢失了。</p>
+<ul>
+<li>/net/：</li>
+<li>/proc/：虚拟文件系统，该目录中的数据并不保存在硬盘上，而是保存到内存中。保存系统的内核、进程、外部设备状态和网络状态等信息。</li>
+<li>/sys/：虚拟文件系统，保存内核相关的信息。</li>
+</ul>
+<hr>
+<ul>
+<li>/root/：root 的宿主目录，普通用户的宿主目录在 /home/ 下，root 宿主目录在 / 下</li>
+<li>/tmp/ ：临时目录，系统存放临时文件的目录，在该目录下，所有用户都可以访问和写入，建议该目录不能保存重要数据，最好每次开机都把该目录清空</li>
+</ul>
+<hr>
+<p>/usr/ 相关的一些二级目录：</p>
+<ul>
+<li>/usr/：系统软件资源目录。usr 是 Unix Software Resource 的缩写，系统中安装的软件大多数都保存在这里</li>
+<li>/usr/lib/：应用程序调用的函数库保存位置</li>
+<li>/usr/local/：手动安装的软件保存的位置，建议源码保存在 /usr/local/src/ 目录中</li>
+<li>/usr/src/：软件源码保存的位置，但不建议保存在这里。在该目录的 /usr/src/kernels/ 的目录下保存了大量的内核源码</li>
+</ul>
+<hr>
+<p>/var/ 相关的一些二级目录：</p>
+<ul>
+<li>/var/：动态数据保存位置。主要保存缓存、日志以及软件运行所产生的文件</li>
+<li>/var/www/html/：RPM 包安装的 Apache 的网页主目录</li>
+<li>/var/lib/：程序运行中需要调用或改变的数据保存位置。例如：MySQL 的数据库保存在 /var/lib/mysql/ 目录中</li>
+<li>/var/log/：保存系统日志</li>
+<li>/var/spool/：放置队列数据的目录。就是排队等待其他程序使用的数据，例如邮件队列、打印队列</li>
+<li>/var/spool/mail/：新收到的邮件队列保存位置，系统新收到的邮件会保存在此目录中</li>
+<li>/var/spool/cron/：系统的定时任务队列保存位置。系统的计划任务会保存在这里。</li>
+</ul>
+<p>说明：可以做实验的目录：</p>
+<ul>
+<li>/home/：普通用户可以在该目录下</li>
+<li>/root/：超级用户可以在该目录下</li>
+<li>/tmp/<h2 id="命令的通用格式"><a href="#命令的通用格式" class="headerlink" title="命令的通用格式"></a>命令的通用格式</h2></li>
+</ul>
+<blockquote>
 <p>command [-options] paramter1 parameter1 parameter2…</p>
 </blockquote>
 <ul>
