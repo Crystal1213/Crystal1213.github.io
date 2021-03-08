@@ -841,7 +841,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/3003968415/" class="post-title-link" itemprop="url">Linux 学习笔记</a>
+            <a href="/posts/3003968415/" class="post-title-link" itemprop="url">Linux 常用命令</a>
         </h2>
 
         <div class="post-meta">
@@ -858,7 +858,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-07 20:16:15" itemprop="dateModified" datetime="2021-03-07T20:16:15+08:00">2021-03-07</time>
+                <time title="修改时间：2021-03-08 16:40:14" itemprop="dateModified" datetime="2021-03-08T16:40:14+08:00">2021-03-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -876,7 +876,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>19k</span>
+              <span>17k</span>
             </span>
 
         </div>
@@ -891,39 +891,103 @@
           <!-- TOC -->
 
 <ul>
-<li><a href="#%E5%89%8D%E8%A8%80">前言</a><ul>
-<li><a href="#%E7%89%88%E6%9C%AC%E5%88%86%E7%B1%BB">版本分类</a></li>
-<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
-<li><a href="#%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA">系统分区</a></li>
-<li><a href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7xshell">远程登录管理工具（XShell）</a></li>
-<li><a href="#windows-%E7%B3%BB%E7%BB%9F%E5%92%8C-linux-%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%97%B4%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6">Windows 系统和 Linux 系统之间拷贝文件</a></li>
-<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
+<li><a href="#1-%E5%89%8D%E8%A8%80">1 前言</a><ul>
+<li><a href="#11-%E7%89%88%E6%9C%AC%E5%88%86%E7%B1%BB">1.1 版本分类</a></li>
+<li><a href="#12-%E5%AE%89%E8%A3%85">1.2 安装</a></li>
+<li><a href="#13-%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA">1.3 系统分区</a></li>
+<li><a href="#14-%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7xshell">1.4 远程登录管理工具（XShell）</a></li>
+<li><a href="#15-windows-%E7%B3%BB%E7%BB%9F%E5%92%8C-linux-%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%97%B4%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6">1.5 Windows 系统和 Linux 系统之间拷贝文件</a></li>
+<li><a href="#16-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">1.6 注意事项</a></li>
 </ul>
 </li>
-<li><a href="#1">1</a><ul>
-<li><a href="#11-linux-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">1.1 Linux 目录结构</a></li>
-<li><a href="#12-%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%85%B3%E6%9C%BA%E5%8F%8A%E9%87%8D%E5%90%AF%E6%97%B6%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">1.2 远程服务器关机及重启时的注意事项</a></li>
+<li><a href="#2">2</a><ul>
+<li><a href="#21-linux-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">2.1 Linux 目录结构</a></li>
+<li><a href="#22-%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%85%B3%E6%9C%BA%E5%8F%8A%E9%87%8D%E5%90%AF%E6%97%B6%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">2.2 远程服务器关机及重启时的注意事项</a></li>
 </ul>
 </li>
-<li><a href="#2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">2 常用命令</a><ul>
-<li><a href="#21-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F">2.1 命令基本格式</a></li>
-<li><a href="#22-%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4">2.2 目录操作命令</a></li>
-<li><a href="#23-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4">2.3 文件操作命令</a></li>
-<li><a href="#24-%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6%E9%83%BD%E8%83%BD%E6%93%8D%E4%BD%9C%E7%9A%84%E5%91%BD%E4%BB%A4">2.4 目录和文件都能操作的命令</a></li>
+<li><a href="#3-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">3 常用命令</a><ul>
+<li><a href="#31-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F">3.1 命令基本格式</a></li>
+<li><a href="#32-%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4">3.2 目录操作命令</a><ul>
+<li><a href="#ls-%E5%91%BD%E4%BB%A4">ls 命令</a></li>
+<li><a href="#cd-%E5%91%BD%E4%BB%A4">cd 命令</a></li>
+<li><a href="#pwd-%E5%91%BD%E4%BB%A4">pwd 命令</a></li>
+<li><a href="#mkdir-%E5%91%BD%E4%BB%A4">mkdir 命令</a></li>
+<li><a href="#rmdir-%E5%91%BD%E4%BB%A4">rmdir 命令</a></li>
+</ul>
+</li>
+<li><a href="#23-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4">2.3 文件操作命令</a><ul>
+<li><a href="#touch-%E5%91%BD%E4%BB%A4">touch 命令</a></li>
+<li><a href="#stat-%E5%91%BD%E4%BB%A4">stat 命令</a></li>
+<li><a href="#cat-%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9">cat 查看文件的内容</a></li>
+<li><a href="#more-%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E7%9A%84%E5%91%BD%E4%BB%A4">more 分屏显示文件的命令</a></li>
+<li><a href="#less-%E5%91%BD%E4%BB%A4">less 命令</a></li>
+<li><a href="#head-%E5%91%BD%E4%BB%A4">head 命令</a></li>
+<li><a href="#tail-%E5%91%BD%E4%BB%A4">tail 命令</a></li>
+<li><a href="#ln-%E5%91%BD%E4%BB%A4">ln 命令</a></li>
+</ul>
+</li>
+<li><a href="#24-%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6%E9%83%BD%E8%83%BD%E6%93%8D%E4%BD%9C%E7%9A%84%E5%91%BD%E4%BB%A4">2.4 目录和文件都能操作的命令</a><ul>
+<li><a href="#rm-%E5%91%BD%E4%BB%A4">rm 命令</a></li>
+<li><a href="#cp-%E5%91%BD%E4%BB%A4">cp 命令</a></li>
+<li><a href="#mv-%E5%91%BD%E4%BB%A4">mv 命令</a></li>
+</ul>
+</li>
 <li><a href="#25-%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86">2.5 基本权限管理</a></li>
-<li><a href="#26-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4">2.6 帮助命令</a></li>
-<li><a href="#27-%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4">2.7 搜索命令</a></li>
-<li><a href="#28-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4">2.8 压缩和解压缩命令</a></li>
+<li><a href="#26-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4">2.6 帮助命令</a><ul>
+<li><a href="#man-%E5%91%BD%E4%BB%A4">man 命令</a></li>
+<li><a href="#info-%E5%91%BD%E4%BB%A4">info 命令</a></li>
+<li><a href="#help-%E5%91%BD%E4%BB%A4">help 命令</a></li>
+<li><a href="#---help-%E9%80%89%E9%A1%B9">– help 选项</a></li>
 </ul>
 </li>
-<li><a href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E9%80%9A%E7%94%A8%E6%A0%BC%E5%BC%8F">命令的通用格式</a></li>
-<li><a href="#%E5%91%BD%E4%BB%A4%E7%9B%B8%E5%85%B3%E7%83%AD%E9%94%AE">命令相关热键</a></li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E7%9A%84%E5%85%B7%E4%BD%93%E8%AF%B4%E6%98%8E">查看命令的具体说明</a></li>
-<li><a href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8-nano">文本编辑器 nano</a></li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81%E4%B8%8E%E5%85%B3%E6%9C%BA%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4">查看系统状态与关机相关命令</a></li>
-<li><a href="#%E6%A1%A3%E6%A1%88%E6%9D%83%E9%99%90%E7%AC%AC%E5%85%AD%E7%AB%A0">档案权限（第六章）</a></li>
-<li><a href="#%E7%9B%AE%E5%BD%95%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C%E7%AC%AC%E4%B8%83%E7%AB%A0">目录相关操作（第七章）</a></li>
-<li><a href="#%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AC%AC%E5%85%AB%E7%AB%A0">磁盘与文件系统（第八章）</a></li>
+<li><a href="#27-%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4">2.7 搜索命令</a><ul>
+<li><a href="#whereis-%E5%91%BD%E4%BB%A4">whereis 命令</a></li>
+<li><a href="#which-%E5%91%BD%E4%BB%A4">which 命令</a></li>
+<li><a href="#locate-%E5%91%BD%E4%BB%A4">locate 命令</a></li>
+<li><a href="#find-%E5%91%BD%E4%BB%A4">find 命令</a></li>
+<li><a href="#grep-%E5%91%BD%E4%BB%A4%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4">grep 命令（补充命令）</a></li>
+<li><a href="#%E7%AE%A1%E9%81%93%E7%AC%A6%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4">管道符（补充命令）</a></li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E5%88%AB%E5%90%8D%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4">命令的别名（补充命令）</a></li>
+<li><a href="#%E5%BF%AB%E6%8D%B7%E9%94%AE">快捷键</a></li>
+</ul>
+</li>
+<li><a href="#28-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4">2.8 压缩和解压缩命令</a><ul>
+<li><a href="#zip-%E6%A0%BC%E5%BC%8F">.zip 格式</a></li>
+<li><a href="#gz-%E6%A0%BC%E5%BC%8F%E4%B8%8D%E4%BC%9A%E6%89%93%E5%8C%85">.gz 格式（不会打包）</a></li>
+<li><a href="#bz2-%E6%A0%BC%E5%BC%8F%E4%B8%8D%E8%83%BD%E5%8E%8B%E7%BC%A9%E7%9B%AE%E5%BD%95">.bz2 格式（不能压缩目录）</a></li>
+<li><a href="#tar%E5%8F%AA%E6%89%93%E5%8C%85">.tar（只打包）</a></li>
+<li><a href="#targz-%E5%92%8Ctarbz2-%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9">.tar.gz 和.tar.bz2 （打包+压缩）</a></li>
+</ul>
+</li>
+<li><a href="#29-%E5%85%B3%E6%9C%BA%E5%92%8C%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4">2.9 关机和重启命令</a><ul>
+<li><a href="#sync-%E5%91%BD%E4%BB%A4">sync 命令</a></li>
+<li><a href="#shutdown">shutdown</a></li>
+<li><a href="#reboot-%E5%91%BD%E4%BB%A4">reboot 命令</a></li>
+<li><a href="#halt-%E5%92%8C-poweroff-%E5%91%BD%E4%BB%A4">halt 和 poweroff 命令</a></li>
+<li><a href="#init-%E5%91%BD%E4%BB%A4">init 命令</a></li>
+</ul>
+</li>
+<li><a href="#210-%E5%B8%B8%E7%94%A8%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4">2.10 常用网络命令</a><ul>
+<li><a href="#%E9%85%8D%E7%BD%AE-ip">配置 IP</a></li>
+<li><a href="#ifconfig">ifconfig</a></li>
+<li><a href="#ping-%E5%91%BD%E4%BB%A4">ping 命令</a></li>
+<li><a href="#netstat">netstat</a></li>
+<li><a href="#wirte">wirte</a></li>
+<li><a href="#wall">wall</a></li>
+<li><a href="#mail">mail</a></li>
+</ul>
+</li>
+<li><a href="#211-%E7%97%95%E8%BF%B9%E5%91%BD%E4%BB%A4">2.11 痕迹命令</a><ul>
+<li><a href="#w-%E5%91%BD%E4%BB%A4">w 命令</a></li>
+<li><a href="#who">who</a></li>
+<li><a href="#last">last</a></li>
+<li><a href="#lastlog">lastlog</a></li>
+<li><a href="#lastb">lastb</a></li>
+</ul>
+</li>
+<li><a href="#212-%E6%8C%82%E8%BD%BD%E5%91%BD%E4%BB%A4">2.12 挂载命令</a></li>
+</ul>
+</li>
 </ul>
 <!-- /TOC -->
 
@@ -1269,7 +1333,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">51k</span>
+    <span title="站点总字数">49k</span>
 </div>
 
         
