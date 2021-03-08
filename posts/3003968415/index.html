@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"crystal1213.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1 前言 1.1 版本分类 1.2 安装 1.3 系统分区 1.4 远程登录管理工具（XShell） 1.5 Windows 系统和 Linux 系统之间拷贝文件 1.6 注意事项   2 2.1 Linux 目录结构 2.2 远程服务器关机及重启时的注意事项   3 常用命令 3.1 命令基本格式 3.2 目录操作命令 ls 命令 cd 命令 pwd 命令 mkdir 命令 rmdir 命">
+  <meta name="description" content="1 前言 1.1 版本分类 1.2 安装 1.3 系统分区 1.4 远程登录管理工具（XShell） 1.5 Windows 系统和 Linux 系统之间拷贝文件 1.6 注意事项   2 目录 2.1 Linux 目录结构 2.2 远程服务器关机及重启时的注意事项   3 常用命令 3.1 命令基本格式 3.2 目录操作命令 ls 命令 cd 命令 pwd 命令 mkdir 命令 rmdi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 常用命令">
 <meta property="og:url" content="https://crystal1213.github.io/posts/3003968415/index.html">
 <meta property="og:site_name" content="Crystal_Blog">
-<meta property="og:description" content="1 前言 1.1 版本分类 1.2 安装 1.3 系统分区 1.4 远程登录管理工具（XShell） 1.5 Windows 系统和 Linux 系统之间拷贝文件 1.6 注意事项   2 2.1 Linux 目录结构 2.2 远程服务器关机及重启时的注意事项   3 常用命令 3.1 命令基本格式 3.2 目录操作命令 ls 命令 cd 命令 pwd 命令 mkdir 命令 rmdir 命">
+<meta property="og:description" content="1 前言 1.1 版本分类 1.2 安装 1.3 系统分区 1.4 远程登录管理工具（XShell） 1.5 Windows 系统和 Linux 系统之间拷贝文件 1.6 注意事项   2 目录 2.1 Linux 目录结构 2.2 远程服务器关机及重启时的注意事项   3 常用命令 3.1 命令基本格式 3.2 目录操作命令 ls 命令 cd 命令 pwd 命令 mkdir 命令 rmdi">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/03/02/E9Vit1wP8oa7rML.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/02/3LsfW1AeJKVaqUj.png">
@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/03/08/xZrRTBbHotJWV2g.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/08/65kvNwbJfOUW7DK.png">
 <meta property="article:published_time" content="2020-12-08T08:53:23.000Z">
-<meta property="article:modified_time" content="2021-03-08T08:40:14.375Z">
+<meta property="article:modified_time" content="2021-03-08T08:49:08.687Z">
 <meta property="article:author" content="Crystal">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-08 16:40:14" itemprop="dateModified" datetime="2021-03-08T16:40:14+08:00">2021-03-08</time>
+                <time title="修改时间：2021-03-08 16:49:08" itemprop="dateModified" datetime="2021-03-08T16:49:08+08:00">2021-03-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,7 +285,7 @@
 <li><a href="#16-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">1.6 注意事项</a></li>
 </ul>
 </li>
-<li><a href="#2">2</a><ul>
+<li><a href="#2-%E7%9B%AE%E5%BD%95">2 目录</a><ul>
 <li><a href="#21-linux-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">2.1 Linux 目录结构</a></li>
 <li><a href="#22-%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%85%B3%E6%9C%BA%E5%8F%8A%E9%87%8D%E5%90%AF%E6%97%B6%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">2.2 远程服务器关机及重启时的注意事项</a></li>
 </ul>
@@ -300,7 +300,7 @@
 <li><a href="#rmdir-%E5%91%BD%E4%BB%A4">rmdir 命令</a></li>
 </ul>
 </li>
-<li><a href="#23-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4">2.3 文件操作命令</a><ul>
+<li><a href="#33-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4">3.3 文件操作命令</a><ul>
 <li><a href="#touch-%E5%91%BD%E4%BB%A4">touch 命令</a></li>
 <li><a href="#stat-%E5%91%BD%E4%BB%A4">stat 命令</a></li>
 <li><a href="#cat-%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9">cat 查看文件的内容</a></li>
@@ -311,21 +311,21 @@
 <li><a href="#ln-%E5%91%BD%E4%BB%A4">ln 命令</a></li>
 </ul>
 </li>
-<li><a href="#24-%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6%E9%83%BD%E8%83%BD%E6%93%8D%E4%BD%9C%E7%9A%84%E5%91%BD%E4%BB%A4">2.4 目录和文件都能操作的命令</a><ul>
+<li><a href="#34-%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6%E9%83%BD%E8%83%BD%E6%93%8D%E4%BD%9C%E7%9A%84%E5%91%BD%E4%BB%A4">3.4 目录和文件都能操作的命令</a><ul>
 <li><a href="#rm-%E5%91%BD%E4%BB%A4">rm 命令</a></li>
 <li><a href="#cp-%E5%91%BD%E4%BB%A4">cp 命令</a></li>
 <li><a href="#mv-%E5%91%BD%E4%BB%A4">mv 命令</a></li>
 </ul>
 </li>
-<li><a href="#25-%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86">2.5 基本权限管理</a></li>
-<li><a href="#26-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4">2.6 帮助命令</a><ul>
+<li><a href="#35-%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86">3.5 基本权限管理</a></li>
+<li><a href="#36-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4">3.6 帮助命令</a><ul>
 <li><a href="#man-%E5%91%BD%E4%BB%A4">man 命令</a></li>
 <li><a href="#info-%E5%91%BD%E4%BB%A4">info 命令</a></li>
 <li><a href="#help-%E5%91%BD%E4%BB%A4">help 命令</a></li>
 <li><a href="#---help-%E9%80%89%E9%A1%B9">– help 选项</a></li>
 </ul>
 </li>
-<li><a href="#27-%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4">2.7 搜索命令</a><ul>
+<li><a href="#37-%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4">3.7 搜索命令</a><ul>
 <li><a href="#whereis-%E5%91%BD%E4%BB%A4">whereis 命令</a></li>
 <li><a href="#which-%E5%91%BD%E4%BB%A4">which 命令</a></li>
 <li><a href="#locate-%E5%91%BD%E4%BB%A4">locate 命令</a></li>
@@ -336,7 +336,7 @@
 <li><a href="#%E5%BF%AB%E6%8D%B7%E9%94%AE">快捷键</a></li>
 </ul>
 </li>
-<li><a href="#28-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4">2.8 压缩和解压缩命令</a><ul>
+<li><a href="#38-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4">3.8 压缩和解压缩命令</a><ul>
 <li><a href="#zip-%E6%A0%BC%E5%BC%8F">.zip 格式</a></li>
 <li><a href="#gz-%E6%A0%BC%E5%BC%8F%E4%B8%8D%E4%BC%9A%E6%89%93%E5%8C%85">.gz 格式（不会打包）</a></li>
 <li><a href="#bz2-%E6%A0%BC%E5%BC%8F%E4%B8%8D%E8%83%BD%E5%8E%8B%E7%BC%A9%E7%9B%AE%E5%BD%95">.bz2 格式（不能压缩目录）</a></li>
@@ -344,7 +344,7 @@
 <li><a href="#targz-%E5%92%8Ctarbz2-%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9">.tar.gz 和.tar.bz2 （打包+压缩）</a></li>
 </ul>
 </li>
-<li><a href="#29-%E5%85%B3%E6%9C%BA%E5%92%8C%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4">2.9 关机和重启命令</a><ul>
+<li><a href="#39-%E5%85%B3%E6%9C%BA%E5%92%8C%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4">3.9 关机和重启命令</a><ul>
 <li><a href="#sync-%E5%91%BD%E4%BB%A4">sync 命令</a></li>
 <li><a href="#shutdown">shutdown</a></li>
 <li><a href="#reboot-%E5%91%BD%E4%BB%A4">reboot 命令</a></li>
@@ -352,7 +352,7 @@
 <li><a href="#init-%E5%91%BD%E4%BB%A4">init 命令</a></li>
 </ul>
 </li>
-<li><a href="#210-%E5%B8%B8%E7%94%A8%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4">2.10 常用网络命令</a><ul>
+<li><a href="#310-%E5%B8%B8%E7%94%A8%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4">3.10 常用网络命令</a><ul>
 <li><a href="#%E9%85%8D%E7%BD%AE-ip">配置 IP</a></li>
 <li><a href="#ifconfig">ifconfig</a></li>
 <li><a href="#ping-%E5%91%BD%E4%BB%A4">ping 命令</a></li>
@@ -362,7 +362,7 @@
 <li><a href="#mail">mail</a></li>
 </ul>
 </li>
-<li><a href="#211-%E7%97%95%E8%BF%B9%E5%91%BD%E4%BB%A4">2.11 痕迹命令</a><ul>
+<li><a href="#311-%E7%97%95%E8%BF%B9%E5%91%BD%E4%BB%A4">3.11 痕迹命令</a><ul>
 <li><a href="#w-%E5%91%BD%E4%BB%A4">w 命令</a></li>
 <li><a href="#who">who</a></li>
 <li><a href="#last">last</a></li>
@@ -370,7 +370,7 @@
 <li><a href="#lastb">lastb</a></li>
 </ul>
 </li>
-<li><a href="#212-%E6%8C%82%E8%BD%BD%E5%91%BD%E4%BB%A4">2.12 挂载命令</a></li>
+<li><a href="#312-%E6%8C%82%E8%BD%BD%E5%91%BD%E4%BB%A4">3.12 挂载命令</a></li>
 </ul>
 </li>
 </ul>
@@ -492,7 +492,7 @@
 <li>Linux 中所有的硬件设备必须挂载之后才能使用（挂载：将硬件设备文件名和空目录，即挂载点，连接起来的过程）</li>
 <li>Windows 下的程序不能直接在 Linux 下直接使用</li>
 </ul>
-<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><h3 id="2-1-Linux-目录结构"><a href="#2-1-Linux-目录结构" class="headerlink" title="2.1 Linux 目录结构"></a>2.1 Linux 目录结构</h3><p>系统命令相关的目录，bin 是 binary 的缩写，sbin 中的 s 表示 super</p>
+<h2 id="2-目录"><a href="#2-目录" class="headerlink" title="2 目录"></a>2 目录</h2><h3 id="2-1-Linux-目录结构"><a href="#2-1-Linux-目录结构" class="headerlink" title="2.1 Linux 目录结构"></a>2.1 Linux 目录结构</h3><p>系统命令相关的目录，bin 是 binary 的缩写，sbin 中的 s 表示 super</p>
 <ul>
 <li>/bin/：存放系统命令的目录，普通用户和超级用户都可以执行，是 /usr/bin/ 目录的软链接。</li>
 <li>/sbin/：存放系统命令的目录，只有超级用户才可以执行，是 /usr/sbin/ 目录的软链接。</li>
@@ -657,7 +657,7 @@
 <li>说明：rmdir 命令只能删除空目录，实际工作中常用 rm 命令来删除文件或者目录（删除目录需要使用 -r 或者 -rf，其中 -f 表示强制删除，没有一些询问信息），删除某个目录下的文件夹需要借助通配符 *，举例：<code>rm -rf /tmp/*</code></li>
 <li>特别注意：Linux 系统中没有回收站的说法，文件或目录一旦删除就无法找回，建议装系统时安装 extundelete 工具，实现文件或文件夹数据的恢复</li>
 </ul>
-<h3 id="2-3-文件操作命令"><a href="#2-3-文件操作命令" class="headerlink" title="2.3 文件操作命令"></a>2.3 文件操作命令</h3><p>在文件中添加内容，可用 <code>echo</code>+ 内容 + <code>&gt;&gt;</code>（重定向）。</p>
+<h3 id="3-3-文件操作命令"><a href="#3-3-文件操作命令" class="headerlink" title="3.3 文件操作命令"></a>3.3 文件操作命令</h3><p>在文件中添加内容，可用 <code>echo</code>+ 内容 + <code>&gt;&gt;</code>（重定向）。</p>
 <ul>
 <li>echo 内容：是将内容输出到屏幕</li>
 <li>“&gt;&gt;” 文件名：重定向，其作用是将显示的内容重定向到指定的文件中，追加在原有内容的末尾</li>
@@ -742,7 +742,7 @@
 <li>软链接特征明显，建议使用软链接</li>
 <li>特别注意：软链接时，源文件一定要写<strong>绝对路径</strong>，写相对路径会导致软链接不知道和哪个文件建立</li>
 </ul>
-<h3 id="2-4-目录和文件都能操作的命令"><a href="#2-4-目录和文件都能操作的命令" class="headerlink" title="2.4 目录和文件都能操作的命令"></a>2.4 目录和文件都能操作的命令</h3><h4 id="rm-命令"><a href="#rm-命令" class="headerlink" title="rm 命令"></a>rm 命令</h4><p>既可以删除文件，又可以删除目录。</p>
+<h3 id="3-4-目录和文件都能操作的命令"><a href="#3-4-目录和文件都能操作的命令" class="headerlink" title="3.4 目录和文件都能操作的命令"></a>3.4 目录和文件都能操作的命令</h3><h4 id="rm-命令"><a href="#rm-命令" class="headerlink" title="rm 命令"></a>rm 命令</h4><p>既可以删除文件，又可以删除目录。</p>
 <ul>
 <li>英文原意：remove files or directories</li>
 <li>选项：-f 强制删除；-i 交互删除（默认情况下就是交互删除）；-r 递归删除。通常使用的形式：<code>rm -rf 文件名或目录名</code></li>
@@ -759,7 +759,7 @@
 <li>命令格式：<code>mv [选项] 源文件 目标文件</code></li>
 <li>选项：-f 强制覆盖；-i 交互移动（默认情况）；-v 显示详细信息</li>
 </ul>
-<h3 id="2-5-基本权限管理"><a href="#2-5-基本权限管理" class="headerlink" title="2.5 基本权限管理"></a>2.5 基本权限管理</h3><p><img src="https://i.loli.net/2021/03/05/aCAUfSrdteuh1sy.png" alt="image.png"></p>
+<h3 id="3-5-基本权限管理"><a href="#3-5-基本权限管理" class="headerlink" title="3.5 基本权限管理"></a>3.5 基本权限管理</h3><p><img src="https://i.loli.net/2021/03/05/aCAUfSrdteuh1sy.png" alt="image.png"></p>
 <p>权限一共有 10 位</p>
 <p>第一位：表示文件的类型</p>
 <ul>
@@ -838,7 +838,7 @@
 <li>临时修改：umask + 3 位数值</li>
 <li>永久修改：需要写入配置文件 /etc/profile，该配置文件存放的是环境变量</li>
 </ul>
-<h3 id="2-6-帮助命令"><a href="#2-6-帮助命令" class="headerlink" title="2.6 帮助命令"></a>2.6 帮助命令</h3><h4 id="man-命令"><a href="#man-命令" class="headerlink" title="man 命令"></a>man 命令</h4><ul>
+<h3 id="3-6-帮助命令"><a href="#3-6-帮助命令" class="headerlink" title="3.6 帮助命令"></a>3.6 帮助命令</h3><h4 id="man-命令"><a href="#man-命令" class="headerlink" title="man 命令"></a>man 命令</h4><ul>
 <li>英文原意：format and display the online manual pages</li>
 <li>功能描述：显示联机帮助手册</li>
 <li>格式：<code>man [选项] 命令</code></li>
@@ -862,7 +862,7 @@
 </ul>
 <h4 id="help-命令"><a href="#help-命令" class="headerlink" title="help 命令"></a>help 命令</h4><p>只能获取 Shell 内置命令的帮助。（Shell 是 Linux 的命令解释器）<br>可以用 type 命令来确定当前命令是内置命令还是外部命令</p>
 <h4 id="–-help-选项"><a href="#–-help-选项" class="headerlink" title="– help 选项"></a>– help 选项</h4><p>命令 + - -help 来查看当前命令的帮助</p>
-<h3 id="2-7-搜索命令"><a href="#2-7-搜索命令" class="headerlink" title="2.7 搜索命令"></a>2.7 搜索命令</h3><h4 id="whereis-命令"><a href="#whereis-命令" class="headerlink" title="whereis 命令"></a>whereis 命令</h4><p>搜索命令的命令，不能搜索普通文件<br>显示出该命令的源文件、帮助文件的所在路径</p>
+<h3 id="3-7-搜索命令"><a href="#3-7-搜索命令" class="headerlink" title="3.7 搜索命令"></a>3.7 搜索命令</h3><h4 id="whereis-命令"><a href="#whereis-命令" class="headerlink" title="whereis 命令"></a>whereis 命令</h4><p>搜索命令的命令，不能搜索普通文件<br>显示出该命令的源文件、帮助文件的所在路径</p>
 <h4 id="which-命令"><a href="#which-命令" class="headerlink" title="which 命令"></a>which 命令</h4><p>只能查命令，不能搜索文件<br>显示出该文件的所在路径，如果有别名会显示出别名的位置</p>
 <h4 id="locate-命令"><a href="#locate-命令" class="headerlink" title="locate 命令"></a>locate 命令</h4><p>按照文件名搜索普通文件的命令</p>
 <ul>
@@ -975,7 +975,7 @@
 <li>ctrl + E：把光标移到命令行的结尾</li>
 <li>ctrl + C：强制终止当前命令</li>
 </ul>
-<h3 id="2-8-压缩和解压缩命令"><a href="#2-8-压缩和解压缩命令" class="headerlink" title="2.8 压缩和解压缩命令"></a>2.8 压缩和解压缩命令</h3><p>Linux 中，常见的压缩格式：.zip, .gz, .bz2, .tar, .tar.gz, .tar.bz2</p>
+<h3 id="3-8-压缩和解压缩命令"><a href="#3-8-压缩和解压缩命令" class="headerlink" title="3.8 压缩和解压缩命令"></a>3.8 压缩和解压缩命令</h3><p>Linux 中，常见的压缩格式：.zip, .gz, .bz2, .tar, .tar.gz, .tar.bz2</p>
 <h4 id="zip-格式"><a href="#zip-格式" class="headerlink" title=".zip 格式"></a>.zip 格式</h4><ul>
 <li>压缩命令：<code>zip 压缩文件名.zip 需要压缩的文件（可以有多个，用空格分开即可）</code></li>
 <li>解压命令：<code>unzip [-d 文件位置] 解压文件名</code></li>
@@ -1011,7 +1011,7 @@
 <li>解压到指定位置需要在上述命令的最后加上：-C 路径名（特别注意：这里只能加在上述命令的最后，不能调换顺序）。举例：<code>tar -zxvf abc.tar.gz -C /tmp</code></li>
 <li>解压压缩包中的特定文件到指定路径：<code>tar -zxvf 压缩包名 -C 路径名 特定文件名</code>，例如：<code>tar -zxvf abc.tar.gz -C /tmp /abc/123 </code> 。执行该命令前可用 -ztvf 查看下当前压缩包中有哪些文件</li>
 </ul>
-<h3 id="2-9-关机和重启命令"><a href="#2-9-关机和重启命令" class="headerlink" title="2.9 关机和重启命令"></a>2.9 关机和重启命令</h3><h4 id="sync-命令"><a href="#sync-命令" class="headerlink" title="sync 命令"></a>sync 命令</h4><ul>
+<h3 id="3-9-关机和重启命令"><a href="#3-9-关机和重启命令" class="headerlink" title="3.9 关机和重启命令"></a>3.9 关机和重启命令</h3><h4 id="sync-命令"><a href="#sync-命令" class="headerlink" title="sync 命令"></a>sync 命令</h4><ul>
 <li>英文原意：flush file system buffers</li>
 <li>功能描述：刷新文件系统缓冲区</li>
 </ul>
@@ -1031,7 +1031,7 @@
 <li>关机：<code>init 0</code> (调用系统的 0 级别)</li>
 <li>重启：<code>init 6</code> (调用系统的 6 级别)</li>
 </ul>
-<h3 id="2-10-常用网络命令"><a href="#2-10-常用网络命令" class="headerlink" title="2.10 常用网络命令"></a>2.10 常用网络命令</h3><h4 id="配置-IP"><a href="#配置-IP" class="headerlink" title="配置 IP"></a>配置 IP</h4><p>配置 IP 的方法：</p>
+<h3 id="3-10-常用网络命令"><a href="#3-10-常用网络命令" class="headerlink" title="3.10 常用网络命令"></a>3.10 常用网络命令</h3><h4 id="配置-IP"><a href="#配置-IP" class="headerlink" title="配置 IP"></a>配置 IP</h4><p>配置 IP 的方法：</p>
 <ul>
 <li>setup 工具</li>
 <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0 手工修改配置文件</li>
@@ -1091,7 +1091,7 @@
 <li>邮件保存的位置：/var/spool/mail/user1(用户名)</li>
 <li>常用形式：将文件已邮件的形式发送 <code>mail -s 邮件标题 用户名 &lt; 文件路径</code> </li>
 </ul>
-<h3 id="2-11-痕迹命令"><a href="#2-11-痕迹命令" class="headerlink" title="2.11 痕迹命令"></a>2.11 痕迹命令</h3><p>系统中有一些重要的痕迹日志文件，例如：/var/log/wtmp、/var/run/utmp、/var/log/btmp、/var/log/lastlog 等，如果用 vim 打开就是二进制乱码，需要用相应的命令来查看。</p>
+<h3 id="3-11-痕迹命令"><a href="#3-11-痕迹命令" class="headerlink" title="3.11 痕迹命令"></a>3.11 痕迹命令</h3><p>系统中有一些重要的痕迹日志文件，例如：/var/log/wtmp、/var/run/utmp、/var/log/btmp、/var/log/lastlog 等，如果用 vim 打开就是二进制乱码，需要用相应的命令来查看。</p>
 <h4 id="w-命令"><a href="#w-命令" class="headerlink" title="w 命令"></a>w 命令</h4><ul>
 <li>查询文件：/var/run/utmp</li>
 <li>格式：w<br><img src="https://i.loli.net/2021/03/08/ab7VKQkEH5Fni2N.png" alt="image.png"></li>
@@ -1125,7 +1125,7 @@
 <li>查看文件：/var/log/btmp</li>
 <li>功能描述：查看错误登录的用户，（由于登录密码错误没成功登陆系统的用户）</li>
 </ul>
-<h3 id="2-12-挂载命令"><a href="#2-12-挂载命令" class="headerlink" title="2.12 挂载命令"></a>2.12 挂载命令</h3><p>Linux 中多有的存储设备必须挂载之后才能使用</p>
+<h3 id="3-12-挂载命令"><a href="#3-12-挂载命令" class="headerlink" title="3.12 挂载命令"></a>3.12 挂载命令</h3><p>Linux 中多有的存储设备必须挂载之后才能使用</p>
 <ul>
 <li><code>mount [-l]</code>：该命令会显示系统中已挂载的设备<br><img src="https://i.loli.net/2021/03/08/xZrRTBbHotJWV2g.png" alt="image.png"></li>
 <li>简单解释：sysfs 挂载到目录 /sys，文件系统是 sysfs，权限是读写</li>
@@ -1275,7 +1275,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">1 前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%89%88%E6%9C%AC%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 版本分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 系统分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%88XShell%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 远程登录管理工具（XShell）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Windows-%E7%B3%BB%E7%BB%9F%E5%92%8C-Linux-%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%97%B4%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 Windows 系统和 Linux 系统之间拷贝文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Linux-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Linux 目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%85%B3%E6%9C%BA%E5%8F%8A%E9%87%8D%E5%90%AF%E6%97%B6%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 远程服务器关机及重启时的注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">3 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 命令基本格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 目录操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ls-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.1.</span> <span class="nav-text">ls 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cd-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.2.</span> <span class="nav-text">cd 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pwd-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.3.</span> <span class="nav-text">pwd 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mkdir-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.4.</span> <span class="nav-text">mkdir 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rmdir-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.5.</span> <span class="nav-text">rmdir 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 文件操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#touch-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.1.</span> <span class="nav-text">touch 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stat-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.2.</span> <span class="nav-text">stat 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cat-%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">3.3.3.</span> <span class="nav-text">cat 查看文件的内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#more-%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.4.</span> <span class="nav-text">more 分屏显示文件的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#less-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.5.</span> <span class="nav-text">less 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#head-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.6.</span> <span class="nav-text">head 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tail-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.7.</span> <span class="nav-text">tail 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ln-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.8.</span> <span class="nav-text">ln 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6%E9%83%BD%E8%83%BD%E6%93%8D%E4%BD%9C%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 目录和文件都能操作的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rm-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.1.</span> <span class="nav-text">rm 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cp-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.2.</span> <span class="nav-text">cp 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mv-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.3.</span> <span class="nav-text">mv 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 基本权限管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.</span> <span class="nav-text">2.6 帮助命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#man-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.1.</span> <span class="nav-text">man 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#info-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.2.</span> <span class="nav-text">info 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#help-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.3.</span> <span class="nav-text">help 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%80%93-help-%E9%80%89%E9%A1%B9"><span class="nav-number">3.6.4.</span> <span class="nav-text">– help 选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.</span> <span class="nav-text">2.7 搜索命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#whereis-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.1.</span> <span class="nav-text">whereis 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#which-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.2.</span> <span class="nav-text">which 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#locate-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.3.</span> <span class="nav-text">locate 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#find-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.4.</span> <span class="nav-text">find 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#grep-%E5%91%BD%E4%BB%A4%EF%BC%88%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-number">3.7.5.</span> <span class="nav-text">grep 命令（补充命令）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%A1%E9%81%93%E7%AC%A6%EF%BC%88%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-number">3.7.6.</span> <span class="nav-text">管道符（补充命令）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E5%88%AB%E5%90%8D%EF%BC%88%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-number">3.7.7.</span> <span class="nav-text">命令的别名（补充命令）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">3.7.8.</span> <span class="nav-text">快捷键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-number">3.8.</span> <span class="nav-text">2.8 压缩和解压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zip-%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.8.1.</span> <span class="nav-text">.zip 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gz-%E6%A0%BC%E5%BC%8F%EF%BC%88%E4%B8%8D%E4%BC%9A%E6%89%93%E5%8C%85%EF%BC%89"><span class="nav-number">3.8.2.</span> <span class="nav-text">.gz 格式（不会打包）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bz2-%E6%A0%BC%E5%BC%8F%EF%BC%88%E4%B8%8D%E8%83%BD%E5%8E%8B%E7%BC%A9%E7%9B%AE%E5%BD%95%EF%BC%89"><span class="nav-number">3.8.3.</span> <span class="nav-text">.bz2 格式（不能压缩目录）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tar%EF%BC%88%E5%8F%AA%E6%89%93%E5%8C%85%EF%BC%89"><span class="nav-number">3.8.4.</span> <span class="nav-text">.tar（只打包）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tar-gz-%E5%92%8C-tar-bz2-%EF%BC%88%E6%89%93%E5%8C%85-%E5%8E%8B%E7%BC%A9%EF%BC%89"><span class="nav-number">3.8.5.</span> <span class="nav-text">.tar.gz 和.tar.bz2 （打包+压缩）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-%E5%85%B3%E6%9C%BA%E5%92%8C%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.</span> <span class="nav-text">2.9 关机和重启命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sync-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.1.</span> <span class="nav-text">sync 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shutdown"><span class="nav-number">3.9.2.</span> <span class="nav-text">shutdown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reboot-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.3.</span> <span class="nav-text">reboot 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#halt-%E5%92%8C-poweroff-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.4.</span> <span class="nav-text">halt 和 poweroff 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#init-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.5.</span> <span class="nav-text">init 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-10-%E5%B8%B8%E7%94%A8%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">3.10.</span> <span class="nav-text">2.10 常用网络命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-IP"><span class="nav-number">3.10.1.</span> <span class="nav-text">配置 IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ifconfig"><span class="nav-number">3.10.2.</span> <span class="nav-text">ifconfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ping-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.10.3.</span> <span class="nav-text">ping 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#netstat"><span class="nav-number">3.10.4.</span> <span class="nav-text">netstat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wirte"><span class="nav-number">3.10.5.</span> <span class="nav-text">wirte</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wall"><span class="nav-number">3.10.6.</span> <span class="nav-text">wall</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mail"><span class="nav-number">3.10.7.</span> <span class="nav-text">mail</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-11-%E7%97%95%E8%BF%B9%E5%91%BD%E4%BB%A4"><span class="nav-number">3.11.</span> <span class="nav-text">2.11 痕迹命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#w-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.11.1.</span> <span class="nav-text">w 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#who"><span class="nav-number">3.11.2.</span> <span class="nav-text">who</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#last"><span class="nav-number">3.11.3.</span> <span class="nav-text">last</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lastlog"><span class="nav-number">3.11.4.</span> <span class="nav-text">lastlog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lastb"><span class="nav-number">3.11.5.</span> <span class="nav-text">lastb</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-12-%E6%8C%82%E8%BD%BD%E5%91%BD%E4%BB%A4"><span class="nav-number">3.12.</span> <span class="nav-text">2.12 挂载命令</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">1 前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%89%88%E6%9C%AC%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 版本分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 系统分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%88XShell%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 远程登录管理工具（XShell）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Windows-%E7%B3%BB%E7%BB%9F%E5%92%8C-Linux-%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%97%B4%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 Windows 系统和 Linux 系统之间拷贝文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%9B%AE%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">2 目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Linux-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Linux 目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%85%B3%E6%9C%BA%E5%8F%8A%E9%87%8D%E5%90%AF%E6%97%B6%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 远程服务器关机及重启时的注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">3 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 命令基本格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 目录操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ls-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.1.</span> <span class="nav-text">ls 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cd-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.2.</span> <span class="nav-text">cd 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pwd-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.3.</span> <span class="nav-text">pwd 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mkdir-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.4.</span> <span class="nav-text">mkdir 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rmdir-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.2.5.</span> <span class="nav-text">rmdir 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 文件操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#touch-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.1.</span> <span class="nav-text">touch 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stat-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.2.</span> <span class="nav-text">stat 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cat-%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">3.3.3.</span> <span class="nav-text">cat 查看文件的内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#more-%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.4.</span> <span class="nav-text">more 分屏显示文件的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#less-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.5.</span> <span class="nav-text">less 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#head-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.6.</span> <span class="nav-text">head 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tail-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.7.</span> <span class="nav-text">tail 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ln-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.8.</span> <span class="nav-text">ln 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6%E9%83%BD%E8%83%BD%E6%93%8D%E4%BD%9C%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 目录和文件都能操作的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rm-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.1.</span> <span class="nav-text">rm 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cp-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.2.</span> <span class="nav-text">cp 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mv-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.4.3.</span> <span class="nav-text">mv 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 基本权限管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 帮助命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#man-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.1.</span> <span class="nav-text">man 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#info-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.2.</span> <span class="nav-text">info 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#help-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.6.3.</span> <span class="nav-text">help 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%80%93-help-%E9%80%89%E9%A1%B9"><span class="nav-number">3.6.4.</span> <span class="nav-text">– help 选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 搜索命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#whereis-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.1.</span> <span class="nav-text">whereis 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#which-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.2.</span> <span class="nav-text">which 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#locate-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.3.</span> <span class="nav-text">locate 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#find-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.4.</span> <span class="nav-text">find 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#grep-%E5%91%BD%E4%BB%A4%EF%BC%88%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-number">3.7.5.</span> <span class="nav-text">grep 命令（补充命令）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%A1%E9%81%93%E7%AC%A6%EF%BC%88%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-number">3.7.6.</span> <span class="nav-text">管道符（补充命令）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E5%88%AB%E5%90%8D%EF%BC%88%E8%A1%A5%E5%85%85%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-number">3.7.7.</span> <span class="nav-text">命令的别名（补充命令）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">3.7.8.</span> <span class="nav-text">快捷键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-number">3.8.</span> <span class="nav-text">3.8 压缩和解压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zip-%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.8.1.</span> <span class="nav-text">.zip 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gz-%E6%A0%BC%E5%BC%8F%EF%BC%88%E4%B8%8D%E4%BC%9A%E6%89%93%E5%8C%85%EF%BC%89"><span class="nav-number">3.8.2.</span> <span class="nav-text">.gz 格式（不会打包）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bz2-%E6%A0%BC%E5%BC%8F%EF%BC%88%E4%B8%8D%E8%83%BD%E5%8E%8B%E7%BC%A9%E7%9B%AE%E5%BD%95%EF%BC%89"><span class="nav-number">3.8.3.</span> <span class="nav-text">.bz2 格式（不能压缩目录）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tar%EF%BC%88%E5%8F%AA%E6%89%93%E5%8C%85%EF%BC%89"><span class="nav-number">3.8.4.</span> <span class="nav-text">.tar（只打包）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tar-gz-%E5%92%8C-tar-bz2-%EF%BC%88%E6%89%93%E5%8C%85-%E5%8E%8B%E7%BC%A9%EF%BC%89"><span class="nav-number">3.8.5.</span> <span class="nav-text">.tar.gz 和.tar.bz2 （打包+压缩）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-%E5%85%B3%E6%9C%BA%E5%92%8C%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.</span> <span class="nav-text">3.9 关机和重启命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sync-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.1.</span> <span class="nav-text">sync 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shutdown"><span class="nav-number">3.9.2.</span> <span class="nav-text">shutdown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reboot-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.3.</span> <span class="nav-text">reboot 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#halt-%E5%92%8C-poweroff-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.4.</span> <span class="nav-text">halt 和 poweroff 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#init-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.9.5.</span> <span class="nav-text">init 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-10-%E5%B8%B8%E7%94%A8%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">3.10.</span> <span class="nav-text">3.10 常用网络命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-IP"><span class="nav-number">3.10.1.</span> <span class="nav-text">配置 IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ifconfig"><span class="nav-number">3.10.2.</span> <span class="nav-text">ifconfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ping-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.10.3.</span> <span class="nav-text">ping 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#netstat"><span class="nav-number">3.10.4.</span> <span class="nav-text">netstat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wirte"><span class="nav-number">3.10.5.</span> <span class="nav-text">wirte</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wall"><span class="nav-number">3.10.6.</span> <span class="nav-text">wall</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mail"><span class="nav-number">3.10.7.</span> <span class="nav-text">mail</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-11-%E7%97%95%E8%BF%B9%E5%91%BD%E4%BB%A4"><span class="nav-number">3.11.</span> <span class="nav-text">3.11 痕迹命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#w-%E5%91%BD%E4%BB%A4"><span class="nav-number">3.11.1.</span> <span class="nav-text">w 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#who"><span class="nav-number">3.11.2.</span> <span class="nav-text">who</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#last"><span class="nav-number">3.11.3.</span> <span class="nav-text">last</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lastlog"><span class="nav-number">3.11.4.</span> <span class="nav-text">lastlog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lastb"><span class="nav-number">3.11.5.</span> <span class="nav-text">lastb</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-12-%E6%8C%82%E8%BD%BD%E5%91%BD%E4%BB%A4"><span class="nav-number">3.12.</span> <span class="nav-text">3.12 挂载命令</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
