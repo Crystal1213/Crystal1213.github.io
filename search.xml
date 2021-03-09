@@ -1715,4 +1715,144 @@ Since not every customer received correct change, the answer is false.</code></p
         <tag>Linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>vim 编辑器</title>
+    <url>/posts/2687411960/</url>
+    <content><![CDATA[<p>主要讲解 vim 编辑器的相关命令</p>
+<a id="more"></a>
+<!-- TOC -->
+
+<ul>
+<li><a href="#1-vi-%E7%BC%96%E8%BE%91%E5%99%A8%E7%AE%80%E4%BB%8B">1 vi 编辑器简介</a></li>
+<li><a href="#2-vim-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">2 vim 基本使用</a><ul>
+<li><a href="#21-vim-%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F">2.1 vim 工作模式</a></li>
+<li><a href="#22-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E6%93%8D%E4%BD%9C">2.2 命令模式操作</a></li>
+</ul>
+</li>
+<li><a href="#3-vim-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7">3 vim 使用技巧</a><ul>
+<li><a href="#31-%E5%9C%A8-vim-%E4%B8%AD%E5%AF%BC%E5%85%A5%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%88%96%E5%91%BD%E4%BB%A4%E7%BB%93%E6%9E%9C">3.1 在 vim 中导入其他文件内容或命令结果</a></li>
+<li><a href="#32-%E8%AE%BE%E5%AE%9A%E5%BF%AB%E6%8D%B7%E9%94%AE">3.2 设定快捷键</a></li>
+<li><a href="#33-%E5%AD%97%E7%AC%A6%E6%9B%BF%E6%8D%A2">3.3 字符替换</a></li>
+<li><a href="#34-%E5%A4%9A%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80">3.4 多文件打开</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<h2 id="1-vi-编辑器简介"><a href="#1-vi-编辑器简介" class="headerlink" title="1 vi 编辑器简介"></a>1 vi 编辑器简介</h2><p>vim 编辑器是 vi 编辑器的增强版，会有颜色显示，可以执行 vi 命令时候，执行的就是 vim。将命令 <code>alias vi=&#39;vim&#39;</code> 写入文件 ~/.bashrc </p>
+<h2 id="2-vim-基本使用"><a href="#2-vim-基本使用" class="headerlink" title="2 vim 基本使用"></a>2 vim 基本使用</h2><h3 id="2-1-vim-工作模式"><a href="#2-1-vim-工作模式" class="headerlink" title="2.1 vim 工作模式"></a>2.1 vim 工作模式</h3><p><img src="https://i.loli.net/2021/03/09/BmOTFuVvdfnQiay.png" alt="image.png"><br>输入模式：主要用于文本编辑，和记事本类似，输入数据就好。</p>
+<ul>
+<li>进入输入模式的方法：（记住其中一个就好）</li>
+<li>a：在光标所在字符后插入</li>
+<li>A：在光标所在行尾插入</li>
+<li>i：在光标所在字符前插入</li>
+<li>I：在光标所在行行首插入</li>
+<li>o：在光标下插入新行</li>
+<li>O：在光标上插入新行</li>
+</ul>
+<p>末行模式：（编辑模式）</p>
+<ul>
+<li>:w 保存不退出</li>
+<li>:w 新文件名  把文件另存为新文件</li>
+<li>:q 不保存退出</li>
+<li>:wq 保存退出</li>
+<li>! 强制</li>
+<li>:q! 强制不保存退出，用于修改文件之后，不保存数据退出</li>
+<li>:wq! 强制保存退出，当文件的所有者或者 root 用户，对文件没有写权限的时候，强制写入数据 </li>
+</ul>
+<h3 id="2-2-命令模式操作"><a href="#2-2-命令模式操作" class="headerlink" title="2.2 命令模式操作"></a>2.2 命令模式操作</h3><p>光标的移动：</p>
+<ul>
+<li>上下左右的移动：上下左右的箭头 或者 HJKL（左下上右）</li>
+<li>移动到该行的开始：^</li>
+<li>移动到该行的结束：$</li>
+<li>移动到文档的开始：gg</li>
+<li>移动到文档的结束：G （shift+g）</li>
+<li>移动到指定行：:n （n是数字，移动到第几行就填几）</li>
+</ul>
+<hr>
+<p>删除/剪切一个或多个字符：</p>
+<ul>
+<li>x 删除1个</li>
+<li>nx 删除n个（从光标位置开始向后删除连续的n个）</li>
+</ul>
+<p>删除/剪切一行或多行：</p>
+<ul>
+<li>dd 删除一行</li>
+<li>ndd 删除多行</li>
+<li>n1,n2d 从第n1行删除到第n2行</li>
+<li>dG 从当前光标位置一直删除到文档的最后（G），如果光标在当前文档的开始那么删除的是整篇文档</li>
+</ul>
+<p>粘贴：</p>
+<ul>
+<li>p 在当前光标的下一行粘贴</li>
+<li>P（大写）在当前光标的上一行粘贴</li>
+</ul>
+<p>撤销：</p>
+<ul>
+<li>u 撤销操作</li>
+<li>ctrl+r 反撤销操作</li>
+</ul>
+<p>复制一行或多行：</p>
+<ul>
+<li>yy 复制一行</li>
+<li>nyy 复制多行</li>
+</ul>
+<hr>
+<p>vim 配置文件，如果需要下述配置永久生效，就需要将下述命令写入 ~/.vimrc 文件中。（注意：写入的时候不用加冒号）更多设置参数，可执行命令 :set all 查看</p>
+<ul>
+<li>显示与取消行号：:set nu / :set nonu，nu 表示 number</li>
+<li>是否显示隐藏字符：:set list / :set nolist</li>
+<li>是否依据语法显示颜色帮助：:syntax on / :syntax off</li>
+<li>是否将查找的字符串高亮显示：:set hlsearch / :set nohlsearch</li>
+<li>是否显示右下角的状态栏：:set ruler / :set noruler</li>
+<li>是否显示左下角的状态栏：:set showmode / :set noshowmode</li>
+</ul>
+<p>特别注意：Windows 下的空格（^M$）和 Linux 下的空格（$）不同，特别是在写Shell脚本时，从 Windows下拷贝来的文件需要使用命令 dos2unix 将 Windows 格式转化为 Linux 格式，反过来，命令 unix2dos 就是把 Linux 格式转化为 Windows 格式。（这两个命令需要手动安装后才能使用）</p>
+<hr>
+<p>查找：</p>
+<ul>
+<li>从光标所在行向下查找：/查找内容</li>
+<li>从光标所在行向上查找：?查找内容</li>
+<li>下一个：n</li>
+<li>上一个：N</li>
+</ul>
+<p>替换：</p>
+<ul>
+<li>:n1,n2s/old/new/g ： 将n1行到n2行中的所有 old 替换为 new，g表示所有内容</li>
+<li>:%s/old/new/g ：将整个文本中的 old 替换为 new</li>
+<li>举例：</li>
+<li>例1：将前10行加上注释 # ，命令 <code>:1,10s/^/#/g</code>。（也就是将行首符^替换为#）取消注释 <code>:1,10s/^#//g</code> （将行首的#替换为空，这里一定要标识行首的#）</li>
+<li>例2：将前10行加上注释 //，注意/要加上转义符（\），命令 <code>:1,10s/^/\/\//g</code> 。取消注释 <code>:1,10s/^\/\///g</code></li>
+</ul>
+<h2 id="3-vim-使用技巧"><a href="#3-vim-使用技巧" class="headerlink" title="3 vim 使用技巧"></a>3 vim 使用技巧</h2><h3 id="3-1-在-vim-中导入其他文件内容或命令结果"><a href="#3-1-在-vim-中导入其他文件内容或命令结果" class="headerlink" title="3.1 在 vim 中导入其他文件内容或命令结果"></a>3.1 在 vim 中导入其他文件内容或命令结果</h3><ul>
+<li>导入其他文件内容：<code>:r 文件路径</code> ，将其他文件导入光标所在位置</li>
+<li>在 vim 中执行系统命令 <code>:!命令</code></li>
+<li>在 vim 中执行系统命令，并导入命令结果至光标所在位置 <code>:r !命令</code></li>
+</ul>
+<h3 id="3-2-设定快捷键"><a href="#3-2-设定快捷键" class="headerlink" title="3.2 设定快捷键"></a>3.2 设定快捷键</h3><p>设定快捷键时，要想永久生效依然要写入配置文件 ~/.vimrc</p>
+<ul>
+<li>格式：<code>:map 快捷键 快捷键的执行命令</code> </li>
+<li>常定义的快捷键：<ul>
+<li><code>:map ^p I#&lt;ESC&gt;</code> 按 ctrl+p 时，在行首加入注释。特别注意：^p 不能手动输入，需要执行 ctrl+v+p 或者 ctrl+v，然后 ctrl+p 来定义，可看到颜色变化。</li>
+<li><code>:map ^b ^x</code> 按 ctrl+b 时，删除行首的第一个字母（删除注释）</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-字符替换"><a href="#3-3-字符替换" class="headerlink" title="3.3 字符替换"></a>3.3 字符替换</h3><ul>
+<li>格式：<code>:ab 源字符 替换为字符</code></li>
+<li>举例：<code>:ab mymail 1436058432@qq.com</code></li>
+<li>注意：源字符不易设置太短，否则影响输入。使用时，键入源字符后，空格或者回车即可变成需要替换的字符。</li>
+</ul>
+<h3 id="3-4-多文件打开"><a href="#3-4-多文件打开" class="headerlink" title="3.4 多文件打开"></a>3.4 多文件打开</h3><p>同时打开两个文件：</p>
+<ul>
+<li><code>vim -o 文件名1 文件名2</code> 上下打开两个文件，按下 ctrl+w 后，可通过上下箭头在两个文件中切换</li>
+<li><code>vim -O 文件名1 文件名2</code> 左右打开两个文件，按下 ctrl+w 后，可通过左右箭头在两个文件中切换 </li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>vim</tag>
+      </tags>
+  </entry>
 </search>
