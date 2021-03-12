@@ -1860,10 +1860,33 @@ Since not every customer received correct change, the answer is false.</code></p
     <url>/posts/3333022318/</url>
     <content><![CDATA[<p>主要讲解 Linux 软件包安装的方法。</p>
 <a id="more"></a>
+<!-- TOC -->
 
-<h2 id="1-软件包的分类"><a href="#1-软件包的分类" class="headerlink" title="1 软件包的分类"></a>1 软件包的分类</h2><h3 id="1-1-软件奥分类"><a href="#1-1-软件奥分类" class="headerlink" title="1.1 软件奥分类"></a>1.1 软件奥分类</h3><ul>
-<li>源码包</li>
-<li>二进制包</li>
+<ul>
+<li><a href="#1-%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%9A%84%E5%88%86%E7%B1%BB">1 软件包的分类</a><ul>
+<li><a href="#11-%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%88%86%E7%B1%BB">1.1 软件包分类</a></li>
+<li><a href="#12-%E6%BA%90%E7%A0%81%E5%8C%85">1.2 源码包</a></li>
+<li><a href="#13-%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%85">1.3 二进制包</a></li>
+</ul>
+</li>
+<li><a href="#2-rmp-%E5%8C%85%E5%AE%89%E8%A3%85">2 rmp 包安装</a><ul>
+<li><a href="#21-rpm-%E5%8C%85%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99">2.1 rpm 包命名规则</a></li>
+<li><a href="#22-%E4%BE%9D%E8%B5%96%E6%80%A7">2.2 依赖性</a></li>
+<li><a href="#23-rpm-%E6%89%8B%E5%B7%A5%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85">2.3 rpm 手工命令安装</a></li>
+<li><a href="#24-rpm%E5%8C%85%E5%9C%A8%E7%BA%BF%E5%AE%89%E8%A3%85-yum-%E5%AE%89%E8%A3%85">2.4 rpm包在线安装 （yum 安装）</a></li>
+</ul>
+</li>
+<li><a href="#3-%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85">3 源码包安装</a><ul>
+<li><a href="#31-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">3.1 注意事项</a></li>
+<li><a href="#32-%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95">3.2 安装方法</a></li>
+</ul>
+</li>
+<li><a href="#4-%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F">4 脚本安装程序</a></li>
+</ul>
+<!-- /TOC -->
+<h2 id="1-软件包的分类"><a href="#1-软件包的分类" class="headerlink" title="1 软件包的分类"></a>1 软件包的分类</h2><h3 id="1-1-软件包分类"><a href="#1-1-软件包分类" class="headerlink" title="1.1 软件包分类"></a>1.1 软件包分类</h3><ul>
+<li>源码包 （rpm 包，光盘中直接包含）</li>
+<li>二进制包（需要用户去官网下载）</li>
 </ul>
 <h3 id="1-2-源码包"><a href="#1-2-源码包" class="headerlink" title="1.2 源码包"></a>1.2 源码包</h3><p>优点：</p>
 <ul>
@@ -1924,7 +1947,7 @@ Since not every customer received correct change, the answer is false.</code></p
 <li>安装命令：</li>
 </ol>
 <ul>
-<li>命令：<code>rpm -ivh 包全名</code></li>
+<li>命令：<code>rpm -ivh 包全名</code> 注意：这里的包全名一定要写绝对路径，如果不写绝对路径，要求必须在该路径下进行安装</li>
 <li>选项：-i 表示 install 安装；-v 显示更详细的信息（verbose）；-h 打印#显示安装进度</li>
 <li>特别注意：一些函数依赖需要在网站 <a href="http://www.rpmfind.net/">www.rpmfind.net</a> 中查询该函数库属于哪一个软件包</li>
 <li>举例：<code>rpm -ivh httpd-</code> 按 Tab 键，安装 Apache 相关的包</li>
@@ -1939,9 +1962,143 @@ Since not every customer received correct change, the answer is false.</code></p
 <li>参数：start 启动服务；stop 停止服务；restart 重启服务；status 查看服务状态</li>
 <li>说明：如果安装的是 Apache 相关的包，启动服务后可以通过 IP 地址访问 Apache 的测试网页(网页的位置：/var/www/html，如果该网页所在的目录是空的，可以新建一个默认网页 index.html，该文件必须以 index 命名，且以 html 作为后缀名)，但注意要临时关闭防火墙（Centos7 临时关闭防火墙的命令 <code>systemctl stop firewalld</code>）。</li>
 </ul>
+<p>配置文件位置<br>/etc/httpd/conf/httpd.conf</p>
 <ol start="3">
-<li>配置文件位置<br>/etc/httpd/conf/httpd.conf</li>
+<li>RPM 包升级</li>
 </ol>
+<ul>
+<li>命令：<code>rpm -Uvh 包全名</code>，<code>-U</code>（大写） 选项表示如果系统没有安装，则直接安装，如果安装版本较旧则升级到最新版本</li>
+<li>命令：<code>rpm -Fvh 包全名</code>，<code>-F</code> 选项表示如果没有安装，则不会安装，必须安装了旧版本才会升级。</li>
+</ul>
+<ol start="4">
+<li>RPM 包卸载</li>
+</ol>
+<ul>
+<li>命令：<code>rpm -e 包名</code></li>
+<li>选项：<code>--nodeps</code> 不检查依赖性，但不建议使用</li>
+</ul>
+<ol start="5">
+<li>查询（rpm 包的安装、升级和卸载都可以被 yum 命令取代，但是查询不能被 yum 取代，yum 查询的是服务器，而不是本地）</li>
+</ol>
+<ul>
+<li>查询软件包是否安装：<code>rpm -q 包名</code>，例如：<code>rpm -q httpd</code>，q 表示 query</li>
+<li>查询系统中所有的安装包：<code>rpm -qa</code>，借助该命令查询软件包是否安装 <code>rpm -qa | grep 包名</code></li>
+<li>查询软件包的详细信息：i 表示 information<ul>
+<li>查询已安装的包：<code>rpm -qi 包名</code></li>
+<li>查询未安装的包：<code>rpm -qip 包全名</code></li>
+</ul>
+</li>
+<li>查询软件包中的文件列表和安装的完整目录：l 表示 list<ul>
+<li>查询已安装的包：<code>rpm -ql 包名</code></li>
+<li>查询未安装的包：<code>rpm -qlp 包全名</code>，这里列出的是该软件包预安装的路径</li>
+</ul>
+</li>
+<li>查询系统文件属于哪个软件包：f 表示 file <code>rpm -qf 文件路径</code></li>
+<li>查询软件包所依赖的软件包：R 表示 Requires <ul>
+<li>已安装的软件包：<code>rpm -qR 包名</code></li>
+<li>未安装的软件包：<code>rpm -qRp 包全名</code></li>
+</ul>
+</li>
+</ul>
+<ol start="6">
+<li>验证</li>
+</ol>
+<ul>
+<li>验证已安装的软件包：<code>rpm -V 包名</code></li>
+<li>验证所有软件包：<code>rpm -Va</code></li>
+<li>验证某个系统文件是否被修改：<code>rpm -Vf 系统文件名</code>，如果修改了会给出一些详细信息<br><img src="https://i.loli.net/2021/03/10/3cz4fMPqRF2a75j.png" alt="image.png"></li>
+</ul>
+<ol start="7">
+<li>数字证书<br>只能对已安装的 rpm 包起作用，其目的是保证从官网下的文件没被修改过。只有安装了数字证书，才会对 rpm 包进行验证。</li>
+</ol>
+<ul>
+<li>安装 rpm 包的命令：<code>rpm --import 数字证书存储路径</code>，数字证书在光盘文件中就有 /mnt/cdrom/RPM-GPG-KEY-CenOS-7，也会默认放在系统中 /etc/pki/rpm-grg/RPM-GPG-KEY-CentOS-7</li>
+<li>查看系统中安装好的数字证书：<code>rpm -qa | grep gpg-pubkey</code></li>
+</ul>
+<h3 id="2-4-rpm包在线安装-（yum-安装）"><a href="#2-4-rpm包在线安装-（yum-安装）" class="headerlink" title="2.4 rpm包在线安装 （yum 安装）"></a>2.4 rpm包在线安装 （yum 安装）</h3><ol>
+<li>yum 源文件解析<br>yum 配置文件的位置 /etc/yum.repos.d/ 文件的扩展名是 *.repo<br><img src="https://i.loli.net/2021/03/12/PTmx6euDSaZk8LA.png" alt="image.png"></li>
+</ol>
+<ul>
+<li>[base] 容器名称，一定要放在 [] 中</li>
+<li>name 容器说明，可以随便写</li>
+<li>mirrorlist 镜像站点，可以注释掉</li>
+<li>baseurl yum 源服务器的地址</li>
+<li>enable 表示该服务器是否生效 =1 表示生效，=0 表示不生效</li>
+<li>gpgcheck 为 1 表示数字证书生效，为 0 表示数字证书不生效</li>
+<li>gpgkey 数字证书公钥文件保存位置</li>
+</ul>
+<ol start="2">
+<li>搭建本地光盘 yum 源<br>说明：默认情况下，网络 yum 源（CentOS-Base）生效，这里是配置下使得光盘 yum 源（Centos-Media）生效</li>
+</ol>
+<ul>
+<li>挂载光盘：<code>mount /dev/cdrom /mnt/cdrom/</code></li>
+<li>将其余几个 yum 源配置文件失效，改下扩展名即可，例如：<code>mv CentOS-Base.repo Centos-Base.repo.bak</code></li>
+<li>修改 yum 源配置文件 Centos-Media.repo<ul>
+<li>将 baseurl 改为光盘的挂载地址 /mnt/cdrom，其余两行注释掉</li>
+<li>enable 改为 =1</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>yum 命令</li>
+</ol>
+<ul>
+<li>查询 yum 源服务器上可安装的软件包：<code>yum list</code></li>
+<li>查询 yum 源服务器中是否包含某个软件包：<code>yum list 包名</code></li>
+<li>查询 yum 源服务器上所有和关键字相关的软件包: <code>yum search 关键字</code></li>
+<li>查询 yum 源服务器上某个软件所在的包：<code>yum search 软件名</code></li>
+<li>查询指定软件包的信息：<code>yum info 软件包名</code></li>
+<li>安装软件包：<code>yum -y install 包名</code> 选项 <code>-y</code> 表示安装过程中自动回答 yes，否则需要手工回答 yes。注意：这里只需要包名，而不需要包全名，在 yum 中不会用到包全名</li>
+<li>升级软件包：<code>yum -y update 包名</code> ，注意：这里如果不注明包名会升级所有的软件包（不建议这样操作）</li>
+<li>卸载软件包：<code>yum remove 包名</code> ，注意：卸载命令可能会导致系统崩溃，因为涉及到不同包之间的依赖</li>
+</ul>
+<ol start="4">
+<li>yum 组管理命令</li>
+</ol>
+<ul>
+<li>查询可安装的软件组：<code>yum grouplist</code></li>
+<li>查询某个软件组的详细信息：<code>yum groupinfo 组名</code></li>
+<li>安装某个软件组：<code>yum groupinstall 组名</code></li>
+<li>卸载某个软件组：<code>yum groupremove 组名</code></li>
+</ul>
+<h2 id="3-源码包安装"><a href="#3-源码包安装" class="headerlink" title="3 源码包安装"></a>3 源码包安装</h2><h3 id="3-1-注意事项"><a href="#3-1-注意事项" class="headerlink" title="3.1 注意事项"></a>3.1 注意事项</h3><p>源码包需要在官网下载后，才能安装，光盘中没有。</p>
+<p>使用源码包安装 Apache，和使用二进制包（RPM 包）安装 Apache，安装位置不同。<br>RPM 包安装：（不建议指定安装位置，建议安装在默认位置，RPM 包安装的服务有标准的卸载命令，不怕文件到处安装）</p>
+<ul>
+<li>配置文件：/etc/httpd/conf/httpd.conf</li>
+<li>网页位置：/var/www/html/</li>
+<li>日志位置：/var/log/httpd/</li>
+<li>启动方法：service httpd restart  或者  /etc/rc.d/init.d/httpd restart</li>
+</ul>
+<p>源码包安装：（源码包没有安装数据库，没有删除命令，如需删除直接删除安装目录即可）</p>
+<ul>
+<li>配置文件：/usr/local/apache2/conf/httpd.conf</li>
+<li>网页文件：/usr/local/apache2/htdocs/</li>
+<li>日志位置：/usr/local/apache2/logs/</li>
+<li>启动方法：/usr/local/apache2/bin/apachectl start</li>
+</ul>
+<h3 id="3-2-安装方法"><a href="#3-2-安装方法" class="headerlink" title="3.2 安装方法"></a>3.2 安装方法</h3><ol>
+<li>下载安装包</li>
+<li>解压缩：如果安装包是 *.tar.gz 形式，<code>tar -zxvf 安装包的下载位置</code></li>
+<li>进入解压目录</li>
+<li>编译前准备 <code>./configure --prefix=安装路径</code> （这里是执行 configure 命令）安装路径 /usr/local/apache2/ （这里 2 表示版本号）</li>
+<li>编译 <code>make</code></li>
+<li>清空编译内容（非必需步骤，只有在编译前准备或者编译过程中报错才需要清空）<code>make clean</code></li>
+<li>编译安装 <code>make install</code> （此时才会向指定的安装路径下写入内容）</li>
+</ol>
+<h2 id="4-脚本安装程序"><a href="#4-脚本安装程序" class="headerlink" title="4 脚本安装程序"></a>4 脚本安装程序</h2><p>XShell 中的上传（上传到 Linux）和下载工具（下载到 Windows）：lrsz</p>
+<ul>
+<li>安装命令： <code>rpm -ivh lrsz(Tab键)</code></li>
+<li>上传命令：<code>rz</code> （会弹出来一个框，来选择上传什么文件）</li>
+<li>下载命令：<code>sz Linux系统中的文件名</code> </li>
+</ul>
+<p>使用脚本安装软件的步骤：</p>
+<ol>
+<li>下载好压缩文件</li>
+<li>将压缩文件解压</li>
+<li>进入解压后的目录</li>
+<li>执行脚本文件 例如：<code>./setip.sh</code></li>
+</ol>
+<p>说明：使用脚本安装软件是将软件安装过程中的安装命令写在了 Shell 脚本中</p>
 ]]></content>
       <categories>
         <category>学习笔记</category>
