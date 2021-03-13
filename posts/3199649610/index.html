@@ -20,22 +20,23 @@
     var CONFIG = {"hostname":"crystal1213.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="介绍下字符串用【&gt;,&#x3D;,">
+  <meta name="description" content="主要讲解 Linux 用户管理方面的知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++ 字符串比较大小的原理">
-<meta property="og:url" content="https://crystal1213.github.io/posts/60551/index.html">
+<meta property="og:title" content="Linux 用户管理">
+<meta property="og:url" content="https://crystal1213.github.io/posts/3199649610/index.html">
 <meta property="og:site_name" content="Crystal_Blog">
-<meta property="og:description" content="介绍下字符串用【&gt;,&#x3D;,">
+<meta property="og:description" content="主要讲解 Linux 用户管理方面的知识">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png">
-<meta property="article:published_time" content="2020-12-08T03:18:40.000Z">
-<meta property="article:modified_time" content="2020-12-10T08:03:31.158Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/12/glHmjIpALUeviyu.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/13/kv7hLTm2ARWGS4K.png">
+<meta property="article:published_time" content="2021-03-12T07:47:12.000Z">
+<meta property="article:modified_time" content="2021-03-13T10:00:25.200Z">
 <meta property="article:author" content="Crystal">
-<meta property="article:tag" content="string">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/12/glHmjIpALUeviyu.png">
 
-<link rel="canonical" href="https://crystal1213.github.io/posts/60551/">
+<link rel="canonical" href="https://crystal1213.github.io/posts/3199649610/">
 
 
 <script id="page-configurations">
@@ -48,7 +49,7 @@
   };
 </script>
 
-  <title>C++ 字符串比较大小的原理 | Crystal_Blog</title>
+  <title>Linux 用户管理 | Crystal_Blog</title>
   
 
 
@@ -195,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://crystal1213.github.io/posts/60551/">
+    <link itemprop="mainEntityOfPage" href="https://crystal1213.github.io/posts/3199649610/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.gif">
@@ -208,7 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C++ 字符串比较大小的原理
+          Linux 用户管理
         </h1>
 
         <div class="post-meta">
@@ -218,14 +219,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-12-08 11:18:40" itemprop="dateCreated datePublished" datetime="2020-12-08T11:18:40+08:00">2020-12-08</time>
+              <time title="创建时间：2021-03-12 15:47:12" itemprop="dateCreated datePublished" datetime="2021-03-12T15:47:12+08:00">2021-03-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-10 16:03:31" itemprop="dateModified" datetime="2020-12-10T16:03:31+08:00">2020-12-10</time>
+                <time title="修改时间：2021-03-13 18:00:25" itemprop="dateModified" datetime="2021-03-13T18:00:25+08:00">2021-03-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,7 +234,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E7%A8%8B%E4%B8%AD%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/" itemprop="url" rel="index"><span itemprop="name">编程中踩过的坑</span></a>
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
                 </span>
             </span>
 
@@ -250,9 +251,8 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>2.5k</span>
             </span>
-            <div class="post-description">介绍下字符串用【>,<,>=,<=】比较大小的原理</div>
 
         </div>
       </header>
@@ -263,29 +263,115 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC -->
+        <p>主要讲解 Linux 用户管理方面的知识</p>
+<a id="more"></a>
 
+<h2 id="1-用户相关文件"><a href="#1-用户相关文件" class="headerlink" title="1 用户相关文件"></a>1 用户相关文件</h2><h3 id="1-1-etc-passwd-用户信息文件"><a href="#1-1-etc-passwd-用户信息文件" class="headerlink" title="1.1 /etc/passwd 用户信息文件"></a>1.1 /etc/passwd 用户信息文件</h3><p>root:x:0:0:root:/root:/bin/bash</p>
 <ul>
-<li><a href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA">问题引出</a></li>
-<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86">字符串比较大小的原理</a></li>
-</ul>
-<!-- /TOC -->
-<h2 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h2><p>笔者在比较两个字符串大小的时候踩过的坑，本意是想利用数值型对应的字符串的形式比较字符串本身的大小，例如：<code>&quot;21&quot; &gt; &quot;111&quot;</code>显然对于数值型的<code>21 &gt; 111</code>】结果肯定为false,但是<code>&quot;21&quot; &gt; &quot;111&quot;</code>的结果为true</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1 = <span class="string">&quot;21&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> n1 = <span class="number">21</span>, n2 = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">bool</span> res = (n1 &gt; n2);   </span><br><span class="line">    <span class="keyword">bool</span> res1 = (s1 &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(n1 &gt; n2) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(s1 &gt; s2) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="字符串比较大小的原理"><a href="#字符串比较大小的原理" class="headerlink" title="字符串比较大小的原理"></a>字符串比较大小的原理</h2><p>首先看下《C++ Primer》这本书中的描述：<img src="https://i.loli.net/2020/12/08/qz53rNOLuHlYWZ4.png" alt="image.png"><br>原理：字符串中第一个相异的字符比较的结果<br>明确以下几点：</p>
-<ol>
-<li>两个字符串是可以用【&gt;,&lt;,&gt;=,&lt;=】来比较大小的</li>
-<li>对于数值型对应的字符串形式，<ul>
-<li>两个字符串长度相等的情况下，例如：<code>&quot;12&quot; &lt; &quot;22&quot;</code>，是可以比较出两个字符串对应的原数值型数据的大小关系</li>
-<li>两个字符串长度不等的情况下，无法比较出其对应数值型的大小关系，因为比较的结果取决于从左向右遇到的第一个不等的字符。</li>
+<li>第一列：root 用户名</li>
+<li>第二列：x 密码位 （x 表示当前用户有密码，而不是说当前用户的密码是x）</li>
+<li>第三列：用户 UID<ul>
+<li>0 超级用户 UID （将普通用户升级成管理员用户只需该第三列即可）</li>
+<li>1-499 系统用户（伪用户，用户不能登录，只是用来启动服务的）</li>
+<li>500-60000 普通用户 UID</li>
 </ul>
 </li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s = <span class="string">&quot;21&quot;</span>, s1 = <span class="string">&quot;11&quot;</span>, s2 = <span class="string">&quot;111&quot;</span>; </span><br><span class="line">    <span class="comment">// TODO：长度相等的字符串比较的结果   </span></span><br><span class="line">    <span class="keyword">bool</span> res = (s &gt; s1);   </span><br><span class="line">    <span class="comment">// TODO：长度不等的字符串比较的结果</span></span><br><span class="line">    <span class="keyword">bool</span> res1 = (s &gt; s2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;11\&quot;) = &quot;</span> &lt;&lt; res &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;(\&quot;21\&quot; &gt; \&quot;111\&quot;) = &quot;</span> &lt;&lt; res1 &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;11&quot;</span>) = <span class="number">1</span></span><br><span class="line">(<span class="string">&quot;21&quot;</span> &gt; <span class="string">&quot;111&quot;</span>) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-
+<li>第四列：组 ID （GID 添加用户时，如果不指定所属组，那么会建立和用户名相同的组）</li>
+<li>第五列：用户说明</li>
+<li>第六列：用户家目录</li>
+<li>第七列：登录 Shell</li>
+</ul>
+<h3 id="1-2-etc-shadow-影子文件"><a href="#1-2-etc-shadow-影子文件" class="headerlink" title="1.2 /etc/shadow 影子文件"></a>1.2 /etc/shadow 影子文件</h3><p><img src="https://i.loli.net/2021/03/12/glHmjIpALUeviyu.png" alt="image.png"></p>
+<ul>
+<li>第一列：root 用户名</li>
+<li>第二列：加密密码，可以在密码前人为加入 <code>!</code>或者 <code>*</code> 改变加密值让密码暂时失效，使该用户无法登录，达到暂时禁止用户登录的效果。（注意：所有的伪用户都是 <code>!!</code> 或 <code>*</code> ）</li>
+<li>第三列：密码最近更改时间，1970 年 1 月 1 日作为标准时间<ul>
+<li>时间戳转日期：<code>date -d &quot;1970-01-01 15775 days&quot;</code></li>
+<li>日期转时间戳：<code>echo $(($(date --date=&quot;2013/03/11&quot; +%s)/86400+1))</code></li>
+</ul>
+</li>
+<li>第四列：两次密码修改的间隔时间（和第3字段相比）</li>
+<li>第五列：密码有效期（和第3字段相比）</li>
+<li>第六列：密码修改到期前的警告天数（和第5字段相比）</li>
+<li>第七列：密码过期后的宽限天数（和第5字段相比）</li>
+<li>第八列：密码失效时间（超过了失效时间，即使密码没有过期，用户也会失效无法使用）</li>
+<li>第九列：保留</li>
+</ul>
+<h3 id="1-3-etc-group-组信息文件"><a href="#1-3-etc-group-组信息文件" class="headerlink" title="1.3 /etc/group 组信息文件"></a>1.3 /etc/group 组信息文件</h3><p>root:x:0:root</p>
+<ul>
+<li>第一列：root 组名</li>
+<li>第二列：x 组密码</li>
+<li>第三列：GID</li>
+<li>第四列：此组中支持的其他用户。附加组是此组的用户<ul>
+<li>初始组：每个用户初始组只能有一个，初始组只能有一个，一般都是和用户名相同的组作为初始组</li>
+<li>附加组：每个用户可以属于多个附加组，如果把用户加入组，都是加入附加组</li>
+</ul>
+</li>
+</ul>
+<p>组密码文件：/etc/gshadow<br>用户的家目录：/home/用户名<br>用户邮箱目录：/var/spool/mail，例如：user1用户的邮箱目录 /var/spool/mail/user1<br>用户模板目录：/etc/skel （创建用户时，会将模板目录中的文件拷贝到用户的家目录下）</p>
+<p>添加用户命令：<code>useradd 用户名</code><br>给用户创建密码：<code>passwd 用户名</code></p>
+<h2 id="2-用户管理命令"><a href="#2-用户管理命令" class="headerlink" title="2 用户管理命令"></a>2 用户管理命令</h2><h3 id="2-1-添加用户"><a href="#2-1-添加用户" class="headerlink" title="2.1 添加用户"></a>2.1 添加用户</h3><ul>
+<li>命令：<code>useradd 用户名</code></li>
+<li>useradd 添加用户时参考的默认文件：/etc/default/useradd 和 /etc/login.defs</li>
+</ul>
+<p><img src="https://i.loli.net/2021/03/13/kv7hLTm2ARWGS4K.png" alt="image.png"><br>/etc/default/useradd 文件中的内容：</p>
+<ul>
+<li>GROUP：建立用户的默认组，添加每个用户时，用户的初始组就是 GID 为 100 的这个用户组，但是目前采用的是私有用户组机制（创建一个用户时，为该用户创建一个同名的组作为用户的初始组）</li>
+<li>HOME：用户的家目录的默认位置</li>
+<li>INACTIVE：密码过期后宽限的天数，/etc/shadow 文件的第7个字段。该值为0，表示代码过期后立即失效；该值为-1，表示代码永远不会失效。</li>
+<li>EXPIRE：密码失效时间，/etc/shadow 文件的第八个字段。默认值为空，所有新建的用户没有失效时间。</li>
+<li>SHELL：用户的默认 shell。/bin/bash 是 Linux 的标志 shell，所以所有新建立的用户默认都具备 shell 权限</li>
+<li>SKEL：定义用户的模板目录位置</li>
+<li>CREATE_MAIL_SPOOL：定义是否给用户建立邮箱，默认是创建</li>
+</ul>
+<p>/etc/login.defs</p>
+<ul>
+<li>MAIL_DIR：邮箱的默认路径</li>
+<li>PASS_MAX_DAYS：指定密码的有效期，/etc/shadow 的第5字段，即多少天后必须修改密码</li>
+<li>PASS_MIN_DAYS：两次密码修改的间隔时间，/etc/shadow 的第4字段</li>
+<li>PASS_MIN_LEN：密码的最短长度，现在已被 PAM 模块取代，这个选项并不生效</li>
+<li>PASS_WARN_AGE：密码修改到期前的警告天数，/etc/shadow 的第6字段</li>
+<li>UID_MIN、UID_MAX：创建用户时，最小 UID 和最大 UID 的范围</li>
+<li>GID_MIN、GID_MAX：GID 的最小值和最大值</li>
+<li>CREATE_HOME：创建用户时，是否自动建立家目录</li>
+<li>UMASK：建立的用户家目录的默认权限</li>
+<li>USERGROUPS_ENAB：使用命令 userdel 删除用户时，是否删除用户的初始组，默认是删除的</li>
+<li>ENCRYPT_METHOD：用户密码的加密方式</li>
+</ul>
+<h3 id="2-2-设置密码"><a href="#2-2-设置密码" class="headerlink" title="2.2 设置密码"></a>2.2 设置密码</h3><ul>
+<li>命令：<code>passwd [选项] 用户名</code></li>
+<li>选项：<code>-l</code> 暂时锁定用户（仅 root 用户可用）；<code>-u</code> 解锁用户（仅 root 用户可用）；<code>--stdin</code> 可以将通过管道符输出的数据作为用户的密码，主要在批量添加用户时使用</li>
+<li><code>passwd</code> 表示修改当前用户的密码</li>
+<li>Shell 中常用修改用户密码命令：<code>echo &quot;新密码&quot; | passwd --stdin 用户名</code></li>
+<li>设置用户一登录就要修改密码（将密码修改日期归 0，即 shadow 第 3 字段）：<code>chage -d 0 用户名</code></li>
+</ul>
+<h3 id="2-3-用户信息修改"><a href="#2-3-用户信息修改" class="headerlink" title="2.3 用户信息修改"></a>2.3 用户信息修改</h3><ul>
+<li>命令：<code>usermod [选项] 用户名</code></li>
+<li>选项：<code>-g 组名</code> 修改用户的初始组（/etc/passwd 第 4 字段），<code>-G 组名</code> 修改用户的附加组</li>
+</ul>
+<h3 id="2-4-删除用户"><a href="#2-4-删除用户" class="headerlink" title="2.4 删除用户"></a>2.4 删除用户</h3><ul>
+<li>命令：<code>userdel [-r] 用户名</code></li>
+<li>选项：<code>-r</code> 选项表示在删除用户的同时删除用户的家目录（如果不加上该选项需要手动删除用户的家目录）</li>
+</ul>
+<h3 id="2-5-切换用户身份"><a href="#2-5-切换用户身份" class="headerlink" title="2.5 切换用户身份"></a>2.5 切换用户身份</h3><ul>
+<li>命令：<code>su [选项] 用户名</code></li>
+<li>选项：<code>-</code> 代表连带用户的环境变量一起切换（但是版本6以后的系统就没有此限制，不加该选项也会切换环境变量）</li>
+<li>显示环境变量的命令：<code>env</code></li>
+<li>退出当前用户命令：<code>exit</code></li>
+</ul>
+<h2 id="3-组管理命令"><a href="#3-组管理命令" class="headerlink" title="3 组管理命令"></a>3 组管理命令</h2><h3 id="3-1-添加用户组"><a href="#3-1-添加用户组" class="headerlink" title="3.1 添加用户组"></a>3.1 添加用户组</h3><ul>
+<li>命令：<code>groupadd [选项] 组名</code></li>
+<li>选项：<code>-g GID</code> 指定组 ID</li>
+</ul>
+<h3 id="3-2-删除用户组"><a href="#3-2-删除用户组" class="headerlink" title="3.2 删除用户组"></a>3.2 删除用户组</h3><ul>
+<li>命令：<code>groupdel 组名</code></li>
+<li>注意：要删除的组不能是其他用户的初始组，即只有组中没有初始用户时才能删除</li>
+</ul>
+<h3 id="3-3-把用户添加进组或从组中删除"><a href="#3-3-把用户添加进组或从组中删除" class="headerlink" title="3.3 把用户添加进组或从组中删除"></a>3.3 把用户添加进组或从组中删除</h3><ul>
+<li>命令：<code>gpasswd [选项] 组名</code></li>
+<li>选项：<code>-a 用户名</code> 把用户加入组；<code>-d 用户名</code> 把用户从组中删除</li>
+<li>注意区分 usermod 命令：使用 usermod 命令将用户加入组 <code>usermod -G 组名 用户名</code> （与 gpasswd 中用户名和组名的顺序不同）</li>
+</ul>
 
     </div>
 
@@ -312,7 +398,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://crystal1213.github.io/posts/60551/" title="C++ 字符串比较大小的原理">https://crystal1213.github.io/posts/60551/</a>
+    <a href="https://crystal1213.github.io/posts/3199649610/" title="Linux 用户管理">https://crystal1213.github.io/posts/3199649610/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -326,7 +412,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/string/" rel="tag"><i class="fa fa-tag"></i> string</a>
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
           </div>
 
         
@@ -335,13 +421,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/posts/44808/" rel="prev" title="hexo博客说明文档">
-      <i class="fa fa-chevron-left"></i> hexo博客说明文档
+    <a href="/posts/3333022318/" rel="prev" title="Linux 软件包安装">
+      <i class="fa fa-chevron-left"></i> Linux 软件包安装
     </a></div>
-      <div class="post-nav-item">
-    <a href="/posts/30354/" rel="next" title="leetcode842.Split Array into Fibonacci Sequence">
-      leetcode842.Split Array into Fibonacci Sequence <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -400,7 +483,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">问题引出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">字符串比较大小的原理</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%94%A8%E6%88%B7%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">1 用户相关文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-etc-passwd-%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 &#x2F;etc&#x2F;passwd 用户信息文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-etc-shadow-%E5%BD%B1%E5%AD%90%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 &#x2F;etc&#x2F;shadow 影子文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-etc-group-%E7%BB%84%E4%BF%A1%E6%81%AF%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 &#x2F;etc&#x2F;group 组信息文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">2 用户管理命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 添加用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 设置密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E4%BF%AE%E6%94%B9"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 用户信息修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 删除用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E5%88%87%E6%8D%A2%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 切换用户身份</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%BB%84%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">3 组管理命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E7%BB%84"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 添加用户组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7%E7%BB%84"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 删除用户组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%8A%8A%E7%94%A8%E6%88%B7%E6%B7%BB%E5%8A%A0%E8%BF%9B%E7%BB%84%E6%88%96%E4%BB%8E%E7%BB%84%E4%B8%AD%E5%88%A0%E9%99%A4"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 把用户添加进组或从组中删除</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
