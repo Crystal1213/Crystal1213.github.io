@@ -6,7 +6,7 @@
   <link href="https://crystal1213.github.io/atom.xml" rel="self"/>
   
   <link href="https://crystal1213.github.io/"/>
-  <updated>2021-03-15T08:09:47.365Z</updated>
+  <updated>2021-03-15T09:17:14.746Z</updated>
   <id>https://crystal1213.github.io/</id>
   
   <author>
@@ -21,8 +21,12 @@
     <link href="https://crystal1213.github.io/posts/1492347987/"/>
     <id>https://crystal1213.github.io/posts/1492347987/</id>
     <published>2021-03-15T07:56:23.000Z</published>
-    <updated>2021-03-15T08:09:47.365Z</updated>
+    <updated>2021-03-15T09:17:14.746Z</updated>
     
+    <content type="html"><![CDATA[<p>主要讲解 Linux 文件系统管理方面的知识</p><a id="more"></a><h2 id="1-硬盘结构"><a href="#1-硬盘结构" class="headerlink" title="1 硬盘结构"></a>1 硬盘结构</h2><p>硬盘接口：</p><ul><li>IDE 硬盘接口：早期的机械硬盘的主要接口</li><li>SATA 接口：目前常用的是这种</li><li>SCSI 接口：广泛应用在服务器上，不过现在服务器也一般用 SATA 接口</li></ul><h2 id="2-常用硬盘管理命令"><a href="#2-常用硬盘管理命令" class="headerlink" title="2 常用硬盘管理命令"></a>2 常用硬盘管理命令</h2><h3 id="2-1-df-命令"><a href="#2-1-df-命令" class="headerlink" title="2.1 df 命令"></a>2.1 df 命令</h3><ul><li><code>df [-ahT]</code> ：展示文件系统的信息</li><li>-a：显示特殊文件系统，这些文件系统几乎都是保存在内存中的，所以占用量都是 0</li><li>-h：单位换成习惯单位，而不是 KB</li><li>-T：多出了文件系统类型</li></ul><h3 id="2-2-du-命令"><a href="#2-2-du-命令" class="headerlink" title="2.2 du 命令"></a>2.2 du 命令</h3><ul><li><code>du [选项] [目录或文件名]</code> 统计文件的大小。注意：使用 <code>ls -l 文件名或目录名</code> 命令显示的文件大小是准确的，但是目录的大小不准确。</li><li>选项：-a 显示每个子文件的磁盘占用量。默认只统计子目录的磁盘占用量；-h 使用习惯单位显示磁盘占用量；-s 统计总占用量</li></ul><p>区别：</p><ul><li>du 用于统计文件大小的，统计文件大小是准确的</li><li>df 用于统计空间大小，统计剩余空间是准确的</li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;主要讲解 Linux 文件系统管理方面的知识&lt;/p&gt;</summary>
     
     
     
