@@ -2508,9 +2508,11 @@ Since not every customer received correct change, the answer is false.</code></p
 <h3 id="2-2-Shell-脚本执行"><a href="#2-2-Shell-脚本执行" class="headerlink" title="2.2 Shell 脚本执行"></a>2.2 Shell 脚本执行</h3><p>在写 Shell 脚本时，需要加上 <code>#!/bin/bash</code>，以便说明下述程序是 Shell 脚本。</p>
 <ul>
 <li>执行方法一：<code>bash 脚本文件名</code>，例如：<code>bash hello.sh</code></li>
-<li>执行方法二：</li>
+<li>执行方法二：<ul>
 <li>首先给脚本文件赋予执行权限：<code>chmod 755 脚本文件名</code>，例如 <code>chmod 755 hello.sh</code></li>
 <li>然后输入文件路径就可执行：例如 <code>./hello.sh</code></li>
+</ul>
+</li>
 </ul>
 <h2 id="3-Bash-基本功能"><a href="#3-Bash-基本功能" class="headerlink" title="3 Bash 基本功能"></a>3 Bash 基本功能</h2><h3 id="3-1-历史命令"><a href="#3-1-历史命令" class="headerlink" title="3.1 历史命令"></a>3.1 历史命令</h3><ul>
 <li>命令：<code>history [选项] [历史命令保存文件]</code></li>
