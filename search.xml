@@ -3358,7 +3358,10 @@ Since not every customer received correct change, the answer is false.</code></p
   <entry>
     <title>Docker</title>
     <url>/posts/4126800539/</url>
-    <content><![CDATA[<h2 id="1-Docker-概述"><a href="#1-Docker-概述" class="headerlink" title="1 Docker 概述"></a>1 Docker 概述</h2><h3 id="1-1-基本认识"><a href="#1-1-基本认识" class="headerlink" title="1.1 基本认识"></a>1.1 基本认识</h3><p>Docker 基于 Go 语言开发</p>
+    <content><![CDATA[<p>本文主要讲述 Docker 相关的概念和命令。</p>
+<a id="more"></a>
+
+<h2 id="1-Docker-概述"><a href="#1-Docker-概述" class="headerlink" title="1 Docker 概述"></a>1 Docker 概述</h2><h3 id="1-1-基本认识"><a href="#1-1-基本认识" class="headerlink" title="1.1 基本认识"></a>1.1 基本认识</h3><p>Docker 基于 Go 语言开发</p>
 <p>官方网站：<a href="https://www.docker.com/">https://www.docker.com/</a><br>官方文档网站：<a href="https://docs.docker.com/">https://docs.docker.com/</a><br>仓库地址：<a href="https://hub.docker.com/">https://hub.docker.com/</a></p>
 <p>Docker 和 虚拟机的不同：</p>
 <ul>
