@@ -4220,6 +4220,7 @@ Since not every customer received correct change, the answer is false.</code></p
     <content><![CDATA[<p>本文主要讲述 Redis 基础。</p>
 <a id="more"></a>
 
+
 <h2 id="1-Nosql-概述"><a href="#1-Nosql-概述" class="headerlink" title="1 Nosql 概述"></a>1 Nosql 概述</h2><h3 id="1-1-为什么要用-Nosql"><a href="#1-1-为什么要用-Nosql" class="headerlink" title="1.1 为什么要用 Nosql"></a>1.1 为什么要用 Nosql</h3><blockquote>
 <ol>
 <li>单机 MySQL 时代<br><img src="https://i.loli.net/2021/04/19/Ti7JKVoRYId4P9M.png" alt="image.png"><br>90 年代，更多使用静态网页 Html，服务器根本没什么压力；一个基本的网站访问量一般也不会太大，单个数据库足够！<br>这种情况下，网站的瓶颈：</li>
@@ -4333,7 +4334,7 @@ Since not every customer received correct change, the answer is false.</code></p
 <h2 id="2-Redis-入门"><a href="#2-Redis-入门" class="headerlink" title="2 Redis 入门"></a>2 Redis 入门</h2><h3 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h3><blockquote>
 <p>Redis 是什么？</p>
 </blockquote>
-<p>Redis(==Re==mote ==Di==ctionary ==S==erver) 远程字典服务，是一个开源的使用 ANSI C 编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的 API。<br><img src="https://i.loli.net/2021/04/20/JMwsixEH7tVpRcr.png" alt="image.png"></p>
+<p>Redis(==Re== mote ==Di== ctionary ==S== erver) 远程字典服务，是一个开源的使用 ANSI C 编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的 API。<br><img src="https://i.loli.net/2021/04/20/JMwsixEH7tVpRcr.png" alt="image.png"></p>
 <p>Redis 会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并在此基础上实现 master-slave（主从）同步。</p>
 <ul>
 <li>免费和开源</li>
